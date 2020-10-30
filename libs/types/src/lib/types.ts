@@ -81,9 +81,9 @@ export interface CatchInformation {
 
 /** сведения о новых владельцах */
 export interface OwnerInfo {
-  organizationName?: Organization; // юридическое лицо
-  trusteeFullName?: Trustee; // ф.и.о. опекунов
-  phisycalFullName?: string; // физическое лицо ф.и.о.
+  organization?: Organization; // юридическое лицо
+  trustee?: Trustee; // ф.и.о. опекунов
+  phisycal?: string; // физическое лицо ф.и.о.
 }
 
 export interface Organization {

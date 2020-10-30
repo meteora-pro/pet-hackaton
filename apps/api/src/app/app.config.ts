@@ -5,6 +5,7 @@ import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConne
 import * as packageJson from '../../package.json';
 import * as ormConfig from '../../../../ormconfig.js';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { allEntities } from './entities/all.entities';
 
 @Injectable()
 export class AppConfig {
@@ -36,7 +37,7 @@ export class AppConfig {
       ...connection,
       ...overrideConfig,
       // оверайдим entities из ormconfig.js для более быстрого запуска проекта
-      entities: [],
+      entities: allEntities,
       name: 'default'
     };
   }

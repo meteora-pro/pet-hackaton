@@ -5,6 +5,7 @@ import { AppConfig } from './app.config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { allEntities } from './entities/all.entities';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { AppService } from './app.service';
       useFactory: async (appConfig: AppConfig) => appConfig.dbConnection,
       inject: [AppConfig],
     }),
-    TypeOrmModule.forFeature([]),
+    TypeOrmModule.forFeature(allEntities),
   ],
   controllers: [AppController],
   providers: [AppService],

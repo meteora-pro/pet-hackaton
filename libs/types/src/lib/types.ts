@@ -71,10 +71,11 @@ export interface PetAdditionalInfo {
 /** сведения об отлове */
 export interface CatchInformation {
   readonly id: number;
+  captureActId: string; // акт отлова №
   orderId: string; // заказ-наряд / акт о поступлении животного №
+  createAt: Date; // Дата заказ-наряда, от
   arrivedAt: Date; // заказ-наряд дата/ акт о поступлении животного, дата
   district: string; // административный округ
-  captureAct: string; // акт отлова №
   catchingAddress: string; // адрес места отлова
   videoUrl?: string; // Видеофиксация отлова
 }

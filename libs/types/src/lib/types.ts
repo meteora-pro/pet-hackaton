@@ -2,8 +2,8 @@ export type PetKind = 'собака' | 'кошка';
 export type Sex = 'женский' | 'мужской';
 export type Breed = string;
 export type Color = string;
-export type Whool = string;
-export type Years = string;
+export type Wool = string;
+export type Ears = string;
 export type Tail = string;
 export type Size = string;
 export type PetPlace = number;
@@ -50,8 +50,8 @@ export interface PetBaseInfo {
   sex: Sex; // пол
   breed: Breed; // порода
   color: Color; // окрас
-  whool: Whool; // шерсть
-  years: Years; // уши
+  wool: Wool; // шерсть
+  ears: Ears; // уши
   tail: Tail; // хвост
   size: Size; // размер
   signs?: string; // особые приметы

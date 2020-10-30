@@ -50,6 +50,129 @@
           }
         }
       }
+    },
+    "backoffice": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/backoffice",
+      "sourceRoot": "apps/backoffice/src",
+      "prefix": "pet-hackaton",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/backoffice",
+            "index": "apps/backoffice/src/index.html",
+            "main": "apps/backoffice/src/main.ts",
+            "polyfills": "apps/backoffice/src/polyfills.ts",
+            "tsConfig": "apps/backoffice/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/backoffice/src/favicon.ico",
+              "apps/backoffice/src/assets"
+            ],
+            "styles": ["apps/backoffice/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/backoffice/src/environments/environment.ts",
+                  "with": "apps/backoffice/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "backoffice:build",
+            "proxyConfig": "apps/backoffice/proxy.conf.json"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "backoffice:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "backoffice:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/backoffice/tsconfig.app.json",
+              "apps/backoffice/tsconfig.spec.json",
+              "apps/backoffice/tsconfig.editor.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/backoffice/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/backoffice/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "backoffice-e2e": {
+      "root": "apps/backoffice-e2e",
+      "sourceRoot": "apps/backoffice-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/backoffice-e2e/cypress.json",
+            "tsConfig": "apps/backoffice-e2e/tsconfig.e2e.json",
+            "devServerTarget": "backoffice:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "backoffice:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/backoffice-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/backoffice-e2e/**/*"]
+          }
+        }
+      }
     }
   },
   "cli": {

@@ -25,6 +25,13 @@
   "projects": {
     "api": {
       "tags": []
+    },
+    "backoffice": {
+      "tags": []
+    },
+    "backoffice-e2e": {
+      "tags": [],
+      "implicitDependencies": ["backoffice"]
     }
   }
 }

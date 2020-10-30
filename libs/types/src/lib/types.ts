@@ -29,12 +29,12 @@ export interface User {
 
 export type Pet = PetBaseInfo
 & PetAdditionalInfo
-& CatchInformation
 & OwnerInfo
-& PetRegistrationHistory
 & {
   shelter: Shelter; // Приют
   petCareTakerName: User; // ф.и.о. сотрудника по уходу за животным
+  catchInformation: CatchInformation;
+  registrationHistory: PetRegistrationHistory;
   parasiteTreatments: ParasiteMedicineTreatment[];
   vacinations: Vacination[];
   healthchecks: HealthStatus[];

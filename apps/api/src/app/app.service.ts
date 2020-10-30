@@ -1,8 +1,13 @@
 import { Injectable } from '@nestjs/common';
+import { AppConfig } from './app.config';
+
+export interface ServerVersionInfo {
+  version: string;
+}
 
 @Injectable()
 export class AppService {
-  getData(): { message: string } {
-    return { message: 'Welcome to api!' };
+  getVersion(): ServerVersionInfo {
+    return { version: AppConfig.release };
   }
 }

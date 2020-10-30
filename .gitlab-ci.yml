@@ -1,0 +1,336 @@
+stages:
+  - increment-version-api
+  - increment-version-backoffice
+  - increment-version-frontoffice
+  - build
+  - deploy
+
+
+.node: &node
+  image: node:10
+
+.master: &master
+  only:
+    - master
+
+.install-deps: &install-deps
+  before_script:
+    - npm set registry $NPM_REGISTRY
+    - npm ci
+
+.increment: &increment
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /Increment version/
+
+# API SERVICE
+.only-api-changes: &only-api-changes
+  changes:
+    - .gitlab-ci.yml
+    - nest-cli.json
+    - tsconfig.json
+    - tsconfig.build.json
+    - package.json
+    - libs/**/*
+    - tools/**/*
+    - deploy/**/*
+    - apps/api/**/*
+
+.only-api: &only-api
+  only:
+    <<: *only-api-changes
+
+.only-api-tags: &only-api-tags
+  only:
+    changes:
+      - apps/api/package.json
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /Increment version api/
+  except:
+    - tags
+
+.increment-api: &increment-api
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /Increment version api/
+
+.branches-api: &branches-api
+  only:
+    <<: *only-api-changes
+  except:
+    - master
+    - tags
+
+# BACKOFFICE SERVICE
+.only-backoffice-changes: &only-backoffice-changes
+  changes:
+    - .gitlab-ci.yml
+    - angular.json
+    - tsconfig.json
+    - tsconfig.build.json
+    - package.json
+    - libs/**/*
+    - tools/**/*
+    - deploy/**/*
+    - apps/backoffice/**/*
+
+.only-backoffice: &only-backoffice
+  only:
+    <<: *only-backoffice-changes
+
+.only-backoffice-tags: &only-backoffice-tags
+  only:
+    changes:
+      - apps/backoffice/package.json
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /Increment version backoffice/
+  except:
+    - tags
+
+.increment-backoffice: &increment-backoffice
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /Increment version backoffice/
+
+.branches-backoffice: &branches-backoffice
+  only:
+    <<: *only-backoffice-changes
+  except:
+    - master
+    - tags
+
+# FRONTOFFICE SERVICE
+.only-frontoffice-changes: &only-frontoffice-changes
+  changes:
+    - .gitlab-ci.yml
+    - angular.json
+    - tsconfig.json
+    - tsconfig.build.json
+    - package.json
+    - libs/**/*
+    - tools/**/*
+    - deploy/**/*
+    - apps/frontoffice/**/*
+
+.only-frontoffice: &only-frontoffice
+  only:
+    <<: *only-frontoffice-changes
+
+.only-frontoffice-tags: &only-frontoffice-tags
+  only:
+    changes:
+      - apps/frontoffice/package.json
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /Increment version frontoffice/
+  except:
+    - tags
+
+.increment-frontoffice: &increment-frontoffice
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /Increment version frontoffice/
+
+.branches-frontoffice: &branches-frontoffice
+  only:
+    <<: *only-frontoffice-changes
+  except:
+    - master
+    - tags
+
+########################################
+#          INCREMENT VERSION           #
+########################################
+increment-version-api:
+  <<: *increment
+  <<: *node
+  only:
+    <<: *only-api-changes
+    refs:
+      - master
+  stage: increment-version-api
+  variables:
+    CI_REPOSITORY_URL: https://$GIT_ACCESS_USER:$ACCESS_TOKEN_FOR_PUSH@gitlab.com/$CI_PROJECT_PATH.git
+  script:
+    - git config --global http.postBuffer 157286400
+    - git config user.name $GIT_ACCESS_USER
+    - git config user.email $GITLAB_USER_EMAIL
+    - git pull origin master
+    - cd apps/api
+    - export GIT_TAG_VERSION=api-release-$(npm --no-git-tag-version version patch)
+    - cd ../..
+    - export PROJECT_VERSION=$(egrep -o '[[:digit:]]{1,}\.[[:digit:]]{1,}\.[[:digit:]]{1,}' ./apps/api/package.json | head -n1)
+    - echo $PROJECT_VERSION > apps/api/version
+    - sed -i -- "s/appVersion:[[:space:]][[:digit:]]\+.[[:digit:]]\+.[[:digit:]]\+/appVersion:\ $PROJECT_VERSION/g" ./deploy/api/Chart.yaml
+    - echo $(git push --delete $CI_REPOSITORY_URL $GIT_TAG_VERSION) || true
+    - git add . && git commit -m "[Increment version api $GIT_TAG_VERSION]"
+    - git tag $GIT_TAG_VERSION
+    - git pull origin master
+    - git push $CI_REPOSITORY_URL HEAD:master
+    - echo $(git push --tags $CI_REPOSITORY_URL HEAD:$CI_COMMIT_REF_NAME) || true
+
+increment-version-backoffice:
+  <<: *increment
+  <<: *node
+  only:
+    <<: *only-backoffice-changes
+    refs:
+      - master
+  stage: increment-version-backoffice
+  variables:
+    CI_REPOSITORY_URL: https://$GIT_ACCESS_USER:$ACCESS_TOKEN_FOR_PUSH@gitlab.com/$CI_PROJECT_PATH.git
+  script:
+    - git config --global http.postBuffer 157286400
+    - git config user.name $GIT_ACCESS_USER
+    - git config user.email $GITLAB_USER_EMAIL
+    - git pull origin master
+    - cd apps/backoffice
+    - export GIT_TAG_VERSION=backoffice-release-$(npm --no-git-tag-version version patch)
+    - cd ../..
+    - export PROJECT_VERSION=$(egrep -o '[[:digit:]]{1,}\.[[:digit:]]{1,}\.[[:digit:]]{1,}' ./apps/backoffice/package.json | head -n1)
+    - echo $PROJECT_VERSION > apps/backoffice/version
+    - sed -i -- "s/appVersion:[[:space:]][[:digit:]]\+.[[:digit:]]\+.[[:digit:]]\+/appVersion:\ $PROJECT_VERSION/g" ./deploy/backoffice/Chart.yaml
+    - echo $(git push --delete $CI_REPOSITORY_URL $GIT_TAG_VERSION) || true
+    - git add . && git commit -m "[Increment version backoffice $GIT_TAG_VERSION]"
+    - git tag $GIT_TAG_VERSION
+    - git pull origin master
+    - git push $CI_REPOSITORY_URL HEAD:master
+    - echo $(git push --tags $CI_REPOSITORY_URL HEAD:$CI_COMMIT_REF_NAME) || true
+
+increment-version-frontoffice:
+  <<: *increment
+  <<: *node
+  only:
+    <<: *only-frontoffice-changes
+    refs:
+      - master
+  stage: increment-version-frontoffice
+  variables:
+    CI_REPOSITORY_URL: https://$GIT_ACCESS_USER:$ACCESS_TOKEN_FOR_PUSH@gitlab.com/$CI_PROJECT_PATH.git
+  script:
+    - git config --global http.postBuffer 157286400
+    - git config user.name $GIT_ACCESS_USER
+    - git config user.email $GITLAB_USER_EMAIL
+    - git pull origin master
+    - cd apps/frontoffice
+    - export GIT_TAG_VERSION=frontoffice-release-$(npm --no-git-tag-version version patch)
+    - cd ../..
+    - export PROJECT_VERSION=$(egrep -o '[[:digit:]]{1,}\.[[:digit:]]{1,}\.[[:digit:]]{1,}' ./apps/frontoffice/package.json | head -n1)
+    - echo $PROJECT_VERSION > apps/frontoffice/version
+    - sed -i -- "s/appVersion:[[:space:]][[:digit:]]\+.[[:digit:]]\+.[[:digit:]]\+/appVersion:\ $PROJECT_VERSION/g" ./deploy/frontoffice/Chart.yaml
+    - echo $(git push --delete $CI_REPOSITORY_URL $GIT_TAG_VERSION) || true
+    - git add . && git commit -m "[Increment version frontoffice $GIT_TAG_VERSION]"
+    - git tag $GIT_TAG_VERSION
+    - git pull origin master
+    - git push $CI_REPOSITORY_URL HEAD:master
+    - echo $(git push --tags $CI_REPOSITORY_URL HEAD:$CI_COMMIT_REF_NAME) || true
+
+########################################
+#                BUILD                 #
+########################################
+.build: &build
+  image: andreymaznyak/docker-git-perl:latest
+  stage: build
+  variables:
+    GIT_STRATEGY: clone
+  services:
+    - docker:18.09.7-dind
+  before_script:
+    - echo "registry=$NPM_REGISTRY" > .npmrc
+# master
+build-image-api:
+  <<: *build
+  <<: *only-api-tags
+  script:
+    - export PROJECT_VERSION=api-$(cat apps/api/version)
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker build -f deploy/api/Dockerfile -t $CI_REGISTRY_IMAGE:$PROJECT_VERSION -t $CI_REGISTRY_IMAGE:api-latest .
+    - docker push $CI_REGISTRY_IMAGE:$PROJECT_VERSION
+    - docker push $CI_REGISTRY_IMAGE:api-latest
+
+# master
+build-image-backoffice:
+  <<: *build
+  <<: *only-backoffice-tags
+  script:
+    - export PROJECT_VERSION=backoffice-$(cat apps/backoffice/version)
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker build  -f deploy/backoffice/Dockerfile -t $CI_REGISTRY_IMAGE:$PROJECT_VERSION -t $CI_REGISTRY_IMAGE:backoffice-latest .
+    - docker push $CI_REGISTRY_IMAGE:$PROJECT_VERSION
+    - docker push $CI_REGISTRY_IMAGE:backoffice-latest
+
+# master
+build-image-frontoffice:
+  <<: *build
+  <<: *only-frontoffice-tags
+  script:
+    - export PROJECT_VERSION=frontoffice-$(cat apps/frontoffice/version)
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker build  -f deploy/frontoffice/Dockerfile -t $CI_REGISTRY_IMAGE:$PROJECT_VERSION -t $CI_REGISTRY_IMAGE:frontoffice-latest .
+    - docker push $CI_REGISTRY_IMAGE:$PROJECT_VERSION
+    - docker push $CI_REGISTRY_IMAGE:frontoffice-latest
+
+########################################
+#                DEPLOY                #
+########################################
+.deploy: &deploy
+  image: registry.gitlab.com/meteora-pro/secure/it:deploy-kit-helm3
+  stage: deploy
+  variables:
+    KUBECONFIG: /etc/deploy/config
+
+# staging
+deploy-on-staging-api:
+  <<: *deploy
+  <<: *only-api-tags
+  before_script:
+    - mkdir -p /etc/deploy
+    - echo ${staging_config} | base64 -d > ${KUBECONFIG}
+  script:
+    # define variable
+    - export OLD_PROJECT_VERSION=v$(egrep -o '[[:digit:]]{1,}\.[[:digit:]]{1,}\.[[:digit:]]{1,}' package.json | head -n1)
+    - export PROJECT_VERSION=api-$(cat apps/api/version)
+    - export RELEASE_NAME="api-hackaton"
+    - export DEPLOYS=$(helm ls -n pet-hackaton | grep $RELEASE_NAME | wc -l)
+    - cd deploy/api
+    - if [ ${DEPLOYS}  -eq 0 ]; then helm install -n pet-hackaton --set image.tag=$PROJECT_VERSION ${RELEASE_NAME} .; else helm upgrade -n pet-hackaton --set image.tag=$PROJECT_VERSION ${RELEASE_NAME} .; fi
+  environment:
+    name: staging-pet-hackaton-api
+    url: https://api-pet-hackaton.dev.meteora.pro/api/version
+
+# staging
+deploy-on-staging-backoffice:
+  <<: *deploy
+  <<: *only-backoffice-tags
+  before_script:
+    - mkdir -p /etc/deploy
+    - echo ${staging_config} | base64 -d > ${KUBECONFIG}
+  script:
+    # define variable
+    - export OLD_PROJECT_VERSION=v$(egrep -o '[[:digit:]]{1,}\.[[:digit:]]{1,}\.[[:digit:]]{1,}' package.json | head -n1)
+    - export PROJECT_VERSION=backoffice-$(cat apps/backoffice/version)
+    - export RELEASE_NAME="backoffice-staging-hackaton"
+    - export DEPLOYS=$(helm ls -n pet-hackaton | grep $RELEASE_NAME | wc -l)
+    - cd deploy/backoffice
+    - if [ ${DEPLOYS}  -eq 0 ]; then helm install -n pet-hackaton --set image.tag=$PROJECT_VERSION ${RELEASE_NAME} .; else helm upgrade -n pet-hackaton --set image.tag=$PROJECT_VERSION ${RELEASE_NAME} .; fi
+  environment:
+    name: dev-pet-hackaton-backoffice
+    url: https://lk.dev.meteora.pro
+
+# staging
+deploy-on-staging-frontoffice:
+  <<: *deploy
+  <<: *only-frontoffice-tags
+  before_script:
+    - mkdir -p /etc/deploy
+    - echo ${staging_config} | base64 -d > ${KUBECONFIG}
+  script:
+    # define variable
+    - export OLD_PROJECT_VERSION=v$(egrep -o '[[:digit:]]{1,}\.[[:digit:]]{1,}\.[[:digit:]]{1,}' package.json | head -n1)
+    - export PROJECT_VERSION=frontoffice-$(cat apps/frontoffice/version)
+    - export RELEASE_NAME="frontoffice-staging-hackaton"
+    - export DEPLOYS=$(helm ls -n pet-hackaton | grep $RELEASE_NAME | wc -l)
+    - cd deploy/frontoffice
+    - if [ ${DEPLOYS}  -eq 0 ]; then helm install -n pet-hackaton --set image.tag=$PROJECT_VERSION ${RELEASE_NAME} .; else helm upgrade -n pet-hackaton --set image.tag=$PROJECT_VERSION ${RELEASE_NAME} .; fi
+  environment:
+    name: dev-pet-hackaton-frontoffice
+    url: https://pets.dev.meteora.pro

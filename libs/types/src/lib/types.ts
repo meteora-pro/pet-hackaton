@@ -63,6 +63,7 @@ export interface PetBaseInfo {
 export interface PetAdditionalInfo {
   labelId: number; //идентификационная метка
   sterilizationAt: string; //дата стерилизации
+  sterilizationPlace: string; // место стерилизации
   veterinarian: User; // ф.и.о. ветеринарного врача
   isSocializated: boolean; // Социализировано (да/нет)
 }

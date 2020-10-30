@@ -83,7 +83,7 @@ export interface CatchInformation {
 export interface OwnerInfo {
   organization?: Organization; // юридическое лицо
   trustee?: Trustee[]; // ф.и.о. опекунов
-  phisycal?: string; // физическое лицо ф.и.о.
+  phisycal?: PhysicalPerson; // физическое лицо ф.и.о.
 }
 
 export interface Organization {
@@ -162,4 +162,20 @@ export interface HealthStatus {
   date: Date;
   anamnesis: Anamnesis;
   weight?: number; // вес
+}
+
+export interface PhysicalPerson {
+  firstName: string;
+  lastName: string;
+  middleName: string;
+  passport: PassportInfo;
+  contacts?: string[];
+}
+
+export interface PassportInfo {
+  serialNumber: string; // серия
+  number: string; // номер
+  place: string; // паспорт выдан
+  date: Date; // дата выдачи
+  registrationAddress: string; // зарегистрирован по адресу
 }

@@ -81,10 +81,25 @@ export interface CatchInformation {
 
 /** сведения о новых владельцах */
 export interface OwnerInfo {
-  organizationName: string; // юридическое лицо
-  trusteeFullName: string; // ф.и.о. опекунов
-  physicalFullName: string; // физическое лицо ф.и.о.
+  organization?: Organization; // юридическое лицо
+  trustee?: Trustee[]; // ф.и.о. опекунов
+  phisycal?: PhysicalPerson; // физическое лицо ф.и.о.
 }
+
+export interface Organization {
+  readonly id: number;
+  name: string; // название - ООО Кот и Пес
+  address: string; // адрес организации
+  phoneNumber: string; // контактный телефон
+}
+
+export interface Trustee {
+  firstName: string; // имя
+  middleName?: string; // отчество
+  lastName: string; // фамилия
+  contactData: string; // адрес и/или телефон
+}
+
 
 /**
  * Движение животного
@@ -119,7 +134,7 @@ export interface PetResponsibleOrganisation {
   name: string; // эксплуатирующая организация
   address: string; // адрес приюта
   headUser: User; // ф.и.о. руководителя приюта
-  petCareTakerName: User; // ф.и.о. сотрудника по уходу за животным
+  petCareTaker: User; // ф.и.о. сотрудника по уходу за животным
 }
 
 /**
@@ -147,4 +162,20 @@ export interface HealthStatus {
   date: Date;
   anamnesis: Anamnesis;
   weight?: number; // вес
+}
+
+export interface PhysicalPerson {
+  firstName: string;
+  lastName: string;
+  middleName: string;
+  passport: PassportInfo;
+  contacts?: string[];
+}
+
+export interface PassportInfo {
+  serialNumber: string; // серия
+  number: string; // номер
+  place: string; // паспорт выдан
+  date: Date; // дата выдачи
+  registrationAddress: string; // зарегистрирован по адресу
 }

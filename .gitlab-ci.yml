@@ -9,15 +9,6 @@ stages:
 .node: &node
   image: node:10
 
-.master: &master
-  only:
-    - master
-
-.install-deps: &install-deps
-  before_script:
-    - npm set registry $NPM_REGISTRY
-    - npm ci
-
 .increment: &increment
   except:
     variables:
@@ -33,7 +24,7 @@ stages:
     - package.json
     - libs/**/*
     - tools/**/*
-    - deploy/**/*
+    - deploy/api/**/*
     - apps/api/**/*
 
 .only-api: &only-api
@@ -71,7 +62,7 @@ stages:
     - package.json
     - libs/**/*
     - tools/**/*
-    - deploy/**/*
+    - deploy/backoffice/**/*
     - apps/backoffice/**/*
 
 .only-backoffice: &only-backoffice
@@ -109,7 +100,7 @@ stages:
     - package.json
     - libs/**/*
     - tools/**/*
-    - deploy/**/*
+    - deploy/frontoffice/**/*
     - apps/frontoffice/**/*
 
 .only-frontoffice: &only-frontoffice

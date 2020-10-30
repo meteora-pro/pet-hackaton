@@ -82,7 +82,7 @@ export interface CatchInformation {
 export interface OwnerInfo {
   organizationName: string; // юридическое лицо
   trusteeFullName: string; // ф.и.о. опекунов
-  phisycalFullName: string; // физическое лицо ф.и.о.
+  physicalFullName: string; // физическое лицо ф.и.о.
 }
 
 /**

@@ -32,6 +32,13 @@
     "backoffice-e2e": {
       "tags": [],
       "implicitDependencies": ["backoffice"]
+    },
+    "frontoffice": {
+      "tags": []
+    },
+    "frontoffice-e2e": {
+      "tags": [],
+      "implicitDependencies": ["frontoffice"]
     }
   }
 }

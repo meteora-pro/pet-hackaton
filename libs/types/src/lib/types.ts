@@ -71,10 +71,11 @@ export interface PetAdditionalInfo {
 /** сведения об отлове */
 export interface CatchInformation {
   readonly id: number;
+  captureActId: string; // акт отлова №
   orderId: string; // заказ-наряд / акт о поступлении животного №
-  arrivedAt: Date; // заказ-наряд дата/ акт о поступлении животного, дата
+  createAt: Date; // Дата заказ-наряда, от
+  captureAt: Date; // заказ-наряд дата/ акт о поступлении животного, дата
   district: string; // административный округ
-  captureAct: string; // акт отлова №
   catchingAddress: string; // адрес места отлова
   videoUrl?: string; // Видеофиксация отлова
 }
@@ -83,7 +84,7 @@ export interface CatchInformation {
 export interface OwnerInfo {
   organization?: Organization; // юридическое лицо
   trustee?: Trustee[]; // ф.и.о. опекунов
-  phisycal?: string; // физическое лицо ф.и.о.
+  phisycal?: PhysicalPerson; // физическое лицо ф.и.о.
 }
 
 export interface Organization {
@@ -162,4 +163,20 @@ export interface HealthStatus {
   date: Date;
   anamnesis: Anamnesis;
   weight?: number; // вес
+}
+
+export interface PhysicalPerson {
+  firstName: string;
+  lastName: string;
+  middleName: string;
+  passport: PassportInfo;
+  contacts?: string[];
+}
+
+export interface PassportInfo {
+  serialNumber: string; // серия
+  number: string; // номер
+  place: string; // паспорт выдан
+  date: Date; // дата выдачи
+  registrationAddress: string; // зарегистрирован по адресу
 }

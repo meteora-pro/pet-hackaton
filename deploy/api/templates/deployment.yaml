@@ -34,10 +34,10 @@ spec:
           env:
             - name: NODE_ENV
               value: "production"
-            volumeMounts:
-              # name must match the volume name below
-              - name: "api-env-volume"
-                mountPath: "/usr/api/config/api"
+          volumeMounts:
+            # name must match the volume name below
+            - name: "api-env-volume"
+              mountPath: "/usr/api/config/api"
           ports:
             - name: http
               containerPort: 3333

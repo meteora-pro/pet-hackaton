@@ -266,7 +266,7 @@
     }
   },
   "cli": {
-    "defaultCollection": "@nrwl/nest"
+    "defaultCollection": "@nrwl/angular"
   },
   "schematics": {
     "@nrwl/angular:application": {
@@ -277,5 +277,5 @@
       "unitTestRunner": "jest"
     }
   },
-  "defaultProject": "api"
+  "defaultProject": "backoffice"
 }

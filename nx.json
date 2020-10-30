@@ -31,6 +31,9 @@
     },
     "frontoffice": {
       "tags": []
+    },
+    "types": {
+      "tags": []
     }
   }
 }

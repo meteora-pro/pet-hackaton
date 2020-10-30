@@ -74,7 +74,7 @@ export interface CatchInformation {
   captureActId: string; // акт отлова №
   orderId: string; // заказ-наряд / акт о поступлении животного №
   createAt: Date; // Дата заказ-наряда, от
-  arrivedAt: Date; // заказ-наряд дата/ акт о поступлении животного, дата
+  captureAt: Date; // заказ-наряд дата/ акт о поступлении животного, дата
   district: string; // административный округ
   catchingAddress: string; // адрес места отлова
   videoUrl?: string; // Видеофиксация отлова

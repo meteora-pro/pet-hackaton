@@ -20,6 +20,24 @@ export type PetPlace = number;
 export type OutReason = string;
 export type Anamnesis = string;
 
+export enum OutReasonType {
+  death,
+  euthanasia,
+  leavingShelter
+}
+
+export interface OutReasonCause {
+  id: number;
+  value: string;
+  type: OutReasonType;
+}
+
+export interface BaseDictionary {
+  id: number;
+  value: string;
+  type?: PetKind;
+}
+
 export enum Role {
   superAdmin,
   shelterAdmin,
@@ -43,12 +61,12 @@ export type Pet = PetBaseInfo
 & OwnerInfo
 & {
   shelter: Shelter; // Приют
-  petCareTakerName: User; // ф.и.о. сотрудника по уходу за животным
   catchInformation: CatchInformation;
   registrationHistory: PetRegistrationHistory;
   parasiteTreatments: ParasiteMedicineTreatment[];
   vacinations: Vacination[];
   healthchecks: HealthStatus[];
+  petCareTaker: User; // ф.и.о. сотрудника по уходу за животным
 };
 
 export interface PetBaseInfo {
@@ -59,12 +77,12 @@ export interface PetBaseInfo {
   weight: number; // вес, кг
   name: string; // кличка
   sex: Sex; // пол
-  breed: Breed; // порода
-  color: Color; // окрас
-  wool: Wool; // шерсть
-  ears: Ears; // уши
-  tail: Tail; // хвост
-  size: Size; // размер
+  breed: BaseDictionary; // порода
+  color: BaseDictionary; // окрас
+  wool: BaseDictionary; // шерсть
+  ears: BaseDictionary; // уши
+  tail: BaseDictionary; // хвост
+  size: string; // размер
   signs?: string; // особые приметы
   place: PetPlace; // Вольер №
   photos: string[];
@@ -97,7 +115,7 @@ export interface CatchInformation {
 export interface OwnerInfo {
   organization?: Organization; // юридическое лицо
   trustee?: Trustee[]; // ф.и.о. опекунов
-  phisycal?: PhysicalPerson; // физическое лицо ф.и.о.
+  physical?: PhysicalPerson; // физическое лицо ф.и.о.
 }
 
 export interface Organization {
@@ -122,7 +140,7 @@ export interface PetRegistrationHistory {
   arrivedAt: Date; // дата поступления в приют
   arrivedAct: string; // акт приема №
   outAt: Date; // дата выбытия из приюта
-  outReason: OutReason; // причина выбытия
+  outReason: OutReasonCause; // причина выбытия
   outAct: string; // № акта/договора выбытия
 }
 
@@ -148,7 +166,6 @@ export interface PetResponsibleOrganisation {
   name: string; // эксплуатирующая организация
   address: string; // адрес приюта
   headUser: User; // ф.и.о. руководителя приюта
-  petCareTaker: User; // ф.и.о. сотрудника по уходу за животным
 }
 
 /**

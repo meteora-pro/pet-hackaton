@@ -9,7 +9,7 @@ export class ShelterEntity extends BaseEntity implements Shelter {
   @Column()
   address: string;
 
-  @ManyToOne(() => UserEntity, user => user.id)
+  @ManyToOne(() => UserEntity, user => user)
   headName: UserEntity;
 
 

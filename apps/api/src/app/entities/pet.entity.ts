@@ -1,12 +1,8 @@
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import { CatchInformation, HealthStatus, Organization, ParasiteMedicineTreatment,
+import { HealthStatus, ParasiteMedicineTreatment,
   Pet,
   PetKind,
-  PetRegistrationHistory,
-  PhysicalPerson,
   Sex,
-  Shelter,
-  Trustee,
   User,
   Vacination
 } from '@pet-hackaton/types';
@@ -14,7 +10,15 @@ import { BaseEntity } from './base.entity';
 import { UserEntity } from './user.entity';
 import { OrganizationEntity } from './organization.entity';
 import { TrusteeEntity } from './trustee.entity';
+import { ShelterEntity } from './shelter.entity';
 import { PhysicalPersonEntity } from './physical-person.entity';
+import { CatchInformationEntity } from './catch-information.entity';
+import { PetRegistrationHistoryEntity } from './pet-registration-history.entity';
+import { BreedEntity } from './dictionaries/breed.entity';
+import { ColorEntity } from './dictionaries/color.entity';
+import { WoolEntity } from './dictionaries/wool.entity';
+import { EarEntity } from './dictionaries/ear.entity';
+import { TailEntity } from './dictionaries/tail.entity';
 
 @Entity({
   name: 'pets'
@@ -39,20 +43,20 @@ export class PetEntity extends BaseEntity implements Pet {
   @Column({ type: 'enum', enum: Sex, nullable: true })
   sex: Sex;
 
-  @Column({ nullable: true })
-  breed: string;
+  @ManyToOne(() => BreedEntity, breed => breed)
+  breed: BreedEntity;
 
-  @Column({ nullable: true })
-  color: string;
+  @ManyToOne(() => ColorEntity, color => color)
+  color: ColorEntity;
 
-  @Column({ nullable: true })
-  wool: string;
+  @ManyToOne(() => WoolEntity, wool => wool)
+  wool: WoolEntity;
 
-  @Column({ nullable: true })
-  ears: string;
+  @ManyToOne(() => EarEntity, ear => ear)
+  ears: EarEntity;
 
-  @Column({ nullable: true })
-  tail: string;
+  @ManyToOne(() => TailEntity, tail => tail)
+  tail: TailEntity;
 
   @Column({ nullable: true })
   size: string;
@@ -84,26 +88,26 @@ export class PetEntity extends BaseEntity implements Pet {
   @Column({default: false})
   isSocializated: boolean;
 
-  @ManyToOne(() => OrganizationEntity, organization => organization)
+  @ManyToOne(() => OrganizationEntity, organization => organization, {nullable: true})
   organization?: OrganizationEntity;
 
-  @OneToMany(() => TrusteeEntity, trustee => trustee.pet)
+  @OneToMany(() => TrusteeEntity, trustee => trustee.pet, {nullable: true})
   trustee?: TrusteeEntity[];
 
-  @ManyToOne(() => PhysicalPersonEntity, phisycal => phisycal)
-  phisycal?: PhysicalPersonEntity;
+  @ManyToOne(() => PhysicalPersonEntity, physical => physical, {nullable: true})
+  physical?: PhysicalPersonEntity;
 
-  // @Column({ nullable: true })
-  shelter: Shelter;
+  @ManyToOne(() => ShelterEntity, shelter => shelter)
+  shelter: ShelterEntity;
 
   @ManyToOne(() => UserEntity, user => user)
-  petCareTakerName: User;
+  petCareTaker: UserEntity;
 
-  // @Column({ nullable: true })
-  catchInformation: CatchInformation;
+  @ManyToOne(() => CatchInformationEntity, catchInfo => catchInfo.pets)
+  catchInformation: CatchInformationEntity;
 
-  // @Column({ nullable: true })
-  registrationHistory: PetRegistrationHistory;
+  @ManyToOne(() => PetRegistrationHistoryEntity, registration => registration)
+  registrationHistory: PetRegistrationHistoryEntity;
 
   // @Column()
   parasiteTreatments: ParasiteMedicineTreatment[];

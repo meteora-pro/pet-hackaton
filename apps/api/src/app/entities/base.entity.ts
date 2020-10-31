@@ -12,6 +12,4 @@ export class BaseEntity {
   @UpdateDateColumn()
   updateAt: Date;
 
-  @Column({nullable: true})
-  updateBy: User;
 }

@@ -21,9 +21,6 @@ export class UserNotFoundValidator implements ValidatorConstraintInterface {
                 {
                     email: login,
                 },
-                {
-                    phoneNumber: login,
-                },
             ],
         });
         return userCount > 0;

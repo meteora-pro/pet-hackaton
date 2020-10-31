@@ -4,7 +4,7 @@ import { SignInResponseDto } from '../dto/sign-in-response.dto';
 import { JwtSignService } from './jwt-sign.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Brackets, Repository } from 'typeorm';
-import { RefreshTokenEntity } from '../entity/refresh-token.entity';
+import { RefreshTokenEntity } from '../../entities/refresh-token.entity';
 import { SignUpRequestDto } from '../dto/sign-up-request.dto';
 import * as bcrypt from 'bcryptjs';
 import { RefreshTokenRequestDto } from '../dto/refresh-token-request.dto';
@@ -33,9 +33,6 @@ export class LocalSignService {
         },
         {
           email: signInBodyDto.login,
-        },
-        {
-          phoneNumber: signInBodyDto.login,
         },
       ],
     });

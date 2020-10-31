@@ -7,7 +7,7 @@ import { AccessTokenStrategy } from './strategies/access-token.strategy';
 import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
 import { JwtSignService } from './services/jwt-sign.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RefreshTokenEntity } from './entity/refresh-token.entity';
+import { RefreshTokenEntity } from '../entities/refresh-token.entity';
 import { LocalSignService } from './services/local-sign.service';
 import { UserLoginExistValidator } from './validators/user-login-exist.validator';
 import { UserNotFoundValidator } from './validators/user-not-found-validator.service';

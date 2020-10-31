@@ -8,5 +8,5 @@ export interface PetsStateModel {
   pagination: Pagination;
   viewType: ViewTypeEnum;
   filters: string;
-  status: StoreStatusEnum.New;
+  status: StoreStatusEnum;
 }

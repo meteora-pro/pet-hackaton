@@ -20,6 +20,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRippleModule } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AttributeStatusComponent } from './pet-list/columns/attribute-status/attribute-status.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'list' },
@@ -51,6 +52,7 @@ const routes: Route[] = [
     DictionaryPipeModule,
     MatPaginatorModule,
     MatCheckboxModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatTabsModule,
   ],

@@ -131,17 +131,11 @@ export interface CatchInformation {
 
 /** сведения о новых владельцах */
 export interface OwnerInfo {
-  organization?: Organization; // юридическое лицо
+  organization?: PetResponsibleOrganisation; // юридическое лицо
   trustee?: Trustee[]; // ф.и.о. опекунов
   physical?: PhysicalPerson; // физическое лицо ф.и.о.
 }
 
-export interface Organization {
-  readonly id: number;
-  name: string; // название - ООО Кот и Пес
-  address: string; // адрес организации
-  phoneNumber: string; // контактный телефон
-}
 
 export interface Trustee {
   firstName: string; // имя

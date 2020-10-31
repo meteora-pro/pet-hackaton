@@ -7,7 +7,6 @@ import {
 } from '@pet-hackaton/types';
 import { BaseEntity } from './base.entity';
 import { UserEntity } from './user.entity';
-import { OrganizationEntity } from './organization.entity';
 import { TrusteeEntity } from './trustee.entity';
 import { ShelterEntity } from './shelter.entity';
 import { PhysicalPersonEntity } from './physical-person.entity';
@@ -23,6 +22,7 @@ import {ApiProperty} from "@nestjs/swagger";
 import { VacinationEntity } from './vacination.entity';
 import { HealthStatusEntity } from './health-status.entity';
 import { CommonService } from '../services/common/common.service';
+import { PetResponsibleOrganisationEntity } from './pet-responsible-organisation.entity';
 
 @Entity({
   name: 'pets'
@@ -113,9 +113,9 @@ export class PetEntity extends BaseEntity implements Pet {
   @Column({default: false})
   isSocializated: boolean;
 
-  @ApiProperty({type: OrganizationEntity})
-  @ManyToOne(() => OrganizationEntity, organization => organization, {nullable: true})
-  organization?: OrganizationEntity;
+  @ApiProperty({type: PetResponsibleOrganisationEntity})
+  @ManyToOne(() => PetResponsibleOrganisationEntity, organization => organization, {nullable: true})
+  organization?: PetResponsibleOrganisationEntity;
 
   @ApiProperty({type: [TrusteeEntity]})
   @OneToMany(() => TrusteeEntity, trustee => trustee.pet, {nullable: true})
@@ -140,7 +140,6 @@ export class PetEntity extends BaseEntity implements Pet {
   @ApiProperty({type: PetRegistrationHistoryEntity})
   @ManyToOne(() => PetRegistrationHistoryEntity, registration => registration, {nullable: true})
   registrationHistory: PetRegistrationHistoryEntity;
-
 
   @ApiProperty({type: [ParasiteMedicineTreatmentEntity]})
   @OneToMany(() => ParasiteMedicineTreatmentEntity, treatment => treatment.pet, {nullable: true})

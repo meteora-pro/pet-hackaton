@@ -19,6 +19,7 @@ export class PetCardComponent implements OnInit {
     breed: new FormControl(),
     color: new FormControl(),
     size: new FormControl(),
+    isSocializated: new FormControl(),
     arrivedAt: new FormControl(),
   });
 

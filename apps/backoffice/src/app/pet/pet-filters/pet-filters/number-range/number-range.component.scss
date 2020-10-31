@@ -1,0 +1,10 @@
+.number-range {
+  display: flex;
+  align-items: center;
+
+  &__inputs {
+    mat-form-field {
+      width: 120px;
+    }
+  }
+}

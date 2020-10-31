@@ -27,10 +27,10 @@ export class FilterResolverService {
           case FilterTypeEnum.numberRange:
           case FilterTypeEnum.dateRange:
             if (value.from) {
-              filters.push([filterName, '$gte', new Date(value.from).toISOString()].join('||'));
+              filters.push([filterName, '$gte', value.from].join('||'));
             }
             if (value.to) {
-              filters.push([filterName, '$lte', new Date(value.to).toISOString()].join('||'));
+              filters.push([filterName, '$lte', value.to].join('||'));
             }
             break;
         }

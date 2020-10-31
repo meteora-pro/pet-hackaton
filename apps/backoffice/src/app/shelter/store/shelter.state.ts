@@ -32,7 +32,7 @@ export class ShelterState {
       status: StoreStatusEnum.Loading,
       list: []
     });
-    return this.nestCrudService.getList('shelter').pipe(
+    return this.nestCrudService.getList('shelters').pipe(
       tap((list: Shelter[]) => {
         ctx.patchState({
           status: StoreStatusEnum.Ready,
@@ -44,7 +44,7 @@ export class ShelterState {
 
   @Action(ChangeShelter)
   changeDictionary(ctx: Ctx, { item }: ChangeShelter) {
-    return this.nestCrudService.updateItem('shelter', item).pipe(
+    return this.nestCrudService.updateItem('shelters', item).pipe(
       tap((response: Shelter) => {
         const { list } = ctx.getState();
         ctx.patchState({
@@ -62,7 +62,7 @@ export class ShelterState {
 
   @Action(AddShelter)
   addDictionary(ctx: Ctx, { item }: AddShelter) {
-    return this.nestCrudService.addItem('shelter', item).pipe(
+    return this.nestCrudService.addItem('shelters', item).pipe(
       tap((response: Shelter) => {
         const { list } = ctx.getState();
         ctx.patchState({

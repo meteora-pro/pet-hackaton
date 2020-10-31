@@ -1,4 +1,4 @@
-import { BaseDictionary, Shelter } from '@pet-hackaton/types';
+import { Shelter } from '@pet-hackaton/types';
 
 export class LoadShelters {
   public static type = '[Shelter] LoadShelters';

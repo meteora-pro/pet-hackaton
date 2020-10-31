@@ -40,7 +40,7 @@ export class DictionaryState {
       status: StoreStatusEnum.Loading,
       currentDictionary: {
         name: dictionaryName,
-        list: [{id: 1, value: 'Тестовые данные'}, {id: 2, value: 'Еще тестовые данные'}]
+        list: []
       }
     });
     if (this.dictionarySubscription && !this.dictionarySubscription.closed) {

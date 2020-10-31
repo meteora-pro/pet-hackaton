@@ -23,6 +23,11 @@ export class PetFiltersComponent implements OnInit {
   })
   districts: any;
   shelters: any;
+  ages: any;
+  kinds: any;
+  sizes: any;
+  outReasons: any;
+  statuses: any;
   constructor() { }
 
   ngOnInit(): void {

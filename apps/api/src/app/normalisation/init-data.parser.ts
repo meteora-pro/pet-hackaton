@@ -22,7 +22,7 @@ import {
   parseCatchInformation,
   parseDate,
   parseHealthCheck,
-  parseOrganisation,
+  parseOrganisation, parseParasites,
   parsePetKind,
   parseRegistrationHistory,
   parseSex,
@@ -31,6 +31,7 @@ import {
   parseUser
 } from "./parsing.helpers";
 import {QueryRunner} from "typeorm";
+import {ParasiteMedicineTreatmentEntity} from "../entities/parasite-medicine-treatment.entity";
 
 
 export class InitDataParser {
@@ -287,13 +288,18 @@ export class InitDataParser {
       const allSavedPets = await petRepository.find({ order: { id: 'ASC' }});
 
       const healthCheckRepository = queryRunner.connection.getRepository(PetEntity);
+      const parasitesRepository = queryRunner.connection.getRepository(ParasiteMedicineTreatmentEntity);
 
       const healthChecks = [];
-      const parasites = [];
+      const allParasites = [];
       const vactinations = [];
       rawDataSet.forEach( (rawData, index) => {
         const pet = allSavedPets[index];
         /** Сведения о вакцинации */
+        const parasites = parseParasites(rawData, pet);
+        if (parasites.length) {
+          allParasites.push(...parasites);
+        }
         /** Сведения об обработке от экто- и эндопаразитов */
 
 
@@ -307,8 +313,9 @@ export class InitDataParser {
       });
 
       await healthCheckRepository.insert(healthChecks);
+      await parasitesRepository.insert(allParasites);
     } catch (e) {
-      Logger.log(e);
+      Logger.error(e.toString());
     }
   }
 }

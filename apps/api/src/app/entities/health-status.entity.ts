@@ -8,15 +8,15 @@ import { ApiProperty } from '@nestjs/swagger';
 @Entity({name: 'health_statuses'})
 export class HealthStatusEntity extends BaseEntity implements HealthStatus {
 
-  @ApiProperty()
+  @ApiProperty({example: 'удовлетворительно'})
   @Column()
   anamnesis: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: Date, format: 'date-time'})
   @Column()
   date: Date;
 
-  @ApiProperty()
+  @ApiProperty({example: 5})
   @Column()
   weight: number;
 

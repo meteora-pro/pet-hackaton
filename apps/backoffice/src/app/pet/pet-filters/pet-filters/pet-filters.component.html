@@ -4,11 +4,13 @@
     <mat-label>Номер</mat-label>
     <input type="text" matInput formControlName="cardNumber">
   </mat-form-field>
+
   <mat-form-field appearance="fill"
                   [hideRequiredMarker]="true">
     <mat-label>№ идентификационной метки</mat-label>
     <input type="text" matInput formControlName="labelId">
   </mat-form-field>
+
   <mat-form-field appearance="fill"
                   [hideRequiredMarker]="true">
     <mat-label>Кличка</mat-label>
@@ -32,6 +34,8 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+
+  <date-range formControlName="createdAt" label="Период регистрации карточки<"></date-range>
 
   <mat-form-field appearance="fill">
     <mat-label>Вид животного</mat-label>
@@ -79,3 +83,7 @@
 
   <button  mat-button (click)="apply()" type="submit">Применить</button>
 </form>
+
+<pre>
+  {{ form.value | json }}
+</pre>

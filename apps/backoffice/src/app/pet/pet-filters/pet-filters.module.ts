@@ -1,19 +1,41 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PetFiltersComponent } from './pet-filters/pet-filters.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { FilterResolverService } from './services/filter-resolver.service';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
+import { FilterResolverService } from './services/filter-resolver.service';
 
+import { PetFiltersComponent } from './pet-filters/pet-filters.component';
+import { DateRangeComponent } from './pet-filters/date-range/date-range.component';
 
 @NgModule({
-  declarations: [PetFiltersComponent],
-  imports: [CommonModule, MatFormFieldModule, ReactiveFormsModule, MatSelectModule, MatInputModule, MatButtonModule],
-  exports: [PetFiltersComponent],
-  providers: [FilterResolverService],
+  imports: [
+    CommonModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatInputModule,
+    MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    FormsModule
+  ],
+  declarations: [
+    PetFiltersComponent,
+    DateRangeComponent
+  ],
+  exports: [
+    PetFiltersComponent
+  ],
+  providers: [
+    FilterResolverService,
+    MatDatepickerModule,
+  ],
 })
-export class PetFiltersModule {}
+export class PetFiltersModule {
+}

@@ -1,10 +1,9 @@
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import { HealthStatus, ParasiteMedicineTreatment,
+import {
   Pet,
   PetKind,
-  Sex,
-  User,
-  Vacination
+  Sex, Size,
+  User
 } from '@pet-hackaton/types';
 import { BaseEntity } from './base.entity';
 import { UserEntity } from './user.entity';
@@ -23,81 +22,82 @@ import { ParasiteMedicineTreatmentEntity } from './parasite-medicine-treatment.e
 import {ApiProperty} from "@nestjs/swagger";
 import { VacinationEntity } from './vacination.entity';
 import { HealthStatusEntity } from './health-status.entity';
+import { CommonService } from '../services/common/common.service';
 
 @Entity({
   name: 'pets'
 })
 export class PetEntity extends BaseEntity implements Pet {
 
-  @ApiProperty()
+  @ApiProperty({example: '1665з-20'})
   @Column({ nullable: true })
   cardNumber: string;
 
-  @ApiProperty()
+  @ApiProperty({enum: CommonService.enumToArray(PetKind), example: PetKind.dog})
   @Column({ type: 'enum', enum: PetKind, nullable: true })
   kind: PetKind;
 
-  @ApiProperty()
+  @ApiProperty({example: 5})
   @Column({ nullable: true })
   age: number;
 
-  @ApiProperty()
+  @ApiProperty({example: 10})
   @Column({ nullable: true })
   weight: number;
 
-  @ApiProperty()
+  @ApiProperty({example: 'Бобик'})
   @Column({ nullable: true })
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({enum: CommonService.enumToArray(Sex), example: Sex.male})
   @Column({ type: 'enum', enum: Sex, nullable: true })
   sex: Sex;
 
-  @ApiProperty()
+  @ApiProperty({type: BreedEntity})
   @ManyToOne(() => BreedEntity, breed => breed)
   breed: BreedEntity;
 
-  @ApiProperty()
+  @ApiProperty({type: ColorEntity})
   @ManyToOne(() => ColorEntity, color => color)
   color: ColorEntity;
 
-  @ApiProperty()
+  @ApiProperty({type: WoolEntity})
   @ManyToOne(() => WoolEntity, wool => wool)
   wool: WoolEntity;
 
-  @ApiProperty()
+  @ApiProperty({type: EarEntity})
   @ManyToOne(() => EarEntity, ear => ear)
   ears: EarEntity;
 
-  @ApiProperty()
+  @ApiProperty({type: TailEntity})
   @ManyToOne(() => TailEntity, tail => tail)
   tail: TailEntity;
 
-  @ApiProperty()
-  @Column({ nullable: true })
-  size: string;
+  @ApiProperty({enum: CommonService.enumToArray(Size), example: Size.medium})
+  @Column({ type: 'enum', enum: Size, nullable: true })
+  size: Size;
 
-  @ApiProperty()
+  @ApiProperty({example: 'Черное пятно на ухе'})
   @Column({ nullable: true })
   signs?: string;
 
-  @ApiProperty()
+  @ApiProperty({example: 'Клетка №2'})
   @Column({ nullable: true })
-  place: number;
+  place: string;
 
   @ApiProperty()
   @Column('text', { array: true, nullable: true, default: '{}' })
   photos: string[];
 
-  @ApiProperty()
+  @ApiProperty({example: 'Добрый, вечно голодный, любит спать'})
   @Column({ nullable: true })
   character: string;
 
-  @ApiProperty()
+  @ApiProperty({example: 643094100731522})
   @Column({ nullable: true })
   labelId: number;
 
-  @ApiProperty()
+  @ApiProperty({example: 'не требуется по возрасту'})
   @Column({ nullable: true })
   sterilizationAt: string;
 
@@ -105,52 +105,52 @@ export class PetEntity extends BaseEntity implements Pet {
   @Column({ nullable: true })
   sterilizationPlace: string;
 
-  @ApiProperty()
+  @ApiProperty({type: UserEntity})
   @ManyToOne(() => UserEntity, user => user)
-  veterinarian: User;
+  veterinarian: UserEntity;
 
-  @ApiProperty()
+  @ApiProperty({example: true})
   @Column({default: false})
   isSocializated: boolean;
 
-  @ApiProperty()
+  @ApiProperty({type: OrganizationEntity})
   @ManyToOne(() => OrganizationEntity, organization => organization, {nullable: true})
   organization?: OrganizationEntity;
 
-  @ApiProperty()
+  @ApiProperty({type: [TrusteeEntity]})
   @OneToMany(() => TrusteeEntity, trustee => trustee.pet, {nullable: true})
   trustee?: TrusteeEntity[];
 
-  @ApiProperty()
+  @ApiProperty({type: PhysicalPersonEntity})
   @ManyToOne(() => PhysicalPersonEntity, physical => physical, {nullable: true})
   physical?: PhysicalPersonEntity;
 
-  @ApiProperty()
+  @ApiProperty({type: ShelterEntity})
   @ManyToOne(() => ShelterEntity, shelter => shelter)
   shelter: ShelterEntity;
 
-  @ApiProperty()
+  @ApiProperty({type: UserEntity})
   @ManyToOne(() => UserEntity, user => user)
   petCareTaker: UserEntity;
 
-  @ApiProperty()
+  @ApiProperty({type: CatchInformationEntity})
   @ManyToOne(() => CatchInformationEntity, catchInfo => catchInfo.pets)
   catchInformation: CatchInformationEntity;
 
-  @ApiProperty()
+  @ApiProperty({type: PetRegistrationHistoryEntity})
   @ManyToOne(() => PetRegistrationHistoryEntity, registration => registration)
   registrationHistory: PetRegistrationHistoryEntity;
 
 
-  @ApiProperty()
+  @ApiProperty({type: [ParasiteMedicineTreatmentEntity]})
   @OneToMany(() => ParasiteMedicineTreatmentEntity, treatment => treatment.pet, {nullable: true})
   parasiteTreatments: ParasiteMedicineTreatmentEntity[];
 
-  @ApiProperty()
+  @ApiProperty({type: [VacinationEntity]})
   @OneToMany(() => VacinationEntity, vacination => vacination.pet, {nullable: true})
   vacinations: VacinationEntity[];
 
-  @ApiProperty()
+  @ApiProperty({type: [HealthStatusEntity]})
   @OneToMany(() => HealthStatusEntity, healthStatus => healthStatus.pet, {nullable: true})
   healthchecks: HealthStatusEntity[];
 

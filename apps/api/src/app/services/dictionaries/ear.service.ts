@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import {EarEntity} from "../../entities/dictionaries/ear.entity";
 
 @Injectable()
-export class EarsService extends TypeOrmCrudService<EarEntity>{
+export class EarService extends TypeOrmCrudService<EarEntity>{
   constructor(@InjectRepository(EarEntity) repository: Repository<EarEntity>){
     super(repository);
   }

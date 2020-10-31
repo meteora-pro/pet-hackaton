@@ -8,7 +8,7 @@ import {BreedService} from "../../services/dictionaries/breed.service";
     type: BreedEntity
   }
 })
-@Controller('cat-breed')
+@Controller('breed')
 export class BreedController implements CrudController<BreedEntity>{
   constructor(public service: BreedService){}
 }

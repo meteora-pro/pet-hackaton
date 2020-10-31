@@ -21,9 +21,15 @@
       <td>{{ item.value }}</td>
       <td>
         <button mat-icon-button color="primary"
-                    aria-label="Clear"
+                    aria-label="Edit"
                     (click)="edit(item)">
           <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+      <td>
+        <button mat-icon-button color="primary"
+                aria-label="Clear">
+          <mat-icon>delete</mat-icon>
         </button>
       </td>
     </tr>

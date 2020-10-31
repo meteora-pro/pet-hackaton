@@ -1,0 +1,43 @@
+<form [formGroup]="form">
+  <mat-form-field appearance="fill"
+                  [hideRequiredMarker]="true">
+    <mat-label>Номер</mat-label>
+    <input type="text" matInput formControlName="cardNumber">
+  </mat-form-field>
+  <mat-form-field appearance="fill"
+                  [hideRequiredMarker]="true">
+    <mat-label>№ идентификационной метки</mat-label>
+    <input type="text" matInput formControlName="labelId">
+  </mat-form-field>
+  <mat-form-field appearance="fill"
+                  [hideRequiredMarker]="true">
+    <mat-label>Кличка</mat-label>
+    <input type="text" matInput formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Административный округ</mat-label>
+    <mat-select formControlName="district">
+      <mat-option *ngFor="let district of districts" [value]="district.value">
+        {{district.label}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Приют</mat-label>
+    <mat-select formControlName="shelterIds">
+      <mat-option *ngFor="let shelter of shelters" [value]="shelter.value">
+        {{shelter .label}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Период регистации карточки</mat-label>
+  </mat-form-field>
+</form>
+
+
+
+

@@ -1,12 +1,14 @@
-import { Controller, Logger } from '@nestjs/common';
-import {Crud, CrudController} from "@nestjsx/crud";
+import { Controller, Logger, UseGuards } from '@nestjs/common';
+import { Crud, CrudAuth, CrudController } from '@nestjsx/crud';
 import {PetEntity} from "../entities/pet.entity";
 import {PetService} from "../services/pet.service";
-import {ApiTags} from "@nestjs/swagger";
-import { CommonService } from '../services/common/common.service';
-import { PetKind } from '@pet-hackaton/types';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { UserEntity } from '../entities/user.entity';
+import { AccessTokenGuard } from '../authentication/guards/access-token.guard';
 
 @ApiTags('Pet', 'entity')
+@ApiBearerAuth()
+@UseGuards(AccessTokenGuard)
 @Crud({
   model: {
     type: PetEntity
@@ -66,6 +68,16 @@ import { PetKind } from '@pet-hackaton/types';
       },
     },
   }
+})
+@CrudAuth({
+  property: "user",
+  filter: (user: UserEntity) => {
+    console.log('test');
+    console.log(user);
+    return {
+      id: user.id,
+    }
+  },
 })
 @Controller('pets')
 export class PetController implements CrudController<PetEntity>{

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action, State, StateContext } from '@ngxs/store';
-import { DictionaryStateModel } from './dictionary-state.model';
+import { DictionaryStateModel } from './dictionary.state.model';
 import { StoreStatusEnum } from '../../shared/store.status.enum';
 import { AddDictionary, ChangeDictionary, LoadDictionary } from './dictionary.actions';
 import { DictionaryCrudService } from '../services/dictionary-crud.service';

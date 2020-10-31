@@ -22,15 +22,17 @@ import {
   parseCatchInformation,
   parseDate,
   parseHealthCheck,
-  parseOrganisation,
+  parseOrganisation, parseParasites,
   parsePetKind,
   parseRegistrationHistory,
   parseSex,
   parseShelter,
   parseSize,
-  parseUser
+  parseUser, parseVactination
 } from "./parsing.helpers";
 import {QueryRunner} from "typeorm";
+import {ParasiteMedicineTreatmentEntity} from "../entities/parasite-medicine-treatment.entity";
+import {VacinationEntity} from "../entities/vacination.entity";
 
 
 export class InitDataParser {
@@ -287,16 +289,24 @@ export class InitDataParser {
       const allSavedPets = await petRepository.find({ order: { id: 'ASC' }});
 
       const healthCheckRepository = queryRunner.connection.getRepository(PetEntity);
+      const parasitesRepository = queryRunner.connection.getRepository(ParasiteMedicineTreatmentEntity);
+      const vactinationsRepository = queryRunner.connection.getRepository(VacinationEntity);
 
       const healthChecks = [];
-      const parasites = [];
-      const vactinations = [];
+      const allParasites = [];
+      const allVactinations = [];
       rawDataSet.forEach( (rawData, index) => {
         const pet = allSavedPets[index];
         /** Сведения о вакцинации */
+        const parasites = parseParasites(rawData, pet);
+        if (parasites.length) {
+          allParasites.push(...parasites);
+        }
         /** Сведения об обработке от экто- и эндопаразитов */
-
-
+        const vactionations = parseVactination(rawData, pet);
+        if (vactionations.length) {
+          allVactinations.push(...vactionations);
+        }
         /** Сведения о состоянии здоровья */
         const healthCheck = parseHealthCheck({
           pet,
@@ -305,10 +315,13 @@ export class InitDataParser {
         });
         healthChecks.push(healthCheck);
       });
-
-      await healthCheckRepository.insert(healthChecks);
+      await Promise.all([
+        healthCheckRepository.insert(healthChecks),
+        parasitesRepository.insert(allParasites),
+        vactinationsRepository.insert(allVactinations),
+      ]);
     } catch (e) {
-      Logger.log(e);
+      Logger.error(e.toString());
     }
   }
 }

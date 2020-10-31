@@ -175,12 +175,35 @@ export function createRegistrationHistoryMapKey({
   ].join(',');
 }
 
-export function parseParasites() {
-  return {} as ParasiteMedicineTreatmentEntity;
+export function parseParasites(rawData, pet) {
+  const dates = (rawData['дата'] || '').trim().split(/\n|\s/g).filter(v => !!v.trim());
+  const names = (rawData['название препарата'] || '').trim().split(/\n|[\s\n]{2,}/g).filter(v => !!v.trim());
+  const doses = ((rawData['доза'] + '') || '').trim().split(/\n|\s{3,}/g);
+
+  return dates.map( (date, index) => {
+    return {
+      date: parseDate(date),
+      medicineName: names[index],
+      medicineDose: doses[index],
+      pet,
+    } as ParasiteMedicineTreatmentEntity;
+  });
 }
 
-export function parseVactination() {
-  return {} as VacinationEntity;
+export function parseVactination(rawData, pet) {
+  const dates = (rawData['дата вакцина'] || '').trim().split(/\n|\s{2,}/g).filter(v => !!v.trim());
+  const vactines = (rawData['вид вакцины'] || '').trim().split(/\n|[\s\n]{2,}/g).filter(v => !!v.trim());
+  const series = ((rawData['№ серии'] + '') || '').trim().split(/\n|\s{3,}/g);
+
+  return dates.map( (date, index) => {
+    return {
+      date: parseDate(date),
+      serialNumber: series[index] || '',
+      vacineName: vactines[index],
+      pet,
+    } as VacinationEntity;
+  });
+
 }
 
 export function parseHealthCheck({

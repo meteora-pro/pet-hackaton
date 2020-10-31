@@ -3,7 +3,7 @@ import { Role, User } from '@pet-hackaton/types';
 import { BaseEntity } from './base.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { RefreshTokenEntity } from '../authentication/entity/refresh-token.entity';
+import { RefreshTokenEntity } from './refresh-token.entity';
 import { PrefecturesEntity } from './prefecture.entity';
 import { PetResponsibleOrganisationEntity } from './pet-responsible-organisation.entity';
 import { ShelterEntity } from './shelter.entity';
@@ -38,6 +38,11 @@ export class UserEntity extends BaseEntity implements User {
   @Exclude()
   @Column()
   password: string;
+
+  @ApiProperty()
+  @Exclude()
+  @Column()
+  salt: string;
 
   @ApiProperty()
   @OneToMany(() => RefreshTokenEntity, (tokens) => tokens.user)

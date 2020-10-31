@@ -1,0 +1,75 @@
+$space: 21.5px;
+
+.pet-photo {
+  width: 230px;
+  height: 230px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #c7c7c7;
+  border-radius: 4px;
+  img {
+    max-width: 100%;
+  }
+  margin-bottom: $space;
+  overflow: hidden;
+}
+
+.pet-form {
+  display: flex;
+  padding-bottom: $space;
+  mat-form-field,
+  mat-checkbox {
+    min-width: 150px;
+    max-width: 500px;
+    display: block;
+  }
+  mat-checkbox {
+    margin-bottom: $space;
+  }
+  .mat-form-field-group {
+    max-width: 500px;
+    display: flex;
+    justify-content: stretch;
+    mat-form-field {
+      flex-grow: 1;
+      &:last-of-type {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  .fields-toggle {
+    color: #616161;
+    text-decoration: underline;
+    margin-bottom: 10px;
+    &:hover {
+      color: darken(#616161, 10%);
+    }
+  }
+
+  .left-side {
+    width: 500px;
+  }
+
+  .right-side {
+    height: 100%;
+    width: 230px;
+    position: sticky;
+    top: 10px;
+    margin-left: $space;
+    button {
+      margin-top: $space;
+    }
+    ul.form-links {
+      padding-left: 0;
+      list-style: none;
+      li {
+        cursor: pointer;
+        &:hover {
+          //color: darken();
+        }
+      }
+    }
+  }
+}

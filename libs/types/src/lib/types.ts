@@ -61,7 +61,6 @@ export enum Role {
 export interface User {
   login: string;
   email?: string;
-  phoneNumber?: string;
   firstName?: string;
   lastName?: string;
   middleName?: string;

@@ -29,6 +29,7 @@ async function bootstrap() {
 
 
   app.use(helmet());
+  app.enableCors();
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalPipes(
     new ValidationPipe({

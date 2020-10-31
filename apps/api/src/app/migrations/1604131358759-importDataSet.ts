@@ -332,15 +332,14 @@ export class importDataSet1604131358759 implements MigrationInterface {
         /** Итсория регистрации */
 
         const registrationHistories = [];
-        rawDataSet.forEach( (rawData, index) => {
+        rawDataSet.forEach( rawData => {
           const registrationHistory = parseRegistrationHistory({
             arrivedAt: parseDate(rawData['дата поступления в приют']), // дата поступления в приют
             arrivedAct: rawData['акт №'], // акт приема №
             outAt: parseDate(rawData['дата выбытия из приюта']), // дата выбытия из приюта
-            outReason: null,
+            outReason: findDictionaryByValue(rawData['причина выбытия'], allOutReasonsSaved),
             outAct: rawData['акт/договор №'], // № акта/договора выбытия
           });
-          // outReason: findDictionaryByValue(rawData['причина выбытия'], allOutReasonsSaved),
           registrationHistories.push(registrationHistory);
         });
         const registrationHistoryRepository = queryRunner.connection.getRepository(PetRegistrationHistoryEntity);

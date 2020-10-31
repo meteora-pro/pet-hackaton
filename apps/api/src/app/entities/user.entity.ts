@@ -19,10 +19,6 @@ export class UserEntity extends BaseEntity implements User {
   email?: string;
 
   @ApiProperty()
-  @Column({ nullable: true, unique: true })
-  phoneNumber?: string;
-
-  @ApiProperty()
   @Column({ nullable: true })
   alias: string;
 
@@ -44,19 +40,15 @@ export class UserEntity extends BaseEntity implements User {
   password: string;
 
   @ApiProperty()
-  @Column({ nullable: true })
-  photoUrl?: string;
-
-  @ApiProperty()
   @OneToMany(() => RefreshTokenEntity, (tokens) => tokens.user)
   tokens: RefreshTokenEntity[];
 
-  @OneToMany(() => PrefecturesEntity, (prefecture) => prefecture.users, { nullable: true })
+  @OneToMany(() => PrefecturesEntity, (prefecture) => prefecture.users)
   prefecture: PrefecturesEntity;
 
-  @OneToMany(() => PetResponsibleOrganisationEntity, (organization) => organization.users, { nullable: true })
+  @OneToMany(() => PetResponsibleOrganisationEntity, (organization) => organization.users)
   organization: PetResponsibleOrganisationEntity;
 
-  @OneToMany(() => ShelterEntity, (shelter) => shelter.users, { nullable: true })
+  @OneToMany(() => ShelterEntity, (shelter) => shelter.users)
   shelter: ShelterEntity;
 }

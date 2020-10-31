@@ -1,8 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Column, OneToMany } from 'typeorm';
-import { Exclude } from 'class-transformer';
-import { RefreshTokenEntity } from '../../../../apps/api/src/app/authentication/entity/refresh-token.entity';
-
 export enum PetKind {
   cat= 'cat',
   dog = 'dog'

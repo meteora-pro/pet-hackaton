@@ -1,6 +1,9 @@
 import { Expose } from 'class-transformer';
 import { Role } from '@pet-hackaton/types';
 import { ApiProperty } from '@nestjs/swagger';
+import { PrefecturesEntity } from '../../entities/prefecture.entity';
+import { PetResponsibleOrganisationEntity } from '../../entities/pet-responsible-organisation.entity';
+import { ShelterEntity } from '../../entities/shelter.entity';
 
 export class UserDataResponseDto {
   @ApiProperty()
@@ -29,14 +32,14 @@ export class UserDataResponseDto {
 
   @ApiProperty()
   @Expose()
-  birthDate: Date;
+  prefecture: PrefecturesEntity;
 
   @ApiProperty()
   @Expose()
-  photoUrl: string;
+  organization: PetResponsibleOrganisationEntity;
 
   @ApiProperty()
   @Expose()
-  phone: string;
+  shelter: ShelterEntity;
 
 }

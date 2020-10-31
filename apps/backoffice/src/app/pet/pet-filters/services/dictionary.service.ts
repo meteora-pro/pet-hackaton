@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseDictionary, Pet, PetKind, Sex, Shelter, Size, StringDictionary } from '@pet-hackaton/types';
+import { Pagination } from '../../../shared/pagination';
 
 
 @Injectable({
@@ -9,6 +10,10 @@ import { BaseDictionary, Pet, PetKind, Sex, Shelter, Size, StringDictionary } fr
 })
 export class DictionaryService {
   constructor(private http: HttpClient) {}
+
+  static resolePagination(pagination: Pagination): string {
+    return `page=${pagination.page}&limit=${pagination.perPage}`
+  }
 
   getDict(dict: string): Observable<BaseDictionary[]> {
     return this.http.get<BaseDictionary[]>(`/api/${dict}`);
@@ -18,8 +23,12 @@ export class DictionaryService {
     return this.http.get<Shelter>(`/api/shelters`);
   }
 
-  getPets(filter: string = '', pagination: string, sort: string): Observable<PetResponse> {
-    const queryParams = [filter, pagination, sort].filter(v => !!v).join('&');
+  getPets(filter: string = '', pagination: Pagination, sort: string): Observable<PetResponse> {
+    const queryParams = [
+      filter,
+      DictionaryService.resolePagination(pagination),
+      sort
+    ].filter(v => !!v).join('&');
     return this.http.get<PetResponse>(`/api/pets?${queryParams}`);
   }
 

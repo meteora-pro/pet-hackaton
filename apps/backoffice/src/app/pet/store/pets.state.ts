@@ -4,7 +4,6 @@ import { ApplyFilters, ChangeViewType, GetPets } from './pets.actions';
 import { PetsStateModel } from './pets.state.model';
 import { StoreStatusEnum } from '../../shared/store.status.enum';
 import { SortEnum } from '../../shared/pagination';
-import { Pet, PetKind, Sex } from '@pet-hackaton/types';
 import { ViewTypeEnum } from '../../shared/view-type.enum';
 import { DictionaryService } from '../pet-filters/services/dictionary.service';
 import { tap } from 'rxjs/operators';
@@ -20,6 +19,7 @@ export const PETS_DEFAULT: PetsStateModel = {
     perPage: 10,
     sort: SortEnum.asc,
   },
+  filters: null,
   viewType: ViewTypeEnum.card,
   status: StoreStatusEnum.New,
 };

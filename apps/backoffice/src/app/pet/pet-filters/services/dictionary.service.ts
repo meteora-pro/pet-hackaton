@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BaseDictionary, Pet, PetKind, Sex, Shelter, Size, StringDictionary } from '@pet-hackaton/types';
-
+import { BaseDictionary, Pet, PetKind, Sex, Shelter, Size, StringDictionary, User } from '@pet-hackaton/types';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +18,13 @@ export class DictionaryService {
   }
 
   getPets(filter: string = '', pagination: string, sort: string): Observable<PetResponse> {
-    const queryParams = [filter, pagination, sort].filter(v => !!v).join('&');
+    const queryParams = [filter, pagination, sort].filter((v) => !!v).join('&');
     return this.http.get<PetResponse>(`/api/pets?${queryParams}`);
+  }
+
+  getUsersByRole(role: string): Observable<User[]> {
+    const queryParams = role ? `filter=role||$eq||${role}` : '';
+    return this.http.get<User[]>(`/api/users?${queryParams}`);
   }
 
   getKinds(): StringDictionary[] {

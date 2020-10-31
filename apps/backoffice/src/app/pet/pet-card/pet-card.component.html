@@ -21,24 +21,25 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <div class="mat-form-field-group">
+    <mat-form-field appearance="fill">
+      <mat-label>Окрас</mat-label>
+      <mat-select formControlName="color">
+        <mat-option *ngFor="let color of colors$ | async" [value]="color.id">
+          {{ color.value | titlecase }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Пол животного</mat-label>
-    <mat-select formControlName="sex">
-      <mat-option *ngFor="let sex of 'sex' | dictionary" [value]="sex.id">
-        {{ sex.value }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Окрас</mat-label>
-    <mat-select formControlName="color">
-      <mat-option *ngFor="let color of colors$ | async" [value]="color.id">
-        {{ color.value | titlecase }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Пол</mat-label>
+      <mat-select formControlName="sex">
+        <mat-option *ngFor="let sex of 'sex' | dictionary" [value]="sex.id">
+          {{ sex.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
   <mat-form-field appearance="fill">
     <mat-label>Порода</mat-label>
@@ -60,15 +61,99 @@
 
   <mat-form-field appearance="fill">
     <mat-label>Дата поступления</mat-label>
-    <input matInput formControlName="arrivedAt" [matDatepicker]="picker" />
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
+    <input matInput formControlName="arrivedAt" [matDatepicker]="arrivedAtPicker" />
+    <mat-datepicker-toggle matSuffix [for]="arrivedAtPicker"></mat-datepicker-toggle>
+    <mat-datepicker #arrivedAtPicker></mat-datepicker>
   </mat-form-field>
 
   <mat-checkbox formControlName="isSocializated">Социализировано</mat-checkbox>
 
-  <ng-container *ngIf="!isSmallForm"> </ng-container>
+  <div [hidden]="isSmallForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Особые приметы</mat-label>
+      <textarea matInput formControlName="signs"></textarea>
+    </mat-form-field>
 
-  <button mat-raised-button type="button" color="primary" (click)="savePet()">Добавить животное</button>
-  <button mat-button type="button" (click)="showMore()">Показать больше полей</button>
+    <mat-form-field appearance="fill">
+      <mat-label>Характер</mat-label>
+      <textarea matInput formControlName="character"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Идентификационная метка</mat-label>
+      <input matInput formControlName="labelId" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Дата стерелизации</mat-label>
+      <input matInput formControlName="sterilizationAt" [matDatepicker]="sterilisationPicker" />
+      <mat-datepicker-toggle matSuffix [for]="sterilisationPicker"></mat-datepicker-toggle>
+      <mat-datepicker #sterilisationPicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Место стерелизации</mat-label>
+      <textarea matInput formControlName="sterilizationPlace"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>ФИО Ветеринарного врача</mat-label>
+      <mat-select formControlName="veterinarian" multiple>
+        <mat-option *ngFor="let veterinarian of veterinarians$ | async" [value]="veterinarian">
+          {{ veterinarian.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <div [formGroup]="form.get('catchInformation')">
+      <h4>Сведения об отлове</h4>
+      <div class="mat-form-field-group">
+        <mat-form-field appearance="fill">
+          <mat-label>Заказ-наряд №</mat-label>
+          <input matInput formControlName="orderId" />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>от</mat-label>
+          <input matInput formControlName="createAt" [matDatepicker]="orderPicker" />
+          <mat-datepicker-toggle matSuffix [for]="orderPicker"></mat-datepicker-toggle>
+          <mat-datepicker #orderPicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="mat-form-field-group">
+        <mat-form-field appearance="fill">
+          <mat-label>Акт отлова №</mat-label>
+          <input matInput formControlName="captureActId" />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>от</mat-label>
+          <input matInput formControlName="captureAt" [matDatepicker]="catchPicker" />
+          <mat-datepicker-toggle matSuffix [for]="catchPicker"></mat-datepicker-toggle>
+          <mat-datepicker #catchPicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Адрес места отлова</mat-label>
+        <textarea matInput formControlName="catchingAddress"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Видеофиксация отлова</mat-label>
+        <input matInput formControlName="videoUrl" />
+      </mat-form-field>
+    </div>
+
+    <h4>Сведения о новых владельцах</h4>
+    <h4>Движение животного</h4>
+    <h4>Сведения об обработке от экто- и эндопаразитов</h4>
+    <h4>Сведения о вакцинации</h4>
+    <h4>Сведения о состоянии здоровья</h4>
+  </div>
+
+  <div class="buttons-row">
+    <a class="fields-toggle" href="javascript:" (click)="toggleFields()"
+      >Показать {{ isSmallForm ? 'больше' : 'меньше' }} полей</a
+    >
+    <button mat-raised-button type="button" color="primary" (click)="savePet()">Добавить животное</button>
+  </div>
 </form>

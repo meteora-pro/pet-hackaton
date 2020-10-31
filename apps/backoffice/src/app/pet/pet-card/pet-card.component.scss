@@ -23,4 +23,31 @@
   mat-checkbox {
     margin-bottom: 21.5px;
   }
+  .buttons-row {
+    .fields-toggle {
+      color: #616161;
+      width: 184px;
+      text-decoration: none;
+      border-bottom: 1px dotted #616161;
+      margin-bottom: 10px;
+      &:hover {
+        color: darken(#616161, 10%);
+        border-bottom: 1px dotted darken(#616161, 10%);
+      }
+    }
+    > * {
+      display: block;
+    }
+  }
+  .mat-form-field-group {
+    max-width: 500px;
+    display: flex;
+    justify-content: stretch;
+    mat-form-field {
+      flex-grow: 1;
+      &:last-of-type {
+        margin-left: 10px;
+      }
+    }
+  }
 }

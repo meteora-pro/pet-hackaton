@@ -93,9 +93,9 @@ export class PetEntity extends BaseEntity implements Pet {
   @Column({ nullable: true })
   character: string;
 
-  @ApiProperty({example: 643094100731522})
+  @ApiProperty({example: '643094100731522'})
   @Column({ nullable: true })
-  labelId: number;
+  labelId: string;
 
   @ApiProperty({example: 'не требуется по возрасту'})
   @Column({ nullable: true })

@@ -9,6 +9,10 @@ import { PetResponsibleOrganisationEntity } from './pet-responsible-organisation
 export class ShelterEntity extends BaseEntity implements Shelter {
 
   @ApiProperty()
+  @Column({ nullable: true })
+  index: number;
+
+  @ApiProperty()
   @Column()
   address: string;
 

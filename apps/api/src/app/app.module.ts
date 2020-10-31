@@ -6,6 +6,10 @@ import { AppConfig } from './app.config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { allEntities } from './entities/all.entities';
+import {allDictionaryControllers} from "./controllers/dictionaries/all.dictionary.controllers";
+import {allDictionaryServices} from "./services/dictionaries/all.dictionary.services";
+import {allServices} from "./services/all.services";
+import {allControllers} from "./controllers/all.controllers";
 
 @Module({
   imports: [
@@ -17,7 +21,15 @@ import { allEntities } from './entities/all.entities';
     }),
     TypeOrmModule.forFeature(allEntities),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [
+    AppController,
+    ...allDictionaryControllers,
+    ...allControllers,
+  ],
+  providers: [
+    AppService,
+    ...allDictionaryServices,
+    ...allServices,
+  ],
 })
 export class AppModule {}

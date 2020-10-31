@@ -20,4 +20,10 @@ export class DictionaryCrudService {
       ...item
     });
   }
+
+  addDictionary(dictionaryName: string, item: BaseDictionary): Observable<BaseDictionary> {
+    return this.http.post<BaseDictionary>(`${this.apiUrl}/${dictionaryName}`, {
+      ...item
+    });
+  }
 }

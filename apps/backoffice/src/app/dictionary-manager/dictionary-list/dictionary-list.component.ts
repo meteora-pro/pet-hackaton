@@ -4,7 +4,7 @@ import { Select, Store } from '@ngxs/store';
 import { DictionarySelectors } from '../store/dictionary.selectors';
 import { Observable } from 'rxjs';
 import { BaseDictionary } from '@pet-hackaton/types';
-import { ChangeDictionary, LoadDictionary } from '../store/dictionary.actions';
+import { AddDictionary, ChangeDictionary, LoadDictionary } from '../store/dictionary.actions';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ModalDictionaryFormComponent } from '../modal-dictionary-form/modal-dictionary-form.component';
 
@@ -44,7 +44,7 @@ export class DictionaryListComponent implements OnInit {
     this.bottomSheet.open(ModalDictionaryFormComponent, {
       data: { item: {id: null, value: null}, isNew: true },
     }).afterDismissed().subscribe((result) => {
-      this.store.dispatch(new ChangeDictionary(result))
+      this.store.dispatch(new AddDictionary(result))
     });
   }
 }

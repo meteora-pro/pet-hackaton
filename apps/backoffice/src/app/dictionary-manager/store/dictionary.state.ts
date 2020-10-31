@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action, State, StateContext } from '@ngxs/store';
 import { DictionaryStateModel } from './dictionary-state.model';
 import { StoreStatusEnum } from '../../shared/store.status.enum';
-import { ChangeDictionary, LoadDictionary } from './dictionary.actions';
+import { AddDictionary, ChangeDictionary, LoadDictionary } from './dictionary.actions';
 import { DictionaryCrudService } from '../services/dictionary-crud.service';
 import { catchError, tap } from 'rxjs/operators';
 import { BaseDictionary } from '../../../../../../libs/types/src';
@@ -82,6 +82,23 @@ export class DictionaryState {
               }
               return it;
             })
+          }
+        })
+      }),
+    )
+  }
+
+  @Action(AddDictionary)
+  addDictionary(ctx: Ctx, { item }: AddDictionary) {
+    const state = ctx.getState();
+    return this.dictionaryService.addDictionary(state.currentDictionary.name, item).pipe(
+      tap((response: BaseDictionary) => {
+        const { currentDictionary } = ctx.getState();
+        ctx.patchState({
+          status: StoreStatusEnum.Ready,
+          currentDictionary: {
+            ...currentDictionary,
+            list: [...currentDictionary.list, response]
           }
         })
       }),

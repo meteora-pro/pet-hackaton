@@ -19,7 +19,10 @@ import { ColorEntity } from './dictionaries/color.entity';
 import { WoolEntity } from './dictionaries/wool.entity';
 import { EarEntity } from './dictionaries/ear.entity';
 import { TailEntity } from './dictionaries/tail.entity';
+import { ParasiteMedicineTreatmentEntity } from './parasite-medicine-treatment.entity';
 import {ApiProperty} from "@nestjs/swagger";
+import { VacinationEntity } from './vacination.entity';
+import { HealthStatusEntity } from './health-status.entity';
 
 @Entity({
   name: 'pets'
@@ -138,13 +141,17 @@ export class PetEntity extends BaseEntity implements Pet {
   @ManyToOne(() => PetRegistrationHistoryEntity, registration => registration)
   registrationHistory: PetRegistrationHistoryEntity;
 
-  // @Column()
-  parasiteTreatments: ParasiteMedicineTreatment[];
 
-  // @Column()
-  vacinations: Vacination[];
+  @ApiProperty()
+  @OneToMany(() => ParasiteMedicineTreatmentEntity, treatment => treatment.pet, {nullable: true})
+  parasiteTreatments: ParasiteMedicineTreatmentEntity[];
 
-  // @Column()
-  healthchecks: HealthStatus[];
+  @ApiProperty()
+  @OneToMany(() => VacinationEntity, vacination => vacination.pet, {nullable: true})
+  vacinations: VacinationEntity[];
+
+  @ApiProperty()
+  @OneToMany(() => HealthStatusEntity, healthStatus => healthStatus.pet, {nullable: true})
+  healthchecks: HealthStatusEntity[];
 
 }

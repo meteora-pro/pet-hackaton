@@ -6,9 +6,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Brackets, Repository } from 'typeorm';
 import { RefreshTokenEntity } from '../../entities/refresh-token.entity';
 import { SignUpRequestDto } from '../dto/sign-up-request.dto';
-import * as bcrypt from 'bcryptjs';
 import { RefreshTokenRequestDto } from '../dto/refresh-token-request.dto';
 import { UserEntity } from '../../entities/user.entity';
+import { pbkdf2Sync, randomBytes } from 'crypto';
+import {hashUserPassword, verifyUserPassword} from "./hash-password.utils";
 
 @Injectable()
 export class LocalSignService {
@@ -19,6 +20,8 @@ export class LocalSignService {
     @InjectRepository(RefreshTokenEntity)
     private refreshTokenEntityRepository: Repository<RefreshTokenEntity>,
   ) {}
+
+
 
   public async getUserByRefreshToken(token: string): Promise<Partial<UserEntity>> {
     const tokenEntity = await this.refreshTokenEntityRepository.findOne({ token }, { relations: ['user'] });
@@ -36,7 +39,7 @@ export class LocalSignService {
         },
       ],
     });
-    const isPasswordValid = await bcrypt.compare(signInBodyDto.password, user.password);
+    const isPasswordValid = await verifyUserPassword(signInBodyDto.password, user.password, user.salt);
     if (!isPasswordValid) {
       throw new BadRequestException(['User not found or incorrect password']);
     }
@@ -48,10 +51,11 @@ export class LocalSignService {
   }
 
   public async signUp(signUpBodyDto: SignUpRequestDto): Promise<SignInResponseDto> {
-    const passwordHash = await bcrypt.hash(signUpBodyDto.password, 10);
+    const { passwordHash, salt } = await hashUserPassword(signUpBodyDto.password);
     const newUser = await this.userEntityRepository.save({
       ...signUpBodyDto,
       password: passwordHash,
+      salt,
     });
     return await this.prepareTokenData(newUser);
   }

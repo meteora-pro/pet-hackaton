@@ -1,5 +1,10 @@
 table {
   width: 100%;
+  min-height: 200px;
+  .empty-table {
+    text-align: center;
+    height: 200px;
+  }
 }
 
 ::ng-deep {

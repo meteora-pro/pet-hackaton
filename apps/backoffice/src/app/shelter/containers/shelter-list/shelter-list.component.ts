@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { LoadShelters } from '../../store/shelter.actions';
 import { Observable } from 'rxjs';
-import { Shelter } from '../../../../../../../libs/types/src';
 import { ShelterSelectors } from '../../store/shelter.selectors';
+import { Shelter } from '@pet-hackaton/types';
 
 @Component({
   selector: 'shelter-list',
@@ -17,7 +17,12 @@ export class ShelterListComponent implements OnInit {
   @Select(ShelterSelectors.shelters)
   shelters$: Observable<Shelter[]>;
 
+  @Select(ShelterSelectors.isLoading)
+  isLoading$: Observable<boolean>;
+
+  displayedColumns: string[] = ['index', 'address'];
+
   ngOnInit() {
-    this.store.dispatch(new LoadShelters())
+    this.store.dispatch(new LoadShelters());
   }
 }

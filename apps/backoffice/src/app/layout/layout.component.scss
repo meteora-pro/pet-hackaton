@@ -46,6 +46,8 @@
 
 .header {
   margin-top: -15px;
+  margin-left: -15px;
+  width: calc(100% + 15px);
   display: flex;
   justify-content: flex-end;
   background-color: white;

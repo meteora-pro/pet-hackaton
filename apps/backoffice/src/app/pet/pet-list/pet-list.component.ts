@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { ChangePage, LoadPets } from '../store/pets.actions';
 import { PetFormMode } from '../store/pets.state.model';
+import { Pagination } from '../../shared/pagination';
 
 @Component({
   selector: 'pet-hackaton-pet-list',
@@ -19,6 +20,9 @@ export class PetListComponent implements OnInit {
 
   @Select(PetsSelectors.pets)
   pets$: Observable<Pet[]>;
+
+  @Select(PetsSelectors.pagination)
+  pagination$: Observable<Pagination>;
 
   @Select(PetsSelectors.isLoading)
   isLoading$: Observable<boolean>;

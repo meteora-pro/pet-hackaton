@@ -12,7 +12,10 @@ export class ApplyFilters {
 
 export class LoadPets {
   public static type = '[PETS] LoadPets';
-  constructor() {}
+}
+
+export class LoadPetsError {
+  public static type = '[PETS] LoadPetsError';
 }
 
 export class ChangePage {

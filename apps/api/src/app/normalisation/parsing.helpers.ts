@@ -89,11 +89,15 @@ export function parseShelter(shelterAlias: string,
                              index: number,
                              organisation: PetResponsibleOrganisationEntity,
                              headName: UserEntity,
+                             phone: string,
+                             name: string,
 ) {
   return {
     address: shelterAlias,
     index,
     organisation,
+    phone,
+    name,
     headName,
   } as ShelterEntity;
 }

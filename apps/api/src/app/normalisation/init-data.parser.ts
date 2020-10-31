@@ -1,5 +1,6 @@
-import { PrefecturesEntity } from '../entities/prefecture.entity';
+import { PrefectureEntity } from '../entities/prefecture.entity';
 import * as rawDataSet from "../migrations/data-set/parced-dataset.json";
+import * as existShelters from '../migrations/initData/shelters.json';
 import {OutReasonEntity} from "../entities/dictionaries/out-reason.entity";
 import {Logger} from "@nestjs/common";
 import {PetResponsibleOrganisationEntity} from "../entities/pet-responsible-organisation.entity";
@@ -31,7 +32,7 @@ export class InitDataParser {
     try {
       rawDataSet.forEach(rawData => {
         Object.keys(rawData).forEach( key => {
-          rawData[key?.trim()] = rawData[key];
+          rawData[key?.trim()] = typeof rawData[key] === 'string' ? rawData[key].trim() : rawData[key];
         });
       });
 
@@ -54,7 +55,7 @@ export class InitDataParser {
       }
 
       const allOutReasonsSaved = await outReasonRepository.find();
-
+      const allUsers: {[key: string]: UserEntity} = {};
 
       /** Организации */
       const organisations: {[key: string]: PetResponsibleOrganisationEntity} = {};
@@ -68,31 +69,50 @@ export class InitDataParser {
 
       allOrganisations.forEach( (savedOrganisation) => {
         organisations[savedOrganisation.name] = savedOrganisation;
+        const organisationUserName = savedOrganisation.name;
+        allUsers[organisationUserName] = parseUser(organisationUserName, Role.ORGANIZATION_USER);
+        allUsers[organisationUserName].organization = savedOrganisation;
       });
 
       /** Префектуры */
-      const prefectures: {[key: string]: PrefecturesEntity} = {};
+      const prefectures: {[key: string]: PrefectureEntity} = {};
       rawDataSet.forEach( rawData => {
         const prefectureAlias = rawData['административный округ'];
-        const prefectures = {
+        prefectures[prefectureAlias] = {
           name: prefectureAlias,
-        } as PrefecturesEntity;
+        } as PrefectureEntity;
       });
+      const prefectureRepository = queryRunner.connection.getRepository(PrefectureEntity);
+      await prefectureRepository.insert(Object.values(prefectures));
+      const prefecturesWithIds = await prefectureRepository.find();
+      prefecturesWithIds.forEach( prefecture => {
+        prefectures[prefecture.name] = prefecture;
 
-
-
+        const prefectureUserName = prefecture.name;
+        allUsers[prefectureUserName] = parseUser(prefectureUserName, Role.PREFECTURE_USER);
+        allUsers[prefectureUserName].prefecture = prefecture;
+      });
 
       /** ЮЗЕРЫ */
-      const allUsers: {[key: string]: UserEntity} = {};
-      rawDataSet.forEach( rawData => {
-        const headAlias = rawData['ф.и.о. руководителя приюта'];
-        allUsers[headAlias] = parseUser(headAlias, Role.SHELTER_ADMIN);
-        const alias = rawData['ф.и.о. ветеринарного врача'];
-        allUsers[alias] = parseUser(alias, Role.SHELTER_USER);
-        const owserAlias = rawData['ф.и.о. сотрудника по уходу за животным'];
-        allUsers[owserAlias] = parseUser(owserAlias, Role.SHELTER_USER);
-      });
+      const shelterUsers = {};
 
+      rawDataSet.forEach( rawData => {
+        const shelterAlias = rawData['адрес приюта'];
+        shelterUsers[shelterAlias] = shelterUsers[shelterAlias] || {};
+        const headAlias = rawData['ф.и.о. руководителя приюта'];
+        const alias = rawData['ф.и.о. ветеринарного врача'];
+        const ownerAlias = rawData['ф.и.о. сотрудника по уходу за животным'];
+        allUsers[headAlias] = parseUser(headAlias, Role.SHELTER_ADMIN);
+        allUsers[alias] = parseUser(alias, Role.MEDICAL_USER);
+        allUsers[ownerAlias] = parseUser(ownerAlias, Role.SHELTER_USER);
+
+        shelterUsers[shelterAlias] = {
+          ...shelterUsers[shelterAlias],
+          [headAlias]: allUsers[headAlias],
+          [alias]: allUsers[alias],
+          [ownerAlias]: allUsers[ownerAlias],
+        };
+      });
 
       const userRepository = queryRunner.connection.getRepository(UserEntity);
 
@@ -103,7 +123,12 @@ export class InitDataParser {
       });
 
       /** ПРИЮТЫ */
+      const sheltersDictionary = existShelters.reduce((acc, shelter) => ({
+        ...acc,
+        [shelter.address]: shelter,
+      }), {});
       const shelters: {[key: string]: ShelterEntity} = {};
+
       const shelterRepository = queryRunner.connection.getRepository(ShelterEntity);
       let shelterIndex = 0;
       rawDataSet.forEach( (rawData) => {
@@ -111,17 +136,22 @@ export class InitDataParser {
         if (!shelters[shelterAlias]) {
           shelterIndex++;
         }
+        const existShelter = sheltersDictionary[shelterAlias];
         shelters[shelterAlias] = parseShelter(
           shelterAlias,
           shelterIndex,
           organisations[rawData['эксплуатирующая организация']],
           allUsers[rawData['ф.и.о. руководителя приюта']],
+          existShelter?.phone,
+          existShelter?.name,
         );
       });
       await shelterRepository.insert(Object.values(shelters));
       const allShelters = await shelterRepository.find();
       allShelters.forEach( (shelter) => {
         shelters[shelter.address] = shelter;
+
+        Object.keys(shelterUsers[shelter.address]).forEach( userKey => {});
       });
 
 

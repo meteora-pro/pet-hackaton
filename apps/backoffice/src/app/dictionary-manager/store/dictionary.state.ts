@@ -4,9 +4,9 @@ import { DictionaryStateModel } from './dictionary-state.model';
 import { StoreStatusEnum } from '../../shared/store.status.enum';
 import { AddDictionary, ChangeDictionary, LoadDictionary } from './dictionary.actions';
 import { DictionaryCrudService } from '../services/dictionary-crud.service';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, take, tap } from 'rxjs/operators';
 import { BaseDictionary } from '../../../../../../libs/types/src';
-import { throwError } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
 
 export const DICTIONARY_STATE_NAME = 'dictionaryManager';
 
@@ -27,23 +27,26 @@ export class DictionaryState {
   constructor(private dictionaryService: DictionaryCrudService) {
   }
 
+  /**
+   * Ссылка на предыдущий запрос на получения словарных значений.
+   * Если пользователь не дождался ответа и переключился по роутингу
+   * на другой запрос, то отменяем все предыдущие
+   */
+  private dictionarySubscription: Subscription;
+
   @Action(LoadDictionary)
   loadDictionary(ctx: Ctx, { dictionaryName }: LoadDictionary) {
     ctx.patchState({
       status: StoreStatusEnum.Loading,
       currentDictionary: {
         name: dictionaryName,
-        list: [],
+        list: [{id: 1, value: 'Тестовые данные'}, {id: 2, value: 'Еще тестовые данные'}]
       }
     });
-    ctx.patchState({
-      status: StoreStatusEnum.Ready,
-      currentDictionary: {
-        name: dictionaryName,
-        list: [{id: 1, value: '123'}, {id: 2, value: '1234'}]
-      }
-    });
-    return this.dictionaryService.getDictionary(dictionaryName).pipe(
+    if (this.dictionarySubscription && !this.dictionarySubscription.closed) {
+      this.dictionarySubscription.unsubscribe();
+    }
+    this.dictionarySubscription = this.dictionaryService.getDictionary(dictionaryName).pipe(
       tap((list: BaseDictionary[]) => {
         ctx.patchState({
           status: StoreStatusEnum.Ready,
@@ -54,16 +57,18 @@ export class DictionaryState {
         })
       }),
       catchError((err) => {
+        // TODO Удалить когда БЕК снова поднимится
         ctx.patchState({
-          status: StoreStatusEnum.Ready,
+          status: StoreStatusEnum.Error,
           currentDictionary: {
             name: dictionaryName,
-            list: [{id: 1, value: '123'}, {id: 2, value: '1234'},]
+            list: [{id: 1, value: 'Тестовые данные'}, {id: 2, value: 'Еще тестовые данные'}]
           }
         });
         return throwError(err);
-      })
-    )
+      }),
+      take(1)
+    ).subscribe();
   }
 
   @Action(ChangeDictionary)

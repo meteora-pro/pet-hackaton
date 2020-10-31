@@ -7,7 +7,7 @@ import { ApiModelProperty } from '@nestjs/swagger/dist/decorators/api-model-prop
 
 @Entity({
   name: 'out_reasons',
-  schema: 'dictionaries'
+  // schema: 'dictionaries'
 })
 export class OutReasonEntity extends BaseDictionaryEntity {
   @Column( {type: 'enum', enum: OutReasonType, nullable: true })

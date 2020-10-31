@@ -4,7 +4,7 @@ import { BaseDictionary } from '@pet-hackaton/types';
 
 @Entity({
   name: 'tails',
-  schema: 'dictionaries'
+  // schema: 'dictionaries'
 })
 export class TailEntity extends BaseDictionaryEntity implements BaseDictionary {
 }

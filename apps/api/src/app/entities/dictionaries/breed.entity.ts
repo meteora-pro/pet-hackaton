@@ -6,7 +6,7 @@ import { CommonService } from '../../services/common/common.service';
 
 @Entity({
   name: 'breeds',
-  schema: 'dictionaries'
+  // schema: 'dictionaries'
 })
 export class BreedEntity extends BaseDictionaryEntity implements BaseDictionary {
   @Column( {type: 'enum', enum: PetKind})

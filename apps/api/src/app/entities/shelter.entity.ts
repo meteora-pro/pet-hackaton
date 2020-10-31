@@ -3,7 +3,7 @@ import { PetResponsibleOrganisation, Shelter, User } from '@pet-hackaton/types';
 import {Column, Entity, ManyToOne} from 'typeorm';
 import { UserEntity } from './user.entity';
 
-@Entity()
+@Entity({name: 'shelters'})
 export class ShelterEntity extends BaseEntity implements Shelter {
 
   @Column()

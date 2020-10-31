@@ -194,6 +194,8 @@ export class importDataSet1604131358759 implements MigrationInterface {
            isSocializated: parseBoolean(rawData['Социализировано (да/нет)']),
            shelter,
            photos: generatePhotoUrl(shelter, cardNumber + ''),
+           veterinarian: allUsers[rawData['ф.и.о. ветеринарного врача']],
+           organization: organisations[rawData['эксплуатирующая организация']],
         } as PetEntity;
 
         return pet;

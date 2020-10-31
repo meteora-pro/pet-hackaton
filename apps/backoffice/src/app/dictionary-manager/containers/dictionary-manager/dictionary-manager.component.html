@@ -1,0 +1,18 @@
+
+<h3>Редактирование справочников</h3>
+<div class="dictionary">
+  <div class="dictionary__list">
+    <mat-nav-list>
+      <a *ngFor="let item of dictionaryList"
+         [routerLink]="[item.id]"
+         [routerLinkActive]="'active'"
+         mat-list-item>
+        <span mat-line>{{ item.name }}</span>
+        <mat-icon matListIcon>chevron_right</mat-icon>
+      </a>
+    </mat-nav-list>
+  </div>
+  <div class="dictionary__item">
+    <router-outlet></router-outlet>
+  </div>
+</div>

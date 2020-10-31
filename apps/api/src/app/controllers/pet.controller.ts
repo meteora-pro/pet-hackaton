@@ -3,12 +3,12 @@ import { Crud, CrudAuth, CrudController } from '@nestjsx/crud';
 import { PetEntity } from '../entities/pet.entity';
 import { PetService } from '../services/pet.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { UserEntity } from '../entities/user.entity';
+import { UserDataResponseDto } from '../authentication/dto/user-data-response.dto';
 import { AccessTokenGuard } from '../authentication/guards/access-token.guard';
 
-@ApiBearerAuth()
 @ApiTags('Pet', 'entity')
-// @UseGuards(AccessTokenGuard)
+@ApiBearerAuth()
+@UseGuards(AccessTokenGuard)
 @Crud({
   model: {
     type: PetEntity,
@@ -69,14 +69,18 @@ import { AccessTokenGuard } from '../authentication/guards/access-token.guard';
     },
   },
 })
-// @CrudAuth({
-//   property: 'user',
-//   filter: (user: UserEntity) => {
-//     console.log('test');
-//     console.log(user);
-//     return null;
-//   },
-// })
+@CrudAuth({
+  property: 'user',
+  filter: (user: UserDataResponseDto) => {
+    if (!user) {
+      return null;
+    }
+    if (user.allowedShelters.length) {
+      return {'shelter.id': {$in: user.allowedShelters}};
+    }
+    return {'shelter.id': -1};
+  },
+})
 @Controller('pets')
 export class PetController implements CrudController<PetEntity> {
   constructor(public service: PetService) {}

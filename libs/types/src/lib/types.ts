@@ -217,3 +217,27 @@ export interface PassportInfo {
   date: Date; // дата выдачи
   registrationAddress: string; // зарегистрирован по адресу
 }
+
+export interface UserData {
+  id: number;
+  login: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: Role;
+  allowedShelters: number[];
+  shelter?: Shelter;
+  organization?: PetResponsibleOrganisation;
+  prefecture?: Prefecture;
+}
+
+export interface Token {
+  token: string;
+  iat: string;
+  exp: string;
+}
+
+export interface Tokens {
+  accessToken: Token;
+  refreshToken: Token;
+}

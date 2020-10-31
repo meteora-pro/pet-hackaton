@@ -40,8 +40,17 @@ export class DateRangeComponent implements ControlValueAccessor {
   }
 
   emitEvent() {
-    this.onChange(this.value);
+    this.onChange({
+      from: normalizeDate(this.value.from),
+      to: normalizeDate(this.value.to),
+    });
     this.cdr.detectChanges();
   }
 
+}
+
+function normalizeDate(date: string) {
+  return date
+    ? new Date(this.value.to).toISOString()
+    : null
 }

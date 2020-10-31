@@ -1,0 +1,19 @@
+<div class="number-range">
+  <div class="number-range__inputs">
+    <mat-form-field appearance="fill">
+      <mat-label>{{ label }} от</mat-label>
+      <input matInput
+             placeholder="от"
+             [(ngModel)]="value.from"
+             (ngModelChange)="emitEvent()">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>{{ label }} до</mat-label>
+      <input matInput
+             placeholder="до"
+             [(ngModel)]="value.to"
+             (ngModelChange)="emitEvent()">
+    </mat-form-field>
+  </div>
+</div>
+

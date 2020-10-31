@@ -13,7 +13,7 @@ export class PetResponsibleOrganisationEntity extends BaseEntity implements PetR
   address: string;
 
   @ApiProperty()
-  @ManyToOne(() => UserEntity, user => user)
+  @ManyToOne(() => UserEntity, user => user, { nullable: true })
   headUser: UserEntity;
 
   @ApiProperty()

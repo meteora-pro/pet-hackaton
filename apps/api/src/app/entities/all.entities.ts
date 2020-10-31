@@ -6,6 +6,8 @@ import { OrganizationEntity } from './organization.entity';
 import { TrusteeEntity } from './trustee.entity';
 import { PhysicalPersonEntity } from './physical-person.entity';
 import { PassportInfoEntity } from './passport-Info.entity';
+import { CatchInformationEntity } from './catch-information.entity';
+import { PetRegistrationHistoryEntity } from './pet-registration-history.entity';
 
 export const allEntities = [
   UserEntity,
@@ -16,5 +18,7 @@ export const allEntities = [
   TrusteeEntity,
   PhysicalPersonEntity,
   PassportInfoEntity,
+  CatchInformationEntity,
+  PetRegistrationHistoryEntity,
   ...allDictionaries,
 ];

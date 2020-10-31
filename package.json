@@ -33,7 +33,8 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "typeorm": "ts-node -P ./apps/api/tsconfig.app.json -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "up:compose": "docker-compose --env-file ./config/api/.local.env up -d"
+    "up:compose": "docker-compose --env-file ./config/api/.local.env up -d",
+    "migration": "npm run typeorm -- migration:generate -n change-schema"
   },
   "private": true,
   "dependencies": {

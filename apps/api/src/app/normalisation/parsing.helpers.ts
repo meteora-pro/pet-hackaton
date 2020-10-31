@@ -12,6 +12,7 @@ import {PetRegistrationHistoryEntity} from "../entities/pet-registration-history
 import {ParasiteMedicineTreatmentEntity} from "../entities/parasite-medicine-treatment.entity";
 import {VacinationEntity} from "../entities/vacination.entity";
 import {HealthStatusEntity} from "../entities/health-status.entity";
+import {PrefectureEntity} from "../entities/prefecture.entity";
 
 export function parseSex(input: 'женский' | 'мужской' | string): Sex {
   switch(input?.trim()) {
@@ -91,6 +92,7 @@ export function parseShelter(shelterAlias: string,
                              headName: UserEntity,
                              phone: string,
                              name: string,
+                             prefecture: PrefectureEntity,
 ) {
   return {
     address: shelterAlias,
@@ -99,6 +101,7 @@ export function parseShelter(shelterAlias: string,
     phone,
     name,
     headName,
+    prefecture,
   } as ShelterEntity;
 }
 

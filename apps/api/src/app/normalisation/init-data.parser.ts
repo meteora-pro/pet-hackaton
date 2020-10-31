@@ -147,6 +147,9 @@ export class InitDataParser {
         if (!shelters[shelterAlias]) {
           shelterIndex++;
         }
+        const prefectureAlias = rawData['административный округ'];
+        const prefecture = prefectures[prefectureAlias];
+
         const existShelter = sheltersDictionary[shelterAlias];
         shelters[shelterAlias] = parseShelter(
           shelterAlias,
@@ -155,6 +158,7 @@ export class InitDataParser {
           allUsers[rawData['ф.и.о. руководителя приюта']],
           existShelter?.phone,
           existShelter?.name,
+          prefecture,
         );
       });
       await shelterRepository.insert(Object.values(shelters));

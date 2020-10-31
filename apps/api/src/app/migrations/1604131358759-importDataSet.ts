@@ -81,8 +81,12 @@ export function parseShelter(shelterAlias: string, index: number, organisation: 
   } as ShelterEntity;
 }
 
+export function generatePhotoUrl(shelter: ShelterEntity, cardNumber: string) {
+  return ``;
+}
+
 export class importDataSet1604131358759 implements MigrationInterface {
-    name = 'importDataSet1604131358759'
+    name = 'importDataSet1604131358759';
 
     public async up(queryRunner: QueryRunner): Promise<void> {
       rawDataSet.forEach(rawData => {
@@ -160,9 +164,13 @@ export class importDataSet1604131358759 implements MigrationInterface {
       ]);
 
       const preparedDataSet = rawDataSet.map( rawData => {
-        const petKind = null;
+        const shelterAlias = rawData['адрес приюта'];
+        const shelter = shelters[shelterAlias];
+
+        const cardNumber = rawData['карточка учета животного №'];
+        const petKind = parsePetKind(rawData['вид']);
         const pet = {
-           cardNumber: rawData['вид'],
+           cardNumber,
            kind: petKind,
            age: rawData['возраст, год'],
            weight: rawData['вес, кг'],
@@ -179,7 +187,11 @@ export class importDataSet1604131358759 implements MigrationInterface {
            labelId: rawData['идентификационная метка'] + '',
            sterilizationAt: rawData['дата стерилизации'],
            isSocializated: parseBoolean(rawData['Социализировано (да/нет)']),
-           photos: [],
+            shelter,
+           photos: [
+             generatePhotoUrl(shelter, cardNumber + ''),
+           ],
+
         } as PetEntity;
 
         return pet;

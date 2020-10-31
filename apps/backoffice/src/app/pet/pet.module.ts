@@ -17,6 +17,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { DictionaryPipeModule } from '../shared/dictionary.pipe';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AttributeStatusComponent } from './pet-list/columns/attribute-status/attribute-status.component';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'list' },
@@ -31,7 +32,7 @@ const routes: Route[] = [
 ];
 
 @NgModule({
-  declarations: [PetListComponent, PetCardComponent],
+  declarations: [PetListComponent, PetCardComponent, AttributeStatusComponent],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,

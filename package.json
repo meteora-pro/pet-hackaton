@@ -14,6 +14,7 @@
     "build:api": "ng build api --prod",
     "build:frontoffice": "ng build frontoffice --prod",
     "build:backoffice": "ng build backoffice --prod",
+    "typeorm": "typeorm",
     "test": "ng test",
     "lint": "nx workspace-lint && ng lint",
     "e2e": "ng e2e",

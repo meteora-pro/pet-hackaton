@@ -2,12 +2,13 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { Crud, CrudAuth, CrudController } from '@nestjsx/crud';
 import { PetEntity } from '../entities/pet.entity';
 import { PetService } from '../services/pet.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserEntity } from '../entities/user.entity';
 import { AccessTokenGuard } from '../authentication/guards/access-token.guard';
 
+@ApiBearerAuth()
 @ApiTags('Pet', 'entity')
-@UseGuards(AccessTokenGuard)
+// @UseGuards(AccessTokenGuard)
 @Crud({
   model: {
     type: PetEntity,
@@ -68,16 +69,14 @@ import { AccessTokenGuard } from '../authentication/guards/access-token.guard';
     },
   },
 })
-@CrudAuth({
-  property: 'user',
-  filter: (user: UserEntity) => {
-    console.log('test');
-    console.log(user);
-    return {
-      id: user.id,
-    };
-  },
-})
+// @CrudAuth({
+//   property: 'user',
+//   filter: (user: UserEntity) => {
+//     console.log('test');
+//     console.log(user);
+//     return null;
+//   },
+// })
 @Controller('pets')
 export class PetController implements CrudController<PetEntity> {
   constructor(public service: PetService) {}

@@ -7,7 +7,7 @@ import { tap } from 'rxjs/operators';
 import { Shelter } from '../../../../../../libs/types/src';
 import { NestCrudService } from '../../shared/nest-crud.service';
 
-export const DICTIONARY_STATE_NAME = 'dictionaryManager';
+export const SHELTER_STATE_NAME = 'shelters';
 
 type Ctx = StateContext<ShelterStateModel>;
 
@@ -17,7 +17,7 @@ export const PETS_DEFAULT: ShelterStateModel = {
 };
 
 @State<ShelterStateModel>({
-  name: DICTIONARY_STATE_NAME,
+  name: SHELTER_STATE_NAME,
   defaults: PETS_DEFAULT,
 })
 @Injectable()

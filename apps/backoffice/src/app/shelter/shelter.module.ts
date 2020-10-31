@@ -4,6 +4,8 @@ import { Route, RouterModule } from '@angular/router';
 import { ShelterListComponent } from './containers/shelter-list/shelter-list.component';
 import { NgxsModule } from '@ngxs/store';
 import { ShelterState } from './store/shelter.state';
+import { MatTableModule } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'list' },
@@ -13,7 +15,13 @@ const routes: Route[] = [
   },
 ];
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(routes), NgxsModule.forFeature([ShelterState])],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    NgxsModule.forFeature([ShelterState]),
+    MatTableModule,
+    MatProgressSpinnerModule,
+  ],
   declarations: [ShelterListComponent],
 })
 export class ShelterModule {}

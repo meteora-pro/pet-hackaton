@@ -6,6 +6,7 @@ import {
   ChangeViewType,
   LoadPet,
   LoadPets,
+  LoadPetsError,
   ResetPet,
   SavePet,
   SetPetFormMode,
@@ -15,7 +16,7 @@ import { StoreStatusEnum } from '../../shared/store.status.enum';
 import { SortEnum } from '../../shared/pagination';
 import { ViewTypeEnum } from '../../shared/view-type.enum';
 import { DictionaryService } from '../pet-filters/services/dictionary.service';
-import { map, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { defer, Observable, of } from 'rxjs';
 import { cleanObj } from '../../shared/object-cleaner';
 
@@ -93,10 +94,17 @@ export class PetsState {
           },
           status: StoreStatusEnum.Ready,
         });
-      })
+      }),
+      catchError((err) => ctx.dispatch(new LoadPetsError()))
     );
   }
 
+  @Action(LoadPetsError)
+  loadPetsError(ctx: Ctx): void {
+    ctx.patchState({
+      status: StoreStatusEnum.Error,
+    });
+  }
   @Action(SetPetFormMode)
   setPetFormMode(ctx: Ctx, { mode }: SetPetFormMode): void {
     ctx.patchState({
@@ -134,7 +142,11 @@ export class PetsState {
     });
     const isUpdate = state.pet && state.petFormMode === PetFormMode.edit;
     const cleanedPet = cleanObj(pet);
-    return defer(() => (isUpdate ? this.dictionaryService.updatePet(state.pet.id, cleanedPet) : this.dictionaryService.createPet(cleanedPet))).pipe(
+    return defer(() =>
+      isUpdate
+        ? this.dictionaryService.updatePet(state.pet.id, cleanedPet)
+        : this.dictionaryService.createPet(cleanedPet)
+    ).pipe(
       map((response) => {
         ctx.patchState({
           pet: response,

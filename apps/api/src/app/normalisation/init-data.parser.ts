@@ -1,5 +1,6 @@
 import { PrefecturesEntity } from '../entities/prefecture.entity';
 import * as rawDataSet from "../migrations/data-set/parced-dataset.json";
+import * as existShelters from '../migrations/initData/shelters.json';
 import {OutReasonEntity} from "../entities/dictionaries/out-reason.entity";
 import {Logger} from "@nestjs/common";
 import {PetResponsibleOrganisationEntity} from "../entities/pet-responsible-organisation.entity";
@@ -103,7 +104,12 @@ export class InitDataParser {
       });
 
       /** ПРИЮТЫ */
-      const shelters: {[key: string]: ShelterEntity} = {};
+
+      const shelters: {[key: string]: ShelterEntity} = existShelters.reduce((acc, shelter) => ({
+        ...acc,
+        [shelter.address]: shelter,
+      }), {});
+
       const shelterRepository = queryRunner.connection.getRepository(ShelterEntity);
       let shelterIndex = 0;
       rawDataSet.forEach( (rawData) => {
@@ -111,11 +117,14 @@ export class InitDataParser {
         if (!shelters[shelterAlias]) {
           shelterIndex++;
         }
+        const existShelter = shelters[shelterAlias];
         shelters[shelterAlias] = parseShelter(
           shelterAlias,
           shelterIndex,
           organisations[rawData['эксплуатирующая организация']],
           allUsers[rawData['ф.и.о. руководителя приюта']],
+          existShelter?.phone,
+          existShelter?.name,
         );
       });
       await shelterRepository.insert(Object.values(shelters));

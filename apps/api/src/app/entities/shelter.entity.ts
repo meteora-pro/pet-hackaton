@@ -17,6 +17,14 @@ export class ShelterEntity extends BaseEntity implements Shelter {
   address: string;
 
   @ApiProperty()
+  @Column()
+  name: string;
+
+  @ApiProperty({ nullable: true })
+  @Column({ nullable: true })
+  phone: string;
+
+  @ApiProperty()
   @ManyToOne(() => UserEntity, (user) => user)
   headName: UserEntity;
 

@@ -1,7 +1,6 @@
 import { IsDate, IsEmail, IsOptional, IsPhoneNumber, IsString, MinLength, Validate } from 'class-validator';
 import { UserLoginExistValidator } from '../validators/user-login-exist.validator';
 import { UserEmailExistValidator } from '../validators/user-email-exist.validator';
-import { UserPhoneExistValidator } from '../validators/user-phone-exist.validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class SignUpRequestDto {
@@ -17,7 +16,6 @@ export class SignUpRequestDto {
   @IsOptional()
   @IsString()
   @IsPhoneNumber('RU')
-  @Validate(UserPhoneExistValidator)
   phoneNumber?: string;
 
 

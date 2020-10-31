@@ -9,11 +9,13 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppConfig } from './app/app.config';
 import { AppModule } from './app/app.module';
 import * as helmet from 'helmet';
+import { useContainer } from 'class-validator';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   const appConfig = app.get(AppConfig);
   const options = new DocumentBuilder()

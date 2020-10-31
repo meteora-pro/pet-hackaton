@@ -28,10 +28,11 @@ import {
   parseSex,
   parseShelter,
   parseSize,
-  parseUser
+  parseUser, parseVactination
 } from "./parsing.helpers";
 import {QueryRunner} from "typeorm";
 import {ParasiteMedicineTreatmentEntity} from "../entities/parasite-medicine-treatment.entity";
+import {VacinationEntity} from "../entities/vacination.entity";
 
 
 export class InitDataParser {
@@ -289,10 +290,11 @@ export class InitDataParser {
 
       const healthCheckRepository = queryRunner.connection.getRepository(PetEntity);
       const parasitesRepository = queryRunner.connection.getRepository(ParasiteMedicineTreatmentEntity);
+      const vactinationsRepository = queryRunner.connection.getRepository(VacinationEntity);
 
       const healthChecks = [];
       const allParasites = [];
-      const vactinations = [];
+      const allVactinations = [];
       rawDataSet.forEach( (rawData, index) => {
         const pet = allSavedPets[index];
         /** Сведения о вакцинации */
@@ -301,8 +303,10 @@ export class InitDataParser {
           allParasites.push(...parasites);
         }
         /** Сведения об обработке от экто- и эндопаразитов */
-
-
+        const vactionations = parseVactination(rawData, pet);
+        if (vactionations.length) {
+          allVactinations.push(...vactionations);
+        }
         /** Сведения о состоянии здоровья */
         const healthCheck = parseHealthCheck({
           pet,
@@ -311,9 +315,11 @@ export class InitDataParser {
         });
         healthChecks.push(healthCheck);
       });
-
-      await healthCheckRepository.insert(healthChecks);
-      await parasitesRepository.insert(allParasites);
+      await Promise.all([
+        healthCheckRepository.insert(healthChecks),
+        parasitesRepository.insert(allParasites),
+        vactinationsRepository.insert(allVactinations),
+      ]);
     } catch (e) {
       Logger.error(e.toString());
     }

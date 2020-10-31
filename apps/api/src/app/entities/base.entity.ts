@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { User } from '@pet-hackaton/types';
 import {ApiProperty} from "@nestjs/swagger";
+import { ApiModelProperty } from '@nestjs/swagger/dist/decorators/api-model-property.decorator';
 
 export class BaseEntity {
 
@@ -8,11 +8,11 @@ export class BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty()
+  @ApiProperty({ type: Date, format: 'date-time'})
   @CreateDateColumn()
   createdAt: Date;
 
-  @ApiProperty()
+  @ApiProperty({ type: Date, format: 'date-time'})
   @UpdateDateColumn()
   updateAt: Date;
 

@@ -9,6 +9,12 @@
   .mat-drawer-content {
     overflow: inherit;
   }
+  &.isMobile {
+    width: auto;
+    .sidebar {
+      height: 100%;
+    }
+  }
 }
 
 .sidenav {

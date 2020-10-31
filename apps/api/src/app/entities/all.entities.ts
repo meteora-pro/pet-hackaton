@@ -12,6 +12,7 @@ import { ParasiteMedicineTreatmentEntity } from './parasite-medicine-treatment.e
 import { HealthStatusEntity } from './health-status.entity';
 import { VacinationEntity } from './vacination.entity';
 import { PetResponsibleOrganisationEntity } from './pet-responsible-organisation.entity';
+import { RefreshTokenEntity } from '../authentication/entity/refresh-token.entity';
 
 export const allEntities = [
   UserEntity,
@@ -28,5 +29,6 @@ export const allEntities = [
   HealthStatusEntity,
   VacinationEntity,
   PetResponsibleOrganisationEntity,
+  RefreshTokenEntity,
   ...allDictionaries,
 ];

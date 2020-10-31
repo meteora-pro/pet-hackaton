@@ -6,7 +6,7 @@ import { Pagination } from '../../shared/pagination';
 
 export class PetsSelectors {
   @Selector([PetsState])
-  public static pets(state: PetsStateModel): Pet[] {
+  public static pets(state: PetsStateModel): Partial<Pet>[] {
     return state.list;
   }
   @Selector([PetsState])

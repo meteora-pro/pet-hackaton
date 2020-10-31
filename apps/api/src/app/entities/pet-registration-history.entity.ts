@@ -8,19 +8,19 @@ import {ApiProperty} from "@nestjs/swagger";
 export class PetRegistrationHistoryEntity extends BaseEntity implements PetRegistrationHistory {
 
   @ApiProperty()
-  @Column()
+  @Column({ nullable: true })
   arrivedAct: string;
 
   @ApiProperty()
-  @Column()
+  @Column({ nullable: true })
   arrivedAt: Date;
 
   @ApiProperty()
-  @Column()
+  @Column({ nullable: true })
   outAct: string;
 
   @ApiProperty()
-  @Column()
+  @Column({ nullable: true })
   outAt: Date;
 
   @ApiProperty({type: OutReasonEntity})

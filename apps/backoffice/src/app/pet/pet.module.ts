@@ -21,6 +21,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AttributeStatusComponent } from './pet-list/columns/attribute-status/attribute-status.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HumanizedPipe } from './pipes/humanized.pipe';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'list' },
@@ -35,7 +36,7 @@ const routes: Route[] = [
 ];
 
 @NgModule({
-  declarations: [PetListComponent, PetCardComponent, AttributeStatusComponent],
+  declarations: [PetListComponent, PetCardComponent, AttributeStatusComponent, HumanizedPipe],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,

@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  apiUrl: 'https://api-pet-hackaton.dev.meteora.pro/api',
 };
 
 /*

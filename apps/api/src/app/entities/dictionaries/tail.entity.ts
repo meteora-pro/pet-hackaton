@@ -3,7 +3,8 @@ import {Entity} from "typeorm";
 import { BaseDictionary } from '@pet-hackaton/types';
 
 @Entity({
-  name: 'tails'
+  name: 'tails',
+  schema: 'dictionaries'
 })
 export class TailEntity extends BaseDictionaryEntity implements BaseDictionary {
 }

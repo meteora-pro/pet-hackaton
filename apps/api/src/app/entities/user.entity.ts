@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Role, User } from '@pet-hackaton/types';
 import { BaseEntity } from './base.entity';
 import { ApiProperty } from '@nestjs/swagger';
@@ -43,12 +43,12 @@ export class UserEntity extends BaseEntity implements User {
   @OneToMany(() => RefreshTokenEntity, (tokens) => tokens.user)
   tokens: RefreshTokenEntity[];
 
-  @OneToMany(() => PrefecturesEntity, (prefecture) => prefecture.users)
+  @ManyToOne(() => PrefecturesEntity, (prefecture) => prefecture.users)
   prefecture: PrefecturesEntity;
 
-  @OneToMany(() => PetResponsibleOrganisationEntity, (organization) => organization.users)
+  @ManyToOne(() => PetResponsibleOrganisationEntity, (organization) => organization.users)
   organization: PetResponsibleOrganisationEntity;
 
-  @OneToMany(() => ShelterEntity, (shelter) => shelter.users)
+  @ManyToOne(() => ShelterEntity, (shelter) => shelter.users)
   shelter: ShelterEntity;
 }

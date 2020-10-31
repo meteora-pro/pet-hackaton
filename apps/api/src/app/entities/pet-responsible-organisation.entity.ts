@@ -26,7 +26,7 @@ export class PetResponsibleOrganisationEntity extends BaseEntity implements PetR
 
 
   @ApiProperty()
-  @ManyToOne(() => UserEntity, user => user.organization)
+  @OneToMany(() => UserEntity, user => user.organization)
   users: ShelterEntity[];
 
 }

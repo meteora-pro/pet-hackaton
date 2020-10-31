@@ -49,12 +49,12 @@ export interface BaseDictionary {
 }
 
 export enum Role {
-  SUPER_ADMIN = 'SUPER_ADMIN',
-  SHELTER_ADMIN = 'SHELTER_ADMIN',
-  SHELTER_USER = 'SHELTER_USER',
-  PREFECTURE_USER = 'PREFECTURE_USER',
-  ORGANIZATION_USER = 'ORGANIZATION_USER',
-  DEPARTMENT_USER = 'DEPARTMENT_USER'
+  SUPER_ADMIN = 'SUPER_ADMIN', // Суперадминистратор
+  SHELTER_ADMIN = 'SHELTER_ADMIN', // администратор приюта
+  SHELTER_USER = 'SHELTER_USER', // Пользователь приюта
+  PREFECTURE_USER = 'PREFECTURE_USER', // Префектура
+  ORGANIZATION_USER = 'ORGANIZATION_USER', // Надзорная организация
+  DEPARTMENT_USER = 'DEPARTMENT_USER' // ДЖКХ
 }
 
 export interface User {

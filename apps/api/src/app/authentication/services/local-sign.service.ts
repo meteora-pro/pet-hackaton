@@ -8,7 +8,6 @@ import { RefreshTokenEntity } from '../entity/refresh-token.entity';
 import { SignUpRequestDto } from '../dto/sign-up-request.dto';
 import * as bcrypt from 'bcryptjs';
 import { RefreshTokenRequestDto } from '../dto/refresh-token-request.dto';
-import { PermissionsService } from './permissions.service';
 import { UserEntity } from '../../entities/user.entity';
 
 @Injectable()
@@ -19,7 +18,6 @@ export class LocalSignService {
     private userEntityRepository: Repository<UserEntity>,
     @InjectRepository(RefreshTokenEntity)
     private refreshTokenEntityRepository: Repository<RefreshTokenEntity>,
-    private permissionsService: PermissionsService
   ) {}
 
   public async getUserByRefreshToken(token: string): Promise<Partial<UserEntity>> {
@@ -90,7 +88,6 @@ export class LocalSignService {
       email: user.email,
       id: user.id,
       role: user.role,
-      permissions: [...this.permissionsService.getBasePermission(user.role)],
     };
     const accessTokenData = this.accessTokenService.signAccessToken(tokenUserData);
     const refreshTokenData = this.accessTokenService.signRefreshToken(tokenUserData);

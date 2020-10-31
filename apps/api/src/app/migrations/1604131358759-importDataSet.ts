@@ -15,6 +15,9 @@ import {existPhotos} from "./data-set/exists-photos";
 import { CatchInformationEntity } from '../entities/catch-information.entity';
 import { PetRegistrationHistoryEntity } from '../entities/pet-registration-history.entity';
 import { OutReasonEntity } from '../entities/dictionaries/out-reason.entity';
+import { ParasiteMedicineTreatmentEntity } from '../entities/parasite-medicine-treatment.entity';
+import { VacinationEntity } from '../entities/vacination.entity';
+import { HealthStatusEntity } from '../entities/health-status.entity';
 
 export function parseSex(input: 'женский' | 'мужской' | string): Sex {
   switch(input.trim()) {
@@ -162,6 +165,27 @@ export function createRegistrationHistoryMapKey({
   ].join(',');
 }
 
+export function parseParasites() {
+  return {} as ParasiteMedicineTreatmentEntity;
+}
+
+export function parseVactination() {
+  return {} as VacinationEntity;
+}
+
+export function parseHealthCheck({
+  pet,
+  date,
+  anamnesis,
+}) {
+  return {
+    date,
+    anamnesis,
+    weight: pet.weight,
+    pet,
+  } as HealthStatusEntity;
+}
+
 export class importDataSet1604131358759 implements MigrationInterface {
     name = 'importDataSet1604131358759';
 
@@ -298,7 +322,6 @@ export class importDataSet1604131358759 implements MigrationInterface {
       await registrationHistoryRepository.insert(registrationHistories);
       const savedRegistrationHistories = await registrationHistoryRepository.find({order: { id: 'ASC' }});
 
-
       /** Питомцы */
 
       const preparedDataSet = rawDataSet.map( (rawData, index) => {
@@ -350,11 +373,35 @@ export class importDataSet1604131358759 implements MigrationInterface {
 
       await queryRunner.connection
         .createQueryBuilder()
-        .createQueryBuilder()
         .insert()
         .into(PetEntity)
         .values(preparedDataSet)
         .execute();
+
+      const petRepository = queryRunner.connection.getRepository(PetEntity);
+      const allSavedPets = await petRepository.find({ order: { id: 'ASC' }});
+
+      const healthCheckRepository = queryRunner.connection.getRepository(PetEntity);
+
+      const healthChecks = [];
+      const parasites = [];
+      const vactinations = [];
+      rawDataSet.forEach( (rawData, index) => {
+        const pet = allSavedPets[index];
+        /** Сведения о вакцинации */
+        /** Сведения об обработке от экто- и эндопаразитов */
+
+
+        /** Сведения о состоянии здоровья */
+        const healthCheck = parseHealthCheck({
+          pet,
+          date: parseDate(rawData['дата осмотра']),
+          anamnesis: rawData['анамнез'],
+        });
+        healthChecks.push(healthCheck);
+      });
+
+      await registrationHistoryRepository.insert(healthChecks);
     }
 
 

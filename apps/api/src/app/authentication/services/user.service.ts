@@ -13,7 +13,6 @@ export class UserService {
 
     public async getUserData(id: number): Promise<UserDataResponseDto> {
         const user = await this.userEntityRepository.findOne(id);
-        const userDataResponseDto = plainToClass(UserDataResponseDto, user, { excludeExtraneousValues: true });
-        return userDataResponseDto;
+      return plainToClass(UserDataResponseDto, user, { excludeExtraneousValues: true });
     }
 }

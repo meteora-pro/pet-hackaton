@@ -17,6 +17,8 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { DictionaryPipeModule } from '../shared/dictionary.pipe';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRippleModule } from '@angular/material/core';
+import { MatTabsModule } from '@angular/material/tabs';
 import { AttributeStatusComponent } from './pet-list/columns/attribute-status/attribute-status.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
@@ -51,6 +53,8 @@ const routes: Route[] = [
     MatPaginatorModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
+    MatRippleModule,
+    MatTabsModule,
   ],
 })
 export class PetModule {}

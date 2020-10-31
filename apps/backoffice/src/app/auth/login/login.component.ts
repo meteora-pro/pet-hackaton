@@ -41,6 +41,6 @@ export class LoginComponent implements OnInit {
       password: this.form.get('password').errors,
     };
 
-    this.store.dispatch(new SignIn(this.form.value.username, this.form.value.password));
+    this.store.dispatch(new SignIn(this.form.value.username, this.form.value.password)).subscribe();
   }
 }

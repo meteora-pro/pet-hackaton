@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BaseDictionary, Pet, PetKind, Sex, Shelter, Size, StringDictionary, User } from '@pet-hackaton/types';
+import { BaseDictionary, Pet, PetKind, Role, Sex, Shelter, Size, StringDictionary, User } from '@pet-hackaton/types';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +22,7 @@ export class DictionaryService {
     return this.http.get<PetResponse>(`/api/pets?${queryParams}`);
   }
 
-  getUsersByRole(role: string): Observable<User[]> {
+  getUsersByRole(role: Role): Observable<User[]> {
     const queryParams = role ? `filter=role||$eq||${role}` : '';
     return this.http.get<User[]>(`/api/users?${queryParams}`);
   }

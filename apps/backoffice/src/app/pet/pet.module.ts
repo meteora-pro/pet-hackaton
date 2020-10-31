@@ -18,6 +18,7 @@ import { DictionaryPipeModule } from '../shared/dictionary.pipe';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRippleModule } from '@angular/material/core';
+import { MatTabsModule } from '@angular/material/tabs';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'list' },
@@ -50,6 +51,7 @@ const routes: Route[] = [
     MatPaginatorModule,
     MatCheckboxModule,
     MatRippleModule,
+    MatTabsModule,
   ],
 })
 export class PetModule {}

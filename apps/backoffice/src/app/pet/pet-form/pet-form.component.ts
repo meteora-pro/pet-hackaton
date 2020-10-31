@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { DictionaryService } from '../pet-filters/services/dictionary.service';
 import { merge, Observable, of } from 'rxjs';
-import { BaseDictionary, Role, User } from '@pet-hackaton/types';
+import { BaseDictionary, OutReason, Role, User } from '@pet-hackaton/types';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
 
 @Component({
@@ -53,6 +53,34 @@ export class PetFormComponent implements OnInit {
       }),
       contacts: new FormControl(),
     }), // физическое лицо ф.и.о.
+    registrationHistory: new FormGroup({
+      arrivedAt: new FormControl(), // дата поступления в приют
+      arrivedAct: new FormControl(), // акт приема №
+      outAt: new FormControl(), // дата выбытия из приюта
+      outReason: new FormControl(), // причина выбытия
+      outAct: new FormControl(), // № акта/договора выбытия
+    }),
+    parasiteTreatments: new FormArray([
+      new FormGroup({
+        date: new FormControl(), // дата
+        medicineName: new FormControl(), // название препарата
+        medicineDose: new FormControl(), // доза
+      }),
+    ]),
+    vacinations: new FormArray([
+      new FormGroup({
+        date: new FormControl(), // дата
+        vacineName: new FormControl(), // вид вакцины
+        serialNumber: new FormControl(), // № серии
+      }),
+    ]),
+    healthchecks: new FormArray([
+      new FormGroup({
+        date: new FormControl(), // дата
+        anamnesis: new FormControl(), // Anamnesis
+        weight: new FormControl(), // вес
+      }),
+    ]),
   });
 
   isSmallForm = true;
@@ -63,7 +91,19 @@ export class PetFormComponent implements OnInit {
   breeds$: Observable<BaseDictionary[]>;
   allBreeds$: Observable<BaseDictionary[]> = this.dictionaryService.getDict('breeds').pipe(shareReplay());
   veterinarians$: Observable<User[]> = this.dictionaryService.getUsersByRole(Role.MEDICAL_USER);
+  outReasons$: Observable<OutReason>;
   constructor(private dictionaryService: DictionaryService) {}
+
+
+  get parasiteTreatments() {
+    return this.form.get('parasiteTreatments') as FormArray;
+  }
+  get vacinations() {
+    return this.form.get('vacinations') as FormArray;
+  }
+  get healthchecks() {
+    return this.form.get('healthchecks') as FormArray;
+  }
 
   ngOnInit(): void {
     const kindChanges$ = merge(this.form.get('kind').valueChanges, of(null));

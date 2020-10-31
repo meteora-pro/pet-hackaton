@@ -18,6 +18,7 @@ import { DictionaryPipeModule } from '../shared/dictionary.pipe';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AttributeStatusComponent } from './pet-list/columns/attribute-status/attribute-status.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'list' },
@@ -49,6 +50,7 @@ const routes: Route[] = [
     DictionaryPipeModule,
     MatPaginatorModule,
     MatCheckboxModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class PetModule {}

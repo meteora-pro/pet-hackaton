@@ -69,6 +69,9 @@ export class PetsState {
   @Action(LoadPets)
   loadPets(ctx: Ctx) {
     const state = ctx.getState();
+    ctx.patchState({
+      status: StoreStatusEnum.Loading
+    });
     return this.dictionaryService.getPets(
       state.filters,
       PetsState.resolePagination(state.pagination),
@@ -82,7 +85,8 @@ export class PetsState {
             count: response.count,
             page: response.page,
             pageCount: response.pageCount,
-          }
+          },
+          status: StoreStatusEnum.Ready
         })
       })
     )

@@ -1,0 +1,26 @@
+form {
+  display: flex;
+  flex-direction: column;
+}
+.dictionary-item__list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 12px;
+}
+
+.dictionary-item__add-btn {
+  margin-bottom: 16px;
+}
+
+.dictionary-item__info  {
+  .mat-card-title {
+    font-size: 14px;
+    font-weight: normal;
+  }
+  .mat-card-subtitle {
+    font-size: 12px;
+    margin-bottom: 0;
+  }
+}

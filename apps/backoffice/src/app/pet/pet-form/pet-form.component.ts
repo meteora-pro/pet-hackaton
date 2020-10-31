@@ -6,12 +6,12 @@ import { BaseDictionary, Role, User } from '@pet-hackaton/types';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
 
 @Component({
-  selector: 'pet-hackaton-pet-card',
-  templateUrl: './pet-card.component.html',
-  styleUrls: ['./pet-card.component.scss'],
+  selector: 'pet-hackaton-pet-form',
+  templateUrl: './pet-form.component.html',
+  styleUrls: ['./pet-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PetCardComponent implements OnInit {
+export class PetFormComponent implements OnInit {
   form = new FormGroup({
     name: new FormControl(),
     kind: new FormControl(),
@@ -93,9 +93,17 @@ export class PetCardComponent implements OnInit {
     );
   }
 
-  savePet() {}
+  savePet() {
+    console.log('[LOG] value', this.form.value);
+  }
 
   toggleFields() {
     this.isSmallForm = !this.isSmallForm;
+  }
+
+  scrollTo(element: HTMLElement) {
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 }

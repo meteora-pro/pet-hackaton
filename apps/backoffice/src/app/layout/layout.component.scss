@@ -1,8 +1,14 @@
 .sidenav-container {
-  height: auto;
+  height: 100%;
   width: 1200px;
   margin: 0 auto;
   background-color: transparent;
+  &.mat-drawer-container {
+    overflow: inherit;
+  }
+  .mat-drawer-content {
+    overflow: inherit;
+  }
 }
 
 .sidenav {
@@ -39,8 +45,12 @@
 }
 
 .header {
+  margin-top: -15px;
+  margin-left: -15px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  background-color: white;
+  border-bottom: 1px solid #c7c7c7;
 }
 ul.navigation-items {
   list-style: none;
@@ -48,6 +58,7 @@ ul.navigation-items {
   li a {
     display: flex;
     align-items: center;
+    cursor: pointer;
     .label {
       padding-left: 5px;
     }

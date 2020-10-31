@@ -35,13 +35,13 @@ export class UserService {
         return ((await this.sheltersRepository.find()) || []).map(entity => entity.id);
       }
       case Role.PREFECTURE_USER:
-      case Role.SHELTER_ADMIN:
       case Role.MEDICAL_USER:
-        return (user.prefecture.shelters) || [].map(entity => entity.id);
+        return ((user.prefecture && user.prefecture.shelters) || []).map(entity => entity.id);
       case Role.ORGANIZATION_USER: {
         return (user.organization.shelters || []).map(entity => entity.id);
       }
       case Role.SHELTER_USER:
+      case Role.SHELTER_ADMIN:
         return user.shelter ? [user.shelter.id] : [];
     }
     return [];

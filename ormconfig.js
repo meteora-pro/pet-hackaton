@@ -8,7 +8,7 @@ module.exports = [
     username: process.env.POSTGRES_USERNAME || "postgres",
     password: process.env.POSTGRES_PASSWORD || "ilt0q1drzye",
     database: process.env.DB_NAME || "api_local",
-    logging: true,
+    logging: false,
     dropSchema: true,
     entities: [
       "apps/api/src/app/**/*.entity.ts",

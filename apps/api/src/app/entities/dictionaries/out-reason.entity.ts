@@ -11,8 +11,8 @@ import { ApiModelProperty } from '@nestjs/swagger/dist/decorators/api-model-prop
 })
 export class OutReasonEntity extends BaseDictionaryEntity {
   // TODO реализовать позже
-  // @Column( {type: 'enum', enum: OutReasonType, nullable: true })
-  // @ApiProperty({enum: CommonService.enumToArray(OutReasonType), example: OutReasonType.leavingShelter})
-  // @ApiModelProperty({enum: CommonService.enumToArray(OutReasonType), example: OutReasonType.leavingShelter})
-  // readonly type: OutReasonType;
+  @Column( {type: 'enum', enum: OutReasonType, nullable: true })
+  @ApiProperty({enum: CommonService.enumToArray(OutReasonType), example: OutReasonType.leavingShelter})
+  @ApiModelProperty({enum: CommonService.enumToArray(OutReasonType), example: OutReasonType.leavingShelter})
+  readonly type: OutReasonType;
 }

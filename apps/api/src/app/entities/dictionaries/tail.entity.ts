@@ -4,5 +4,5 @@ import {Entity} from "typeorm";
 @Entity({
   name: 'tails'
 })
-export class TailsEntity extends BaseDictionaryEntity {
+export class TailEntity extends BaseDictionaryEntity {
 }

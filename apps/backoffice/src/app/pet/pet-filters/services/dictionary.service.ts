@@ -2,23 +2,25 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseDictionary, Pet, PetKind, Role, Sex, Shelter, Size, StringDictionary, User } from '@pet-hackaton/types';import { Pagination } from '../../../shared/pagination';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DictionaryService {
   constructor(private http: HttpClient) {}
+  apiUrl = environment.apiUrl;
 
   static resolePagination(pagination: Pagination): string {
     return `page=${pagination.page}&limit=${pagination.perPage}`
   }
 
   getDict(dict: string): Observable<BaseDictionary[]> {
-    return this.http.get<BaseDictionary[]>(`/api/${dict}`);
+    return this.http.get<BaseDictionary[]>(`${this.apiUrl}/${dict}`);
   }
 
   getShelters(): Observable<Shelter> {
-    return this.http.get<Shelter>(`/api/shelters`);
+    return this.http.get<Shelter>(`${this.apiUrl}/shelters`);
   }
 
   getPets(filter: string = '', pagination: Pagination, sort: string): Observable<PetResponse> {
@@ -27,12 +29,12 @@ export class DictionaryService {
       DictionaryService.resolePagination(pagination),
       sort
     ].filter((v) => !!v).join('&');
-    return this.http.get<PetResponse>(`/api/pets?${queryParams}`);
+    return this.http.get<PetResponse>(`${this.apiUrl}/pets?${queryParams}`);
   }
 
   getUsersByRole(role: Role): Observable<User[]> {
     const queryParams = role ? `filter=role||$eq||${role}` : '';
-    return this.http.get<User[]>(`/api/users?${queryParams}`);
+    return this.http.get<User[]>(`${this.apiUrl}/users?${queryParams}`);
   }
 
   getKinds(): StringDictionary[] {

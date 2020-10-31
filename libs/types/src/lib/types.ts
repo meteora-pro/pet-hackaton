@@ -1,3 +1,7 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { Column, OneToMany } from 'typeorm';
+import { Exclude } from 'class-transformer';
+import { RefreshTokenEntity } from '../../../../apps/api/src/app/authentication/entity/refresh-token.entity';
 
 export enum PetKind {
   cat= 'cat',
@@ -45,20 +49,23 @@ export interface BaseDictionary {
 }
 
 export enum Role {
-  superAdmin,
-  shelterAdmin,
-  shelterUser,
-  prefetureUser,
-  responsibleOrganisationUser,
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  SHELTER_ADMIN = 'SHELTER_ADMIN',
+  SHELTER_USER = 'SHELTER_USER',
+  PREFECTURE_USER = 'PREFECTURE_USER',
+  ORGANIZATION_USER = 'ORGANIZATION_USER',
+  DEPARTMENT_USER = 'DEPARTMENT_USER'
 }
 
 export interface User {
-  readonly id: number;
-  firstName: string;
-  lastName: string;
+  login: string;
+  email?: string;
+  phoneNumber?: string;
+  firstName?: string;
+  lastName?: string;
   middleName?: string;
   role: Role;
-  shelters: Shelter[];
+  password: string;
 }
 
 

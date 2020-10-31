@@ -7,6 +7,7 @@ import * as ormConfig from '../../../../ormconfig.js';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { allEntities } from './entities/all.entities';
 import {allMigrations} from "./migrations/all.migrations";
+import { AppConfigModule } from './app-config.module';
 
 @Injectable()
 export class AppConfig {
@@ -42,5 +43,21 @@ export class AppConfig {
       migrations: allMigrations,
       name: 'default'
     };
+  }
+
+  get accessTokenSecret(): string {
+    return this.configService.get('AUTH_JWT_ACCESS_TOKEN_SECRET', 'access_token_secret');
+  }
+
+  get refreshTokenSecret(): string {
+    return this.configService.get('AUTH_JWT_REFRESH_TOKEN_SECRET', 'refresh_token_secret');
+  }
+
+  get accessTokenExpires(): string {
+    return this.configService.get('AUTH_JWT_ACCESS_TOKEN_EXPIRES', '8h');
+  }
+
+  get refreshTokenExpires(): string {
+    return this.configService.get('AUTH_JWT_REFRESH_TOKEN_EXPIRES', '5d');
   }
 }

@@ -32,14 +32,6 @@ export class UserDataResponseDto {
 
   @ApiProperty()
   @Expose()
-  prefecture: PrefecturesEntity;
-
-  @ApiProperty()
-  @Expose()
-  organization: PetResponsibleOrganisationEntity;
-
-  @ApiProperty()
-  @Expose()
-  shelter: ShelterEntity;
+  allowedShelters: number[];
 
 }

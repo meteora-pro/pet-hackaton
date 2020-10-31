@@ -16,11 +16,12 @@ import { UserEmailExistValidator } from './validators/user-email-exist.validator
 import { UserEntity } from '../entities/user.entity';
 import { AuthStrategiesEnum } from './constants/auth-strategies.enum';
 import { AppConfigModule } from '../app-config.module';
+import { ShelterEntity } from '../entities/shelter.entity';
 
 @Module({
     imports: [
         AppConfigModule,
-        TypeOrmModule.forFeature([UserEntity, RefreshTokenEntity]),
+        TypeOrmModule.forFeature([UserEntity, RefreshTokenEntity, ShelterEntity]),
         PassportModule.register({
             session: false,
             defaultStrategy: [

@@ -17,7 +17,7 @@ export class HealthStatusEntity extends BaseEntity implements HealthStatus {
   date: Date;
 
   @ApiProperty({example: 5})
-  @Column()
+  @Column({ type: 'float', nullable: true })
   weight: number;
 
   @ApiProperty()

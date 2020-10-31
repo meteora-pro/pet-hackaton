@@ -25,6 +25,6 @@ export class PetListComponent implements OnInit {
   }
 
   handleChangePage(pageEvent: PageEvent) {
-    this.store.dispatch(new ChangePage(pageEvent.pageIndex, pageEvent.pageSize));
+    this.store.dispatch(new ChangePage(pageEvent.pageIndex + 1, pageEvent.pageSize));
   }
 }

@@ -1,5 +1,5 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
-import { PetKind, Role, Sex, Size } from '../../../../../libs/types/src';
+import { OutReasonCause, PetKind, Role, Sex, Size } from '../../../../../libs/types/src';
 import { BaseDictionaryEntity } from '../entities/dictionaries/base.dictionary.entity';
 import { BreedEntity } from '../entities/dictionaries/breed.entity';
 import { ColorEntity } from '../entities/dictionaries/color.entity';
@@ -12,6 +12,12 @@ import { ShelterEntity } from '../entities/shelter.entity';
 import { UserEntity } from '../entities/user.entity';
 import * as rawDataSet from './data-set/parced-dataset.json';
 import {existPhotos} from "./data-set/exists-photos";
+import { CatchInformationEntity } from '../entities/catch-information.entity';
+import { PetRegistrationHistoryEntity } from '../entities/pet-registration-history.entity';
+import { OutReasonEntity } from '../entities/dictionaries/out-reason.entity';
+import { ParasiteMedicineTreatmentEntity } from '../entities/parasite-medicine-treatment.entity';
+import { VacinationEntity } from '../entities/vacination.entity';
+import { HealthStatusEntity } from '../entities/health-status.entity';
 
 export function parseSex(input: 'женский' | 'мужской' | string): Sex {
   switch(input.trim()) {
@@ -39,9 +45,9 @@ export function parsePetKind(input: 'собака' | 'кошка' | string): Pet
 }
 export function findDictionaryByValue(searchValue: string, dictionary: BaseDictionaryEntity[], searchType?: PetKind): BaseDictionaryEntity {
   if (searchType) {
-    return (dictionary as BreedEntity[]).find( ({value, type}) => value?.trim() === searchValue?.trim() && searchType === type );
+    return (dictionary as BreedEntity[]).find( ({value, type}) => value?.trim()?.toLocaleLowerCase() === searchValue?.trim()?.toLocaleLowerCase() && searchType === type );
   }
-  return dictionary.find( ({value, }) => value?.trim() === searchValue?.trim());
+  return dictionary.find( ({value, }) => value?.trim()?.toLocaleLowerCase() === searchValue?.trim()?.toLocaleLowerCase());
 }
 
 export function parseBoolean(input: string): boolean {
@@ -74,11 +80,16 @@ export function parseOrganisation(organisationAlias: string) {
   } as PetResponsibleOrganisationEntity;
 }
 
-export function parseShelter(shelterAlias: string, index: number, organisation: PetResponsibleOrganisationEntity) {
+export function parseShelter(shelterAlias: string,
+  index: number,
+  organisation: PetResponsibleOrganisationEntity,
+  headName: UserEntity,
+  ) {
   return {
     address: shelterAlias,
     index,
     organisation,
+    headName,
   } as ShelterEntity;
 }
 
@@ -88,6 +99,91 @@ export function generatePhotoUrl(shelter: ShelterEntity, cardNumber: string): st
     return [];
   }
   return [`https://cdn.dev.meteora.pro/meteora-dev/hackaton/${encodeURIComponent(photoKey)}`];
+}
+
+export function parseCatchInformation({
+  captureActId,
+  orderId,
+  captureAt,
+  district,
+  catchingAddress,
+}) {
+  return {
+    captureActId, // акт отлова №
+    orderId, // заказ-наряд / акт о поступлении животного №
+    captureAt, // заказ-наряд дата/ акт о поступлении животного, дата
+    district, // административный округ
+    catchingAddress, // адрес места отлова
+  } as CatchInformationEntity;
+}
+
+export function getCatchKey({
+  captureActId,
+  orderId,
+  captureAt,
+  district,
+  catchingAddress,
+}: CatchInformationEntity) {
+  return [
+    captureActId,
+    orderId,
+    captureAt,
+    district,
+    catchingAddress,
+  ].join(',');
+}
+
+export function parseRegistrationHistory({
+  arrivedAt,
+  arrivedAct,
+  outAt,
+  outReason,
+  outAct,
+}) {
+  return {
+    arrivedAt, // дата поступления в приют
+    arrivedAct, // акт приема №
+    outAt, // дата выбытия из приюта
+    outReason, // причина выбытия
+    outAct, // № акта/договора выбытия
+  } as PetRegistrationHistoryEntity;
+}
+
+export function createRegistrationHistoryMapKey({
+  arrivedAt,
+  arrivedAct,
+  outAt,
+  outReason,
+  outAct,
+}) {
+  return [
+    arrivedAt,
+    arrivedAct,
+    outAt,
+    outReason,
+    outAct,
+  ].join(',');
+}
+
+export function parseParasites() {
+  return {} as ParasiteMedicineTreatmentEntity;
+}
+
+export function parseVactination() {
+  return {} as VacinationEntity;
+}
+
+export function parseHealthCheck({
+  pet,
+  date,
+  anamnesis,
+}) {
+  return {
+    date,
+    anamnesis,
+    weight: pet.weight,
+    pet,
+  } as HealthStatusEntity;
 }
 
 export class importDataSet1604131358759 implements MigrationInterface {
@@ -100,15 +196,25 @@ export class importDataSet1604131358759 implements MigrationInterface {
         });
       });
 
-      const allUsers: {[key: string]: UserEntity} = {};
-      const shelters: {[key: string]: ShelterEntity} = {};
-      const organisations: {[key: string]: PetResponsibleOrganisationEntity} = {};
+      /** Причины выбытия */
+      const allOutReasons = {};
+      rawDataSet.forEach(rawData => {
+        const outReasonAlias = rawData['причина выбытия'];
+        allOutReasons[outReasonAlias] = {
+          value: outReasonAlias,
+        };
+      });
+      const outReasonRepository = queryRunner.connection.getRepository(OutReasonEntity);
+      await outReasonRepository.insert(Object.values(allOutReasons));
+      const allOutReasonsSaved = await outReasonRepository.find();
 
+
+      /** Организации */
+      const organisations: {[key: string]: PetResponsibleOrganisationEntity} = {};
       rawDataSet.forEach( rawData => {
         const organisationAlias = rawData['эксплуатирующая организация'];
         organisations[organisationAlias] = parseOrganisation(organisationAlias);
       });
-
       const organisationRepository = queryRunner.connection.getRepository(PetResponsibleOrganisationEntity);
       await organisationRepository.insert(Object.values(organisations));
       const allOrganisations = await organisationRepository.find();
@@ -117,22 +223,8 @@ export class importDataSet1604131358759 implements MigrationInterface {
         organisations[savedOrganisation.name] = savedOrganisation;
       });
 
-
-      const shelterRepository = queryRunner.connection.getRepository(ShelterEntity);
-      let shelterIndex = 0;
-      rawDataSet.forEach( (rawData) => {
-        const shelterAlias = rawData['адрес приюта'];
-        if (!shelters[shelterAlias]) {
-          shelterIndex++;
-        }
-        shelters[shelterAlias] = parseShelter(shelterAlias, shelterIndex, organisations[rawData['эксплуатирующая организация']]);
-      });
-      await shelterRepository.insert(Object.values(shelters));
-      const allShelters = await shelterRepository.find();
-      allShelters.forEach( (shelter) => {
-        shelters[shelter.address] = shelter;
-      });
-
+      /** ЮЗЕРЫ */
+      const allUsers: {[key: string]: UserEntity} = {};
       rawDataSet.forEach( rawData => {
         const headAlias = rawData['ф.и.о. руководителя приюта'];
         allUsers[headAlias] = parseUser(headAlias, Role.SHELTER_ADMIN);
@@ -151,9 +243,30 @@ export class importDataSet1604131358759 implements MigrationInterface {
         allUsers[user.login] = user;
       });
 
+      /** ПРИЮТЫ */
+      const shelters: {[key: string]: ShelterEntity} = {};
+      const shelterRepository = queryRunner.connection.getRepository(ShelterEntity);
+      let shelterIndex = 0;
+      rawDataSet.forEach( (rawData) => {
+        const shelterAlias = rawData['адрес приюта'];
+        if (!shelters[shelterAlias]) {
+          shelterIndex++;
+        }
+        shelters[shelterAlias] = parseShelter(
+          shelterAlias,
+          shelterIndex,
+          organisations[rawData['эксплуатирующая организация']],
+          allUsers[rawData['ф.и.о. руководителя приюта']],
+        );
+      });
+      await shelterRepository.insert(Object.values(shelters));
+      const allShelters = await shelterRepository.find();
+      allShelters.forEach( (shelter) => {
+        shelters[shelter.address] = shelter;
+      });
 
 
-
+      /** Справочники */
       const breedRepository = queryRunner.connection.getRepository(BreedEntity);
       const colorRepository = queryRunner.connection.getRepository(ColorEntity);
       const woolRepository = queryRunner.connection.getRepository(WoolEntity);
@@ -168,12 +281,66 @@ export class importDataSet1604131358759 implements MigrationInterface {
         tailRepository.find(),
       ]);
 
-      const preparedDataSet = rawDataSet.map( rawData => {
+
+      /** Акты отлова */
+
+      const catchMap: {[key: string]: CatchInformationEntity} = {};
+      rawDataSet.forEach( (rawData) => {
+        const catchInformation = parseCatchInformation({
+          orderId: rawData['заказ-наряд / акт о поступлении животного №'],
+          captureActId: rawData['акт отлова №'],
+          captureAt: parseDate(rawData['заказ-наряд дата/ акт о поступлении животного, дата']),
+          district: rawData['административный округ'],
+          catchingAddress: rawData['адрес места отлова'],
+        });
+        const catchKey = getCatchKey(catchInformation);
+        catchMap[catchKey] = catchInformation;
+
+      });
+      const catchRepository = queryRunner.connection.getRepository(CatchInformationEntity);
+      await catchRepository.insert(Object.values(catchMap));
+      const allCatchDocuments = await catchRepository.find();
+      allCatchDocuments.forEach( (catchDoc) => {
+        const catchKey = getCatchKey(catchDoc);
+        catchMap[catchKey] = catchDoc;
+      });
+
+      /** Итсория регистрации */
+
+      const registrationHistories = [];
+      rawDataSet.forEach( (rawData, index) => {
+        const registrationHistory = parseRegistrationHistory({
+          arrivedAt: parseDate(rawData['дата поступления в приют']), // дата поступления в приют
+          arrivedAct: rawData['акт №'], // акт приема №
+          outAt: parseDate(rawData['дата выбытия из приюта']), // дата выбытия из приюта
+          outReason: findDictionaryByValue(rawData['причина выбытия'], allOutReasonsSaved), // причина выбытия
+          outAct: rawData['акт/договор №'], // № акта/договора выбытия
+        });
+        registrationHistories.push(registrationHistory);
+      });
+      const registrationHistoryRepository = queryRunner.connection.getRepository(PetRegistrationHistoryEntity);
+      await registrationHistoryRepository.insert(registrationHistories);
+      const savedRegistrationHistories = await registrationHistoryRepository.find({order: { id: 'ASC' }});
+
+      /** Питомцы */
+
+      const preparedDataSet = rawDataSet.map( (rawData, index) => {
+
         const shelterAlias = rawData['адрес приюта'];
         const shelter = shelters[shelterAlias];
 
         const cardNumber = rawData['карточка учета животного №'];
         const petKind = parsePetKind(rawData['вид']);
+
+        const catchKey = getCatchKey(parseCatchInformation({
+          orderId: rawData['заказ-наряд / акт о поступлении животного №'],
+          captureActId: rawData['акт отлова №'],
+          captureAt: parseDate(rawData['заказ-наряд дата/ акт о поступлении животного, дата']),
+          district: rawData['административный округ'],
+          catchingAddress: rawData['адрес места отлова'],
+        }));
+        const catchInformation = catchMap[catchKey];
+        const registrationHistory = savedRegistrationHistories[index];
         const pet = {
            cardNumber,
            kind: petKind,
@@ -196,6 +363,9 @@ export class importDataSet1604131358759 implements MigrationInterface {
            photos: generatePhotoUrl(shelter, cardNumber + ''),
            veterinarian: allUsers[rawData['ф.и.о. ветеринарного врача']],
            organization: organisations[rawData['эксплуатирующая организация']],
+           catchInformation,
+           registrationHistory,
+           petCareTaker: allUsers[rawData['ф.и.о. сотрудника по уходу за животным']],
         } as PetEntity;
 
         return pet;
@@ -203,11 +373,35 @@ export class importDataSet1604131358759 implements MigrationInterface {
 
       await queryRunner.connection
         .createQueryBuilder()
-        .createQueryBuilder()
         .insert()
         .into(PetEntity)
         .values(preparedDataSet)
         .execute();
+
+      const petRepository = queryRunner.connection.getRepository(PetEntity);
+      const allSavedPets = await petRepository.find({ order: { id: 'ASC' }});
+
+      const healthCheckRepository = queryRunner.connection.getRepository(PetEntity);
+
+      const healthChecks = [];
+      const parasites = [];
+      const vactinations = [];
+      rawDataSet.forEach( (rawData, index) => {
+        const pet = allSavedPets[index];
+        /** Сведения о вакцинации */
+        /** Сведения об обработке от экто- и эндопаразитов */
+
+
+        /** Сведения о состоянии здоровья */
+        const healthCheck = parseHealthCheck({
+          pet,
+          date: parseDate(rawData['дата осмотра']),
+          anamnesis: rawData['анамнез'],
+        });
+        healthChecks.push(healthCheck);
+      });
+
+      await registrationHistoryRepository.insert(healthChecks);
     }
 
 

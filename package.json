@@ -9,7 +9,7 @@
     "start": "nx run-many --target=serve --projects=api,frontoffice,backoffice --parallel --maxParallel=3",
     "start:api": "ng serve api",
     "start:frontoffice": "ng serve frontoffice -o --host 0.0.0.0 --disable-host-check",
-    "start:backend": "nx run-many --target=serve --projects=api --parallel --maxParallel=3",
+    "start:backend": "nx run-many --target=serve --projects=api,backoffice --parallel --maxParallel=3",
     "start:backoffice": "ng serve backoffice -o --host 0.0.0.0 --disable-host-check",
     "build": "nx run-many --target=build --projects=api,frontoffice,backoffice",
     "build:api": "ng build api --prod",

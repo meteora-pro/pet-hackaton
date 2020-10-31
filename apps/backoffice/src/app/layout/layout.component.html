@@ -19,39 +19,29 @@
         <a mat-list-item [routerLink]="'pet/list'" routerLinkActive="color-accent-light">Каталог питомцев</a>
         <a mat-list-item [routerLink]="'pet/create'" routerLinkActive="color-accent-light">Добавить животное</a>
         <a mat-list-item [routerLink]="'shelter/list'" routerLinkActive="color-accent-light">Приюты</a>
-        <a mat-list-item [routerLink]="'auth/login'" routerLinkActive="color-accent-light">Login</a>
+        <a mat-list-item *ngIf="!(isSignedIn$ | async)" [routerLink]="'auth/login'" routerLinkActive="color-accent-light">Войти в систему</a>
       </mat-nav-list>
     </div>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar class="header">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-      <div class="flex-end">
-        <ul class="navigation-items">
-          <li>
-            <a *ngIf="!true">
-              <mat-icon class="icon">input</mat-icon>
-              <span  class="label">Войти</span>
-            </a>
-          </li>
-          <li>
-            <a
-              *ngIf="true"
-              (click)="logout()" type="button"
-            >
-              <mat-icon class="icon">input</mat-icon>
-              <span class="label">Выйти</span>
-            </a>
-          </li>
-        </ul>
+      <div class="toolbar__container">
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()"
+          *ngIf="isHandset$ | async">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <span *ngIf="currentUser$ | async as user" class="mat-body-strong">{{user.login}}</span>
+
+        <div class="toolbar__exit-button">
+          <mat-icon class="icon">exit_to_app</mat-icon>
+          <button (click)="logout()" mat-button>Выйти</button>
+        </div>
       </div>
+
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>

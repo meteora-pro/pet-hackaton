@@ -4,8 +4,6 @@ services:
   postgres:
     image: postgres
     restart: always
-    env_file:
-      - ./config/.local.env
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${POSTGRES_USERNAME}

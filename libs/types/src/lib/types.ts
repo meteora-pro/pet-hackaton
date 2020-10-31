@@ -1,6 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { TokensDto } from '../../../../apps/api/src/app/authentication/dto/tokens.dto';
-
 export enum PetKind {
   cat= 'cat',
   dog = 'dog'

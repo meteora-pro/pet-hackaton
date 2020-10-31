@@ -20,6 +20,7 @@ import { VacinationEntity } from '../entities/vacination.entity';
 import { HealthStatusEntity } from '../entities/health-status.entity';
 import {Logger} from "@nestjs/common";
 import {hashUserPassword} from "../authentication/services/hash-password.utils";
+import {inspect} from "util";
 
 export function parseSex(input: 'женский' | 'мужской' | string): Sex {
   switch(input?.trim()) {
@@ -111,7 +112,8 @@ export function generatePhotoUrl(shelter: ShelterEntity, cardNumber: string): st
   if (existPhotos.indexOf(photoKey) < 0) {
     return [];
   }
-  return [`https://cdn.dev.meteora.pro/meteora-dev/hackaton/${encodeURIComponent(photoKey)}`];
+  const basePath = process.env.BASE_PHOTO_URL || 'https://cdn.dev.meteora.pro/meteora-dev/hackaton/';
+  return [`${basePath}${encodeURIComponent(photoKey)}`];
 }
 
 export function parseCatchInformation({
@@ -214,6 +216,9 @@ export class importDataSet1604131358759 implements MigrationInterface {
         const allOutReasons = {};
         rawDataSet.forEach(rawData => {
           const outReasonAlias = rawData['причина выбытия']?.trim();
+          if (!outReasonAlias) {
+            return;
+          }
           allOutReasons[outReasonAlias] = {
             value: outReasonAlias,
           } as OutReasonEntity;

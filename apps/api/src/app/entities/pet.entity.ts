@@ -19,93 +19,122 @@ import { ColorEntity } from './dictionaries/color.entity';
 import { WoolEntity } from './dictionaries/wool.entity';
 import { EarEntity } from './dictionaries/ear.entity';
 import { TailEntity } from './dictionaries/tail.entity';
+import {ApiProperty} from "@nestjs/swagger";
 
 @Entity({
   name: 'pets'
 })
 export class PetEntity extends BaseEntity implements Pet {
 
+  @ApiProperty()
   @Column({ nullable: true })
   cardNumber: string;
 
+  @ApiProperty()
   @Column({ type: 'enum', enum: PetKind, nullable: true })
   kind: PetKind;
 
+  @ApiProperty()
   @Column({ nullable: true })
   age: number;
 
+  @ApiProperty()
   @Column({ nullable: true })
   weight: number;
 
+  @ApiProperty()
   @Column({ nullable: true })
   name: string;
 
+  @ApiProperty()
   @Column({ type: 'enum', enum: Sex, nullable: true })
   sex: Sex;
 
+  @ApiProperty()
   @ManyToOne(() => BreedEntity, breed => breed)
   breed: BreedEntity;
 
+  @ApiProperty()
   @ManyToOne(() => ColorEntity, color => color)
   color: ColorEntity;
 
+  @ApiProperty()
   @ManyToOne(() => WoolEntity, wool => wool)
   wool: WoolEntity;
 
+  @ApiProperty()
   @ManyToOne(() => EarEntity, ear => ear)
   ears: EarEntity;
 
+  @ApiProperty()
   @ManyToOne(() => TailEntity, tail => tail)
   tail: TailEntity;
 
+  @ApiProperty()
   @Column({ nullable: true })
   size: string;
 
+  @ApiProperty()
   @Column({ nullable: true })
   signs?: string;
 
+  @ApiProperty()
   @Column({ nullable: true })
   place: number;
 
+  @ApiProperty()
   @Column('text', { array: true, nullable: true, default: '{}' })
   photos: string[];
 
+  @ApiProperty()
   @Column({ nullable: true })
   character: string;
 
+  @ApiProperty()
   @Column({ nullable: true })
   labelId: number;
 
+  @ApiProperty()
   @Column({ nullable: true })
   sterilizationAt: string;
 
+  @ApiProperty()
   @Column({ nullable: true })
   sterilizationPlace: string;
 
+  @ApiProperty()
   @ManyToOne(() => UserEntity, user => user)
   veterinarian: User;
 
+  @ApiProperty()
   @Column({default: false})
   isSocializated: boolean;
 
+  @ApiProperty()
   @ManyToOne(() => OrganizationEntity, organization => organization, {nullable: true})
   organization?: OrganizationEntity;
 
+  @ApiProperty()
   @OneToMany(() => TrusteeEntity, trustee => trustee.pet, {nullable: true})
   trustee?: TrusteeEntity[];
 
+  @ApiProperty()
   @ManyToOne(() => PhysicalPersonEntity, physical => physical, {nullable: true})
   physical?: PhysicalPersonEntity;
 
+  @ApiProperty()
   @ManyToOne(() => ShelterEntity, shelter => shelter)
   shelter: ShelterEntity;
 
+  @ApiProperty()
   @ManyToOne(() => UserEntity, user => user)
   petCareTaker: UserEntity;
 
+  @ApiProperty()
   @ManyToOne(() => CatchInformationEntity, catchInfo => catchInfo.pets)
   catchInformation: CatchInformationEntity;
 
+  @ApiProperty()
   @ManyToOne(() => PetRegistrationHistoryEntity, registration => registration)
   registrationHistory: PetRegistrationHistoryEntity;
 

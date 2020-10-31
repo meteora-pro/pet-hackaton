@@ -1,0 +1,14 @@
+<mat-form-field appearance="fill">
+  <mat-label>Период регистрации карточки</mat-label>
+  <mat-date-range-input [rangePicker]="picker">
+    <input matStartDate
+           placeholder="от"
+           [(ngModel)]="value.from"
+           (ngModelChange)="emitEvent()">
+    <input matEndDate placeholder="до"
+           [(ngModel)]="value.to"
+           (ngModelChange)="emitEvent()">
+  </mat-date-range-input>
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-date-range-picker #picker></mat-date-range-picker>
+</mat-form-field>

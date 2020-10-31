@@ -1,5 +1,14 @@
-export type PetKind = 'собака' | 'кошка';
-export type Sex = 'женский' | 'мужской';
+
+export enum PetKind {
+  cat= 'cat',
+  dog = 'dog'
+}
+
+export enum Sex {
+  male = 'male',
+  female = 'female'
+}
+
 export type Breed = string;
 export type Color = string;
 export type Wool = string;
@@ -21,10 +30,12 @@ export enum Role {
 
 export interface User {
   readonly id: number;
-  name: string;
+  firstName: string;
+  lastName: string;
+  middleName?: string;
   role: Role;
   shelters: Shelter[];
-};
+}
 
 
 export type Pet = PetBaseInfo
@@ -58,6 +69,8 @@ export interface PetBaseInfo {
   place: PetPlace; // Вольер №
   photos: string[];
   character: string;
+  createdAt: Date;
+  updateAt: Date;
 }
 
 export interface PetAdditionalInfo {

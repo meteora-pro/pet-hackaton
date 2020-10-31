@@ -181,7 +181,7 @@ export interface HealthStatus {
 export interface PhysicalPerson {
   firstName: string;
   lastName: string;
-  middleName: string;
+  middleName?: string;
   passport: PassportInfo;
   contacts?: string[];
 }

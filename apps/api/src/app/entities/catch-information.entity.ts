@@ -10,23 +10,23 @@ export class CatchInformationEntity extends BaseEntity implements CatchInformati
   @Column()
   captureActId: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: Date, format: 'date-time'})
   @Column()
   captureAt: Date;
 
-  @ApiProperty()
+  @ApiProperty({example: 'Волоколамское ш., д.69, стадион "Открытая арена"'})
   @Column()
   catchingAddress: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: Date, format: 'date-time'})
   @Column()
   createAt: Date;
 
-  @ApiProperty()
+  @ApiProperty({example: 'Волоколамское ш.'})
   @Column()
   district: string;
 
-  @ApiProperty()
+  @ApiProperty({example: '128(1)'})
   @Column()
   orderId: string;
 

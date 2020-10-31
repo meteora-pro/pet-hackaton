@@ -13,7 +13,7 @@ module.exports = [
     entities: [
       "apps/api/src/app/**/*.entity.ts",
     ],
-    synchronize: false,
+    synchronize: true,
     migrationsRun: true,
     cli: {
       entitiesDir: ["apps/api/src/**/entities"],

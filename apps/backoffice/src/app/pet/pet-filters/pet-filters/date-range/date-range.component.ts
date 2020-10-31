@@ -51,6 +51,6 @@ export class DateRangeComponent implements ControlValueAccessor {
 
 function normalizeDate(date: string) {
   return date
-    ? new Date(this.value.to).toISOString()
+    ? new Date(date).toISOString()
     : null
 }

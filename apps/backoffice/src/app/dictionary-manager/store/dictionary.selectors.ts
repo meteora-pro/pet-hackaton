@@ -1,6 +1,6 @@
 import { Selector } from '@ngxs/store';
 import { DictionaryState } from './dictionary.state';
-import { DictionaryStateModel } from './dictionary-state.model';
+import { DictionaryStateModel } from './dictionary.state.model';
 import { StoreStatusEnum } from '../../shared/store.status.enum';
 import { BaseDictionary } from '../../../../../../libs/types/src';
 

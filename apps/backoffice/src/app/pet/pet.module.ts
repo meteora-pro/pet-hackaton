@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { DictionaryPipeModule } from '../shared/dictionary.pipe';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'list' },
@@ -44,6 +45,7 @@ const routes: Route[] = [
     MatDatepickerModule,
     LazyLoadImageModule,
     DictionaryPipeModule,
+    MatCheckboxModule,
   ],
 })
 export class PetModule {}

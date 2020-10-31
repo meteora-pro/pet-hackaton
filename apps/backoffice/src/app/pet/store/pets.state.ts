@@ -75,7 +75,7 @@ export class PetsState {
     return ctx.dispatch(new LoadPets());
   }
 
-  @Action(LoadPets)
+  @Action(LoadPets, { cancelUncompleted: true })
   loadPets(ctx: Ctx) {
     const state = ctx.getState();
     ctx.patchState({

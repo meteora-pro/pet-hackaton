@@ -20,6 +20,9 @@ export class UserService {
     });
     const allowedShelters = await this.resolveShelters(user);
     const responseDto = plainToClass(UserDataResponseDto, user, { excludeExtraneousValues: true });
+    responseDto.prefecture = user.prefecture;
+    responseDto.organization = user.organization;
+    responseDto.shelter = user.shelter;
     responseDto.allowedShelters = allowedShelters;
 
     return responseDto;
@@ -29,17 +32,17 @@ export class UserService {
     switch (user.role) {
       case Role.SUPER_ADMIN:
       case Role.DEPARTMENT_USER: {
-        return (await this.sheltersRepository.find()).map(entity => entity.id);
+        return ((await this.sheltersRepository.find()) || []).map(entity => entity.id);
       }
-      case Role.ORGANIZATION_USER: {
-        return user.organization.shelters.map(entity => entity.id);
-      }
-      case Role.SHELTER_USER:
-        return [user.shelter.id];
       case Role.PREFECTURE_USER:
       case Role.SHELTER_ADMIN:
       case Role.MEDICAL_USER:
-        return user.prefecture.shelters.map(entity => entity.id);
+        return (user.prefecture.shelters) || [].map(entity => entity.id);
+      case Role.ORGANIZATION_USER: {
+        return (user.organization.shelters || []).map(entity => entity.id);
+      }
+      case Role.SHELTER_USER:
+        return user.shelter ? [user.shelter.id] : [];
     }
     return [];
   }

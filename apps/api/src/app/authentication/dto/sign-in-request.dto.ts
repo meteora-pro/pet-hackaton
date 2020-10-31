@@ -4,7 +4,7 @@ import {ApiProperty} from "@nestjs/swagger";
 
 export class SignInRequestDto {
 
-    @ApiProperty({description: 'Login or email or phone number'})
+    @ApiProperty({description: 'Login or email'})
     @Validate(UserNotFoundValidator)
     login: string;
 

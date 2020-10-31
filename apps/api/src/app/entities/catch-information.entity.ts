@@ -11,7 +11,7 @@ export class CatchInformationEntity extends BaseEntity implements CatchInformati
   captureActId: string;
 
   @ApiProperty({ type: Date, format: 'date-time'})
-  @Column()
+  @Column({ nullable: true })
   captureAt: Date;
 
   @ApiProperty({example: 'Волоколамское ш., д.69, стадион "Открытая арена"'})
@@ -19,7 +19,7 @@ export class CatchInformationEntity extends BaseEntity implements CatchInformati
   catchingAddress: string;
 
   @ApiProperty({ type: Date, format: 'date-time'})
-  @Column()
+  @Column({ nullable: true })
   createAt: Date;
 
   @ApiProperty({example: 'Волоколамское ш.'})

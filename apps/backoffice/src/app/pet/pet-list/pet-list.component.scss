@@ -1,3 +1,32 @@
 table {
   width: 100%;
 }
+
+::ng-deep {
+  .pet-table {
+    box-shadow: none;
+    background-color: transparent;
+    td.mat-cell {
+      padding-top: 6px;
+      padding-bottom: 6px;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 24px;
+    }
+  }
+}
+
+.pet-photo {
+  width: 88px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #C7C7C7;
+  border-radius: 4px;
+  margin: 0;
+  img {
+    max-width: 100%;
+  }
+  overflow: hidden;
+}

@@ -55,11 +55,12 @@ export interface StringDictionary {
 
 export enum Role {
   SUPER_ADMIN = 'SUPER_ADMIN', // Суперадминистратор
+  ORGANIZATION_USER = 'ORGANIZATION_USER', // Надзорная организация
+  DEPARTMENT_USER = 'DEPARTMENT_USER', // ДЖКХ
   SHELTER_ADMIN = 'SHELTER_ADMIN', // администратор приюта
   SHELTER_USER = 'SHELTER_USER', // Пользователь приюта
   PREFECTURE_USER = 'PREFECTURE_USER', // Префектура
-  ORGANIZATION_USER = 'ORGANIZATION_USER', // Надзорная организация
-  DEPARTMENT_USER = 'DEPARTMENT_USER' // ДЖКХ
+  MEDICAL_USER = 'MEDICAL_USER' // Врач
 }
 
 export interface User {
@@ -72,7 +73,6 @@ export interface User {
   role: Role;
   password: string;
 }
-
 
 export type Pet = PetBaseInfo
 & PetAdditionalInfo

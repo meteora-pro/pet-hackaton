@@ -48,6 +48,11 @@ export interface BaseDictionary {
   type?: PetKind;
 }
 
+export interface StringDictionary {
+  id: string;
+  value: string;
+}
+
 export enum Role {
   SUPER_ADMIN = 'SUPER_ADMIN', // Суперадминистратор
   SHELTER_ADMIN = 'SHELTER_ADMIN', // администратор приюта

@@ -1,1 +1,74 @@
-<p>pet-card works!</p>
+<h3>Добавление животного</h3>
+<h4>
+  Чтобы добавить питомца — вам необходимо заполнить поля ниже
+</h4>
+
+<form [formGroup]="form" class="pet-form">
+  <div class="pet-photo">
+    <img defaultImage="./assets/icons/create-pet-default.svg" [lazyLoad]="image">
+  </div>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Кличка</mat-label>
+    <input matInput formControlName="name" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Вид животного</mat-label>
+    <mat-select formControlName="kind">
+      <mat-option *ngFor="let kind of 'kind' | dictionary" [value]="kind.id">
+        {{ kind.value }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Пол животного</mat-label>
+    <mat-select formControlName="sex">
+      <mat-option *ngFor="let sex of 'sex' | dictionary" [value]="sex.id">
+        {{ sex.value }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Окрас</mat-label>
+    <mat-select formControlName="color">
+      <mat-option *ngFor="let color of colors$ | async" [value]="color.id">
+        {{ color.value | titlecase }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Порода</mat-label>
+    <mat-select formControlName="breed">
+      <mat-option *ngFor="let breed of breeds$ | async" [value]="breed.id">
+        {{ breed.value | titlecase }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Размер</mat-label>
+    <mat-select formControlName="size" multiple>
+      <mat-option *ngFor="let size of 'size' | dictionary" [value]="size.id">
+        {{size.value}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Дата поступления</mat-label>
+    <input matInput formControlName="arrivedAt" [matDatepicker]="picker" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <ng-container *ngIf="!isSmallForm">
+
+  </ng-container>
+
+  <button mat-raised-button type="button" color="primary" (click)="savePet()">Добавить животное</button>
+  <button mat-button type="button" (click)="showMore()">Показать больше полей</button>
+</form>

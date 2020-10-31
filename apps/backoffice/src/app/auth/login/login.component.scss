@@ -1,0 +1,41 @@
+:host {
+  display: flex;
+  justify-content: center;
+  margin: 100px 0;
+}
+
+mat-card-title,
+mat-card-content {
+  display: flex;
+  justify-content: center;
+}
+
+mat-card-title {
+  margin-bottom: 20px;
+}
+
+.errors {
+  padding: 16px;
+  color: white;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form-login {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+
+  mat-form-field {
+    margin-bottom: 10px;
+  }
+
+  &__actions {
+    button {
+      width: 100%;
+    }
+  }
+}

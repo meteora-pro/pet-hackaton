@@ -60,8 +60,9 @@ export function parseUser(userAlias: string, role: Role) {
     alias: userAlias,
     firstName: '',
     lastName: userAlias,
+    password: userAlias,
+    login: userAlias,
     role,
-    shelters: [],
   } as UserEntity;
 }
 
@@ -107,11 +108,9 @@ export class importDataSet1604131358759 implements MigrationInterface {
         organisations[savedOrganisation.name] = savedOrganisation;
       });
 
+
       const shelterRepository = queryRunner.connection.getRepository(ShelterEntity);
-
-
       let shelterIndex = 0;
-
       rawDataSet.forEach( (rawData) => {
         const shelterAlias = rawData['адрес приюта'];
         if (!shelters[shelterAlias]) {
@@ -119,27 +118,29 @@ export class importDataSet1604131358759 implements MigrationInterface {
         }
         shelters[shelterAlias] = parseShelter(shelterAlias, shelterIndex, organisations[rawData['эксплуатирующая организация']]);
       });
-
       await shelterRepository.insert(Object.values(shelters));
-      const allShelters = await organisationRepository.find();
-
+      const allShelters = await shelterRepository.find();
       allShelters.forEach( (shelter) => {
-        organisations[shelter.address] = shelter;
+        shelters[shelter.address] = shelter;
       });
 
       rawDataSet.forEach( rawData => {
         const headAlias = rawData['ф.и.о. руководителя приюта'];
-        allUsers[headAlias] = parseUser(headAlias, Role.shelterAdmin);
-
+        allUsers[headAlias] = parseUser(headAlias, Role.SHELTER_ADMIN);
         const alias = rawData['ф.и.о. ветеринарного врача'];
-        allUsers[alias] = parseUser(alias, Role.shelterUser);
+        allUsers[alias] = parseUser(alias, Role.SHELTER_USER);
         const owserAlias = rawData['ф.и.о. сотрудника по уходу за животным'];
-        allUsers[owserAlias] = parseUser(owserAlias, Role.shelterUser);
-
+        allUsers[owserAlias] = parseUser(owserAlias, Role.SHELTER_USER);
       });
 
 
+      const userRepository = queryRunner.connection.getRepository(UserEntity);
 
+      await userRepository.insert(Object.values(allUsers));
+      const savedUsers = await userRepository.find();
+      savedUsers.forEach( (user) => {
+        allUsers[user.login] = user;
+      });
 
 
 

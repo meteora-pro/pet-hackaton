@@ -1,8 +1,9 @@
 import { BaseEntity } from './base.entity';
 import { PetResponsibleOrganisation, Shelter, User } from '@pet-hackaton/types';
-import { Column, ManyToOne } from 'typeorm';
+import {Column, Entity, ManyToOne} from 'typeorm';
 import { UserEntity } from './user.entity';
 
+@Entity()
 export class ShelterEntity extends BaseEntity implements Shelter {
 
   @Column()

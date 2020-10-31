@@ -1,0 +1,41 @@
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.dictionary__add-btn {
+  margin-bottom: 16px;
+}
+
+.dictionary__info  {
+  .mat-card-title {
+    font-size: 14px;
+    font-weight: normal;
+  }
+  .mat-card-subtitle {
+    font-size: 12px;
+    margin-bottom: 0;
+  }
+}
+
+.dictionary__list {
+  position: relative;
+  min-height: 300px;
+  table {
+    margin-left: 15px;
+  }
+  th {
+    text-align: left;
+  }
+  .dictionary-pending {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}

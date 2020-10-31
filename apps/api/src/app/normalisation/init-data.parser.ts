@@ -1,3 +1,4 @@
+import { PrefecturesEntity } from '../entities/prefecture.entity';
 import * as rawDataSet from "../migrations/data-set/parced-dataset.json";
 import {OutReasonEntity} from "../entities/dictionaries/out-reason.entity";
 import {Logger} from "@nestjs/common";
@@ -68,6 +69,16 @@ export class InitDataParser {
       allOrganisations.forEach( (savedOrganisation) => {
         organisations[savedOrganisation.name] = savedOrganisation;
       });
+
+      /** Префектуры */
+      const prefectures: {[key: string]: PrefecturesEntity} = {};
+      rawDataSet.forEach( rawData => {
+        const prefectureAlias = rawData['административный округ'];
+
+      });
+
+
+
 
       /** ЮЗЕРЫ */
       const allUsers: {[key: string]: UserEntity} = {};

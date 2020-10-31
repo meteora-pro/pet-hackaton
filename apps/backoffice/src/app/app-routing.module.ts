@@ -15,6 +15,10 @@ const routes: Routes = [
         path: 'pet',
         loadChildren: () => import('./pet/pet.module').then((m) => m.PetModule),
       },
+      {
+        path: 'dictionary',
+        loadChildren: () => import('./dictionary-manager/dictionary-manager.module').then((m) => m.DictionaryManagerModule),
+      },
     ],
   },
   {

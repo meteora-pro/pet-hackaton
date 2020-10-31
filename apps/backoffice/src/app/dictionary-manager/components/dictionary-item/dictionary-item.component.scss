@@ -1,0 +1,9 @@
+.dictionary-item.view-mode {
+  display: flex;
+  .item-id, .item-value {
+    background-color: white;
+    padding: 20px 15px;
+    width: 175px;
+    margin-bottom: 15px;
+  }
+}

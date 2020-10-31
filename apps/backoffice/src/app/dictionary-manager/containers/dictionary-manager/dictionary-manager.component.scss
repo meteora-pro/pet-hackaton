@@ -1,0 +1,26 @@
+.dictionary {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__list {
+    flex-basis: 250px;
+
+    a.active {
+      background-color: #1e88e5;
+      color: white;
+    }
+  }
+
+  &__item {
+    padding: 15px;
+    flex-grow: 1;
+  }
+}
+
+::ng-deep {
+  .dictionary .dictionary__list {
+    .mat-list-item-content {
+      flex-direction: row-reverse;
+    }
+  }
+}

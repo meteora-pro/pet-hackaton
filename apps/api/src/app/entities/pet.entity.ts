@@ -42,7 +42,7 @@ export class PetEntity extends BaseEntity implements Pet {
   age: string;
 
   @ApiProperty({example: 10})
-  @Column({ nullable: true })
+  @Column({ type: 'float', nullable: true })
   weight: number;
 
   @ApiProperty({example: 'Бобик'})

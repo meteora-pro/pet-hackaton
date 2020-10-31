@@ -9,6 +9,7 @@ import { SignUpRequestDto } from '../dto/sign-up-request.dto';
 import { RefreshTokenRequestDto } from '../dto/refresh-token-request.dto';
 import { UserEntity } from '../../entities/user.entity';
 import { pbkdf2Sync, randomBytes } from 'crypto';
+import {hashUserPassword, verifyUserPassword} from "./hash-password.utils";
 
 @Injectable()
 export class LocalSignService {
@@ -20,16 +21,7 @@ export class LocalSignService {
     private refreshTokenEntityRepository: Repository<RefreshTokenEntity>,
   ) {}
 
-  public static hashUserPassword(password: string) {
-    const salt = randomBytes(16).toString('hex');
-    const passwordHash = pbkdf2Sync(password, salt, 1000, 64, `sha512`).toString(`hex`);
-    return { salt, passwordHash };
-  }
 
-  public static verifyUserPassword(password: string, hash: string, salt: string): boolean {
-      const passwordHash = pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
-      return passwordHash === hash;
-  }
 
   public async getUserByRefreshToken(token: string): Promise<Partial<UserEntity>> {
     const tokenEntity = await this.refreshTokenEntityRepository.findOne({ token }, { relations: ['user'] });
@@ -47,7 +39,7 @@ export class LocalSignService {
         },
       ],
     });
-    const isPasswordValid = await LocalSignService.verifyUserPassword(signInBodyDto.password, user.password, user.salt);
+    const isPasswordValid = await verifyUserPassword(signInBodyDto.password, user.password, user.salt);
     if (!isPasswordValid) {
       throw new BadRequestException(['User not found or incorrect password']);
     }
@@ -59,7 +51,7 @@ export class LocalSignService {
   }
 
   public async signUp(signUpBodyDto: SignUpRequestDto): Promise<SignInResponseDto> {
-    const { passwordHash, salt } = await LocalSignService.hashUserPassword(signUpBodyDto.password);
+    const { passwordHash, salt } = await hashUserPassword(signUpBodyDto.password);
     const newUser = await this.userEntityRepository.save({
       ...signUpBodyDto,
       password: passwordHash,

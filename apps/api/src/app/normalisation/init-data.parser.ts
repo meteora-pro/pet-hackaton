@@ -74,7 +74,9 @@ export class InitDataParser {
       const prefectures: {[key: string]: PrefecturesEntity} = {};
       rawDataSet.forEach( rawData => {
         const prefectureAlias = rawData['административный округ'];
-
+        const prefectures = {
+          name: prefectureAlias,
+        } as PrefecturesEntity;
       });
 
 

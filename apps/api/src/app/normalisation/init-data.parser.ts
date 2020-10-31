@@ -72,7 +72,10 @@ export class InitDataParser {
 
       /** Префектуры */
       const prefectures: {[key: string]: PrefecturesEntity} = {};
-      rawDataSet.forEach();
+      rawDataSet.forEach( rawData => {
+        const prefectureAlias = rawData['административный округ'];
+
+      });
 
 
 

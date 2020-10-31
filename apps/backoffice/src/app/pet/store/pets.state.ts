@@ -4,13 +4,40 @@ import { GetPets } from './pets.actions';
 import { PetsStateModel } from './pets.state.model';
 import { StoreStatusEnum } from '../../shared/store.status.enum';
 import { SortEnum } from '../../shared/pagination';
+import { Pet, PetKind, Sex } from '@pet-hackaton/types';
 
 export const PETS = 'pets';
 
 type Ctx = StateContext<PetsStateModel>;
 
 export const PETS_DEFAULT: PetsStateModel = {
-  list: [],
+  list: [
+    {
+      name: "Жучка",
+      kind: PetKind.dog,
+      sex: Sex.female,
+      isSocializated: true,
+    },
+    {
+      name: "Бобик",
+
+      kind: PetKind.dog,
+      sex: Sex.female,
+      isSocializated: true,
+    },
+    {
+      name: "Шарик",
+      kind: PetKind.dog,
+      sex: Sex.female,
+      isSocializated: true,
+    },
+    {
+      name: "Баобос",
+      kind: PetKind.dog,
+      sex: Sex.female,
+      isSocializated: true,
+    },
+  ] as Pet[],
   pagination: {
     page: 1,
     perPage: 10,

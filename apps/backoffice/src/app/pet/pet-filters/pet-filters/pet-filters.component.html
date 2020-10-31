@@ -76,10 +76,8 @@
 <!--  <mat-form-field appearance="fill">-->
 <!--    <mat-label>Период регистации карточки</mat-label>-->
 <!--  </mat-form-field>-->
-
-<!--  <mat-form-field appearance="fill">-->
-<!--    <mat-label>Возраст</mat-label>-->
-<!--  </mat-form-field>-->
+  <number-range label="Возраст" formControlName="age">
+  </number-range>
 
   <button  mat-button (click)="apply()" type="submit">Применить</button>
 </form>

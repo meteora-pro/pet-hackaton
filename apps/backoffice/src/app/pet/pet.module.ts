@@ -6,6 +6,7 @@ import { PetCardComponent } from './pet-card/pet-card.component';
 import { PetFiltersModule } from './pet-filters/pet-filters.module';
 import { NgxsModule } from '@ngxs/store';
 import { PetsState } from './store/pets.state';
+import { MatTableModule } from '@angular/material/table';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'list' },
@@ -21,6 +22,12 @@ const routes: Route[] = [
 
 @NgModule({
   declarations: [PetListComponent, PetCardComponent],
-  imports: [RouterModule.forChild(routes), CommonModule, PetFiltersModule, NgxsModule.forFeature([PetsState])],
+  imports: [
+    RouterModule.forChild(routes),
+    CommonModule,
+    PetFiltersModule,
+    NgxsModule.forFeature([PetsState]),
+    MatTableModule,
+  ],
 })
 export class PetModule {}

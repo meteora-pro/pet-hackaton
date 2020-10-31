@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Action, State, StateContext } from '@ngxs/store';
-import { GetPets } from './pets.actions';
+import { ChangeViewType, GetPets } from './pets.actions';
 import { PetsStateModel } from './pets.state.model';
 import { StoreStatusEnum } from '../../shared/store.status.enum';
 import { SortEnum } from '../../shared/pagination';
 import { Pet, PetKind, Sex } from '@pet-hackaton/types';
+import { ViewTypeEnum } from '../../shared/view-type.enum';
 
 export const PETS = 'pets';
 
@@ -43,6 +44,7 @@ export const PETS_DEFAULT: PetsStateModel = {
     perPage: 10,
     sort: SortEnum.asc,
   },
+  viewType: ViewTypeEnum.card,
   status: StoreStatusEnum.New,
 };
 
@@ -54,4 +56,12 @@ export const PETS_DEFAULT: PetsStateModel = {
 export class PetsState {
   @Action(GetPets)
   public getPets(ctx: Ctx, action: GetPets): void {}
+
+  @Action(ChangeViewType)
+  public changeViewType(ctx: Ctx,): void {
+    const {viewType} = ctx.getState();
+    ctx.patchState({
+      viewType: viewType === ViewTypeEnum.card ? ViewTypeEnum.table : ViewTypeEnum.card
+    })
+  }
 }

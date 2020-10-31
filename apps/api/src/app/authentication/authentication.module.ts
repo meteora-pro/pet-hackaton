@@ -14,7 +14,6 @@ import { UserLoginExistValidator } from './validators/user-login-exist.validator
 import { UserNotFoundValidator } from './validators/user-not-found-validator.service';
 import { RefreshTokenGuard } from './guards/refresh-token.guard';
 import { UserEmailExistValidator } from './validators/user-email-exist.validator';
-import { UserPhoneExistValidator } from './validators/user-phone-exist.validator';
 import { UserEntity } from '../entities/user.entity';
 import { AuthStrategiesEnum } from './constants/auth-strategies.enum';
 import { AppConfigModule } from '../app-config.module';
@@ -40,7 +39,6 @@ import { AppConfigModule } from '../app-config.module';
         LocalSignService,
         UserLoginExistValidator,
         UserEmailExistValidator,
-        UserPhoneExistValidator,
         UserNotFoundValidator,
         RefreshTokenGuard,
         PermissionsService,

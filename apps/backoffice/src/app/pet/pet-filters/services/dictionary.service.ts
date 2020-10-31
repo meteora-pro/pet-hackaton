@@ -18,8 +18,9 @@ export class DictionaryService {
     return this.http.get<Shelter>(`/api/shelters`);
   }
 
-  getPets(filter: string = '') {
-    return this.http.get<Pet[]>(`/api/pets?${filter}`);
+  getPets(filter: string = '', pagination: string, sort: string): Observable<PetResponse> {
+    const queryParams = [filter, pagination, sort].filter(v => !!v).join('&');
+    return this.http.get<PetResponse>(`/api/pets?${queryParams}`);
   }
 
   getKinds(): StringDictionary[] {
@@ -31,6 +32,14 @@ export class DictionaryService {
   getSexes(): StringDictionary[] {
     return petSexes;
   }
+}
+
+export interface PetResponse {
+  data: Partial<Pet>[];
+  total: number;
+  count: number;
+  page: number;
+  pageCount: number;
 }
 
 const petKinds: StringDictionary[] = [

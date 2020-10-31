@@ -19,7 +19,11 @@ export class PetListComponent implements OnInit {
   @Select(PetsSelectors.pets)
   pets$: Observable<Pet[]>;
 
+  @Select(PetsSelectors.isLoading)
+  isLoading$: Observable<boolean>;
+
   displayedColumns: string[] = ['animal', 'kind', 'sex', 'isSocializated', 'isPublished', 'applications', 'actions'];
+
   ngOnInit(): void {
     this.store.dispatch(new LoadPets());
   }

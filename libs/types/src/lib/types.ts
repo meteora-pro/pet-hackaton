@@ -136,6 +136,7 @@ export interface Trustee {
   firstName: string; // имя
   middleName?: string; // отчество
   lastName: string; // фамилия
+  alias?: string;
   contactData: string; // адрес и/или телефон
 }
 

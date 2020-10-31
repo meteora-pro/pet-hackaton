@@ -6,6 +6,7 @@ import * as packageJson from '../../package.json';
 import * as ormConfig from '../../../../ormconfig.js';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { allEntities } from './entities/all.entities';
+import {allMigrations} from "./migrations/all.migrations";
 
 @Injectable()
 export class AppConfig {
@@ -38,6 +39,7 @@ export class AppConfig {
       ...overrideConfig,
       // оверайдим entities из ormconfig.js для более быстрого запуска проекта
       entities: allEntities,
+      migrations: allMigrations,
       name: 'default'
     };
   }

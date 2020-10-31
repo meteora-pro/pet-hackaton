@@ -14,6 +14,7 @@ import { BaseEntity } from './base.entity';
 import { UserEntity } from './user.entity';
 import { OrganizationEntity } from './organization.entity';
 import { TrusteeEntity } from './trustee.entity';
+import { PhysicalPersonEntity } from './physical-person.entity';
 
 @Entity({
   name: 'pets'
@@ -89,8 +90,8 @@ export class PetEntity extends BaseEntity implements Pet {
   @OneToMany(() => TrusteeEntity, trustee => trustee.pet)
   trustee?: TrusteeEntity[];
 
-  // @Column({ nullable: true })
-  phisycal?: PhysicalPerson;
+  @ManyToOne(() => PhysicalPersonEntity, phisycal => phisycal)
+  phisycal?: PhysicalPersonEntity;
 
   // @Column({ nullable: true })
   shelter: Shelter;

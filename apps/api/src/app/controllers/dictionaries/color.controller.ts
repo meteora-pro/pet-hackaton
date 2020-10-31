@@ -10,7 +10,7 @@ import {ApiTags} from "@nestjs/swagger";
     type: ColorEntity
   }
 })
-@Controller('color')
+@Controller('colors')
 export class ColorController implements CrudController<ColorEntity>{
   constructor(public service: ColorService){}
 }

@@ -10,7 +10,7 @@ import {ApiTags} from "@nestjs/swagger";
     type: ShelterEntity
   }
 })
-@Controller('Shelter')
+@Controller('shelters')
 export class ShelterController implements CrudController<ShelterEntity>{
   constructor(public service: ShelterService){}
 }

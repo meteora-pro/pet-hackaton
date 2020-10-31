@@ -10,7 +10,7 @@ import {ApiTags} from "@nestjs/swagger";
     type: TailEntity
   }
 })
-@Controller('tail')
+@Controller('tails')
 export class TailController implements CrudController<TailEntity>{
   constructor(public service: TailService){}
 }

@@ -10,7 +10,7 @@ import {ApiTags} from "@nestjs/swagger";
     type: UserEntity
   }
 })
-@Controller('User')
+@Controller('users')
 export class UserController implements CrudController<UserEntity>{
   constructor(public service: UserService){}
 }

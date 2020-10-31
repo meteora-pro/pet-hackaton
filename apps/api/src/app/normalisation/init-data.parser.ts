@@ -1,5 +1,4 @@
-import { PrefectureEntity } from '../entities/prefecture.entity';
-import * as rawDataSet from "../migrations/data-set/parced-dataset.json";
+import {PrefectureEntity} from '../entities/prefecture.entity';
 import * as existShelters from '../migrations/initData/shelters.json';
 import {OutReasonEntity} from "../entities/dictionaries/out-reason.entity";
 import {Logger} from "@nestjs/common";
@@ -17,10 +16,17 @@ import {PetRegistrationHistoryEntity} from "../entities/pet-registration-history
 import {PetEntity} from "../entities/pet.entity";
 import {
   findDictionaryByValue,
-  generatePhotoUrl, getCatchKey,
-  parseBoolean, parseCatchInformation, parseDate, parseHealthCheck,
-  parseOrganisation, parsePetKind,
-  parseRegistrationHistory, parseSex, parseShelter,
+  generatePhotoUrl,
+  getCatchKey,
+  parseBoolean,
+  parseCatchInformation,
+  parseDate,
+  parseHealthCheck,
+  parseOrganisation,
+  parsePetKind,
+  parseRegistrationHistory,
+  parseSex,
+  parseShelter,
   parseSize,
   parseUser
 } from "./parsing.helpers";
@@ -56,6 +62,9 @@ export class InitDataParser {
 
       const allOutReasonsSaved = await outReasonRepository.find();
       const allUsers: {[key: string]: UserEntity} = {};
+
+      const departmentUserAlias = 'ДЖКХ';
+      allUsers[departmentUserAlias] = parseUser(departmentUserAlias, Role.DEPARTMENT_USER);
 
       /** Организации */
       const organisations: {[key: string]: PetResponsibleOrganisationEntity} = {};
@@ -148,11 +157,18 @@ export class InitDataParser {
       });
       await shelterRepository.insert(Object.values(shelters));
       const allShelters = await shelterRepository.find();
+
+      const needToSaveShelterUsers = [];
       allShelters.forEach( (shelter) => {
         shelters[shelter.address] = shelter;
 
-        Object.keys(shelterUsers[shelter.address]).forEach( userKey => {});
+        Object.keys(shelterUsers[shelter.address]).forEach( userKey => {
+          const savedUser = allUsers[userKey];
+          savedUser.shelter = shelter;
+          needToSaveShelterUsers.push(savedUser);
+        });
       });
+      await userRepository.save(needToSaveShelterUsers);
 
 
       /** Справочники */

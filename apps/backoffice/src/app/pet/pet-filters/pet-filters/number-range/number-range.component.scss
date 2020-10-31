@@ -3,8 +3,10 @@
   align-items: center;
 
   &__inputs {
+    display: flex;
+    flex-wrap: wrap;
     mat-form-field {
-      width: 120px;
+      max-width: 50%;
     }
   }
 }

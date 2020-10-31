@@ -10,10 +10,12 @@ import {allDictionaryControllers} from "./controllers/dictionaries/all.dictionar
 import {allDictionaryServices} from "./services/dictionaries/all.dictionary.services";
 import {allServices} from "./services/all.services";
 import {allControllers} from "./controllers/all.controllers";
+import { AuthenticationModule } from './authentication/authentication.module';
 
 @Module({
   imports: [
     AppConfigModule,
+    AuthenticationModule,
     TypeOrmModule.forRootAsync({
       imports: [AppConfigModule],
       useFactory: async (appConfig: AppConfig) => appConfig.dbConnection,

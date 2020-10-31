@@ -1,3 +1,7 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { Column, OneToMany } from 'typeorm';
+import { Exclude } from 'class-transformer';
+import { RefreshTokenEntity } from '../../../../apps/api/src/app/authentication/entity/refresh-token.entity';
 
 export enum PetKind {
   cat= 'cat',
@@ -50,20 +54,23 @@ export interface StringDictionary {
 }
 
 export enum Role {
-  superAdmin,
-  shelterAdmin,
-  shelterUser,
-  prefetureUser,
-  responsibleOrganisationUser,
+  SUPER_ADMIN = 'SUPER_ADMIN', // Суперадминистратор
+  SHELTER_ADMIN = 'SHELTER_ADMIN', // администратор приюта
+  SHELTER_USER = 'SHELTER_USER', // Пользователь приюта
+  PREFECTURE_USER = 'PREFECTURE_USER', // Префектура
+  ORGANIZATION_USER = 'ORGANIZATION_USER', // Надзорная организация
+  DEPARTMENT_USER = 'DEPARTMENT_USER' // ДЖКХ
 }
 
 export interface User {
-  readonly id: number;
-  firstName: string;
-  lastName: string;
+  login: string;
+  email?: string;
+  phoneNumber?: string;
+  firstName?: string;
+  lastName?: string;
   middleName?: string;
   role: Role;
-  shelters: Shelter[];
+  password: string;
 }
 
 
@@ -84,7 +91,7 @@ export interface PetBaseInfo {
   readonly id: number;
   cardNumber: string; // карточка учета животного №
   kind: PetKind; // 'вид
-  age: number; // возраст, год
+  age: string; // возраст, год
   weight: number; // вес, кг
   name: string; // кличка
   sex: Sex; // пол

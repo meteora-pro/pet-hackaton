@@ -3,16 +3,19 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppConfig } from './app/app.config';
 import { AppModule } from './app/app.module';
+import * as helmet from 'helmet';
+import { useContainer } from 'class-validator';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   const appConfig = app.get(AppConfig);
   const options = new DocumentBuilder()
@@ -23,6 +26,15 @@ async function bootstrap() {
     .setDescription('Hackaton pet shelter API description')
     .setVersion('1.0')
     .build();
+
+
+  app.use(helmet());
+  app.setGlobalPrefix(globalPrefix);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+    })
+  );
 
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('docs', app, document);

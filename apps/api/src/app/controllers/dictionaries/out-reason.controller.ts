@@ -13,7 +13,7 @@ import { AccessTokenGuard } from '../../authentication/guards/access-token.guard
     type: OutReasonEntity
   }
 })
-@Controller('OutReasons')
+@Controller('out-reasons')
 export class OutReasonController implements CrudController<OutReasonEntity>{
   constructor(public service: OutReasonService){}
 }

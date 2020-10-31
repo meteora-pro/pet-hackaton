@@ -5,7 +5,7 @@ import { BaseEntity } from './base.entity';
 @Entity()
 export class UserEntity extends BaseEntity implements User {
 
-  @Column({ type: 'enum', enum: Role, default: null, nullable: true })
+  @Column({ type: 'enum', enum: Role, default: Role.shelterUser, nullable: true })
   role: Role;
 
   shelters: Shelter[];

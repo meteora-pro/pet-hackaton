@@ -7,7 +7,7 @@ import {ApiProperty} from "@nestjs/swagger";
   name: 'wools'
 })
 export class WoolEntity extends BaseDictionaryEntity {
-  @Column( {type: 'string', enum: ['кошка', 'собака']})
+  @Column( {type: 'enum', enum: PetKind})
   @ApiProperty()
   readonly type: PetKind;
 }

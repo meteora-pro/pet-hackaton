@@ -83,7 +83,7 @@ export class PetEntity extends BaseEntity implements Pet {
 
   @ApiProperty({example: 'Клетка №2'})
   @Column({ nullable: true })
-  place: number;
+  place: string;
 
   @ApiProperty()
   @Column('text', { array: true, nullable: true, default: '{}' })

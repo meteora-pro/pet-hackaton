@@ -17,7 +17,9 @@ export class FilterResolverService {
             break;
           }
           case FilterTypeEnum.in: {
-            filters.push([filterName, '$in', [...value].join(',')].join('||'));
+            if (value.length) {
+              filters.push([filterName, '$in', [...value].join(',')].join('||'));
+            }
             break;
           }
           case FilterTypeEnum.eq: {

@@ -12,24 +12,30 @@ export enum Sex {
 export type Breed = string;
 export type Color = string;
 export type Wool = string;
-export type Ears = string;
 export type Tail = string;
-export type Size = string;
 export type PetPlace = number;
 
 export type OutReason = string;
 export type Anamnesis = string;
 
 export enum OutReasonType {
-  death,
-  euthanasia,
-  leavingShelter
+  death = 'death',
+  euthanasia = 'euthanasia',
+  leavingShelter = 'leavingShelter'
 }
 
 export interface OutReasonCause {
   id: number;
   value: string;
   type: OutReasonType;
+}
+
+export enum Size {
+  small = 'small',
+  big = 'big',
+  medium = 'medium',
+  extraLarge ='extraLarge',
+  extraSmall = 'extraSmall'
 }
 
 export interface BaseDictionary {
@@ -82,9 +88,9 @@ export interface PetBaseInfo {
   wool: BaseDictionary; // шерсть
   ears: BaseDictionary; // уши
   tail: BaseDictionary; // хвост
-  size: string; // размер
+  size: Size; // размер
   signs?: string; // особые приметы
-  place: PetPlace; // Вольер №
+  place: string; // Вольер №
   photos: string[];
   character: string;
   createdAt: Date;
@@ -92,7 +98,7 @@ export interface PetBaseInfo {
 }
 
 export interface PetAdditionalInfo {
-  labelId: number; //идентификационная метка
+  labelId: string; //идентификационная метка
   sterilizationAt: string; //дата стерилизации
   sterilizationPlace: string; // место стерилизации
   veterinarian: User; // ф.и.о. ветеринарного врача

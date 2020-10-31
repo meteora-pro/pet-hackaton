@@ -2,8 +2,8 @@ import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import {
   Pet,
   PetKind,
-  Sex,
-  User,
+  Sex, Size,
+  User
 } from '@pet-hackaton/types';
 import { BaseEntity } from './base.entity';
 import { UserEntity } from './user.entity';
@@ -73,9 +73,9 @@ export class PetEntity extends BaseEntity implements Pet {
   @ManyToOne(() => TailEntity, tail => tail)
   tail: TailEntity;
 
-  @ApiProperty({example: 'Средний'})
-  @Column({ nullable: true })
-  size: string;
+  @ApiProperty({enum: CommonService.enumToArray(Size), example: Size.medium})
+  @Column({ type: 'enum', enum: Size, nullable: true })
+  size: Size;
 
   @ApiProperty({example: 'Черное пятно на ухе'})
   @Column({ nullable: true })
@@ -83,7 +83,7 @@ export class PetEntity extends BaseEntity implements Pet {
 
   @ApiProperty({example: 'Клетка №2'})
   @Column({ nullable: true })
-  place: number;
+  place: string;
 
   @ApiProperty()
   @Column('text', { array: true, nullable: true, default: '{}' })
@@ -93,9 +93,9 @@ export class PetEntity extends BaseEntity implements Pet {
   @Column({ nullable: true })
   character: string;
 
-  @ApiProperty({example: 643094100731522})
+  @ApiProperty({example: '643094100731522'})
   @Column({ nullable: true })
-  labelId: number;
+  labelId: string;
 
   @ApiProperty({example: 'не требуется по возрасту'})
   @Column({ nullable: true })

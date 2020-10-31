@@ -1,0 +1,24 @@
+<mat-form-field appearance="fill">
+  <mat-label>ID</mat-label>
+  <input type="text" matInput [ngModel]="item.id" [disabled]="!isNew">
+</mat-form-field>
+<mat-form-field appearance="fill">
+  <mat-label>Значение</mat-label>
+  <input type="text" matInput [(ngModel)]="item.value">
+</mat-form-field>
+
+<div class="modal-action">
+  <button mat-stroked-button
+          color="accent"
+          aria-label="Close"
+          (click)="handleClose()">
+    Назад
+  </button>
+  <button mat-raised-button
+          color="accent"
+          aria-label="Save"
+          [disabled]="!item.id || !item.value"
+          (click)="handleSave()">
+    Сохранить
+  </button>
+</div>

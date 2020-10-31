@@ -4,10 +4,11 @@ import { PetEntity } from '../entities/pet.entity';
 import { PetService } from '../services/pet.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserDataResponseDto } from '../authentication/dto/user-data-response.dto';
+import { AccessTokenGuard } from '../authentication/guards/access-token.guard';
 
-@ApiBearerAuth()
 @ApiTags('Pet', 'entity')
-// @UseGuards(AccessTokenGuard)
+@ApiBearerAuth()
+@UseGuards(AccessTokenGuard)
 @Crud({
   model: {
     type: PetEntity,

@@ -10,7 +10,7 @@ import {ApiTags} from "@nestjs/swagger";
     type: EarEntity
   }
 })
-@Controller('ear')
+@Controller('ears')
 export class EarController implements CrudController<EarEntity>{
   constructor(public service: EarService){}
 }

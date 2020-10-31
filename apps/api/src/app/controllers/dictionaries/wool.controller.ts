@@ -10,7 +10,7 @@ import {ApiTags} from "@nestjs/swagger";
     type: WoolEntity
   }
 })
-@Controller('wool')
+@Controller('wools')
 export class WoolController implements CrudController<WoolEntity>{
   constructor(public service: WoolService){}
 }

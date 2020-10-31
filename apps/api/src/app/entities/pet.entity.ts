@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { CatchInformation, HealthStatus, Organization, ParasiteMedicineTreatment,
   Pet,
   PetKind,
@@ -12,6 +12,8 @@ import { CatchInformation, HealthStatus, Organization, ParasiteMedicineTreatment
 } from '@pet-hackaton/types';
 import { BaseEntity } from './base.entity';
 import { UserEntity } from './user.entity';
+import { OrganizationEntity } from './organization.entity';
+import { TrusteeEntity } from './trustee.entity';
 
 @Entity({
   name: 'pets'
@@ -81,11 +83,11 @@ export class PetEntity extends BaseEntity implements Pet {
   @Column({default: false})
   isSocializated: boolean;
 
-  // @Column({ nullable: true })
-  organization?: Organization;
+  @ManyToOne(() => OrganizationEntity, organization => organization)
+  organization?: OrganizationEntity;
 
-  // @Column({ nullable: true })
-  trustee?: Trustee[];
+  @OneToMany(() => TrusteeEntity, trustee => trustee.pet)
+  trustee?: TrusteeEntity[];
 
   // @Column({ nullable: true })
   phisycal?: PhysicalPerson;

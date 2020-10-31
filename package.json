@@ -14,7 +14,6 @@
     "build:api": "ng build api --prod",
     "build:frontoffice": "ng build frontoffice --prod",
     "build:backoffice": "ng build backoffice --prod",
-    "typeorm": "typeorm",
     "test": "ng test",
     "lint": "nx workspace-lint && ng lint",
     "e2e": "ng e2e",
@@ -33,6 +32,7 @@
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "up:compose": "docker-compose --env-file ./config/api/.local.env up -d"
   },
   "private": true,

@@ -1,0 +1,7 @@
+@import "./main/layouts";
+@import "./main/colors";
+
+@mixin main-theme() {
+  @include layouts();
+  @include colors()
+}

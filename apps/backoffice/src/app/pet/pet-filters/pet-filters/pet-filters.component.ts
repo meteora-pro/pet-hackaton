@@ -26,7 +26,7 @@ export class PetFiltersComponent implements OnInit {
   shelters$ = this.dictService.getShelters();
   ages: any;
   kinds = this.dictService.getKinds();
-  sizes: any;
+  sizes = this.dictService.getSizes();
   outReasons: any;
   statuses: any;
   constructor(private filterResolverService: FilterResolverService, private dictService: DictionaryService) {}

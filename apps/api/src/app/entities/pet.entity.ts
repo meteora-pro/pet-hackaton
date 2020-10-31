@@ -1,4 +1,4 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { CatchInformation, HealthStatus, Organization, ParasiteMedicineTreatment,
   Pet,
   PetKind,
@@ -11,16 +11,17 @@ import { CatchInformation, HealthStatus, Organization, ParasiteMedicineTreatment
   Vacination
 } from '@pet-hackaton/types';
 import { BaseEntity } from './base.entity';
+import { UserEntity } from './user.entity';
 
 @Entity({
-  name: 'pet'
+  name: 'pets'
 })
 export class PetEntity extends BaseEntity implements Pet {
 
   @Column({ nullable: true })
   cardNumber: string;
 
-  @Column({ type: 'enum', enum: PetKind, default: null, nullable: true })
+  @Column({ type: 'enum', enum: PetKind, nullable: true })
   kind: PetKind;
 
   @Column({ nullable: true })
@@ -32,7 +33,7 @@ export class PetEntity extends BaseEntity implements Pet {
   @Column({ nullable: true })
   name: string;
 
-  @Column({ type: 'enum', enum: Sex, default: null, nullable: true })
+  @Column({ type: 'enum', enum: Sex, nullable: true })
   sex: Sex;
 
   @Column({ nullable: true })
@@ -59,7 +60,7 @@ export class PetEntity extends BaseEntity implements Pet {
   @Column({ nullable: true })
   place: number;
 
-  @Column()
+  @Column('text', { array: true, nullable: true, default: '{}' })
   photos: string[];
 
   @Column({ nullable: true })
@@ -74,40 +75,40 @@ export class PetEntity extends BaseEntity implements Pet {
   @Column({ nullable: true })
   sterilizationPlace: string;
 
-  @Column({ nullable: true })
+  @ManyToOne(() => UserEntity, user => user)
   veterinarian: User;
 
   @Column({default: false})
   isSocializated: boolean;
 
-  @Column({ nullable: true })
+  // @Column({ nullable: true })
   organization?: Organization;
 
-  @Column({ nullable: true })
+  // @Column({ nullable: true })
   trustee?: Trustee[];
 
-  @Column({ nullable: true })
+  // @Column({ nullable: true })
   phisycal?: PhysicalPerson;
 
-  @Column({ nullable: true })
+  // @Column({ nullable: true })
   shelter: Shelter;
 
-  @Column({ nullable: true })
+  @ManyToOne(() => UserEntity, user => user)
   petCareTakerName: User;
 
-  @Column({ nullable: true })
+  // @Column({ nullable: true })
   catchInformation: CatchInformation;
 
-  @Column({ nullable: true })
+  // @Column({ nullable: true })
   registrationHistory: PetRegistrationHistory;
 
-  @Column()
+  // @Column()
   parasiteTreatments: ParasiteMedicineTreatment[];
 
-  @Column()
+  // @Column()
   vacinations: Vacination[];
 
-  @Column()
+  // @Column()
   healthchecks: HealthStatus[];
 
 }

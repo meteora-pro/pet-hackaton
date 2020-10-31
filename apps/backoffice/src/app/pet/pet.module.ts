@@ -22,6 +22,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { AttributeStatusComponent } from './pet-list/columns/attribute-status/attribute-status.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HumanizedPipe } from './pipes/humanized.pipe';
+import { CanActivateGuard } from './can-activate.guard';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'list' },
@@ -32,6 +33,12 @@ const routes: Route[] = [
   {
     path: 'create',
     component: PetFormComponent,
+    canActivate: [CanActivateGuard],
+  },
+  {
+    path: ':id/:mode',
+    component: PetFormComponent,
+    canActivate: [CanActivateGuard],
   },
 ];
 

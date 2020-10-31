@@ -26,7 +26,7 @@
     </th>
     <td mat-cell *matCellDef="let element">
       {{ element?.name || '—' }}<br>
-      <i>{{element.kind}} / {{element.sex}}</i> <br>
+      <i>{{element.kind || '—'}} / {{element.sex}}</i> <br>
       {{element.color?.value || '—' }}
     </td>
   </ng-container>

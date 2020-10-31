@@ -40,6 +40,11 @@ export class UserEntity extends BaseEntity implements User {
   password: string;
 
   @ApiProperty()
+  @Exclude()
+  @Column()
+  salt: string;
+
+  @ApiProperty()
   @OneToMany(() => RefreshTokenEntity, (tokens) => tokens.user)
   tokens: RefreshTokenEntity[];
 

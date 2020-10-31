@@ -13,7 +13,8 @@ export class HumanizedPipe implements PipeTransform {
     if (!dictionary) {
       return '—';
     }
-    return dictionary.find(item => item.id === value).value;
+    const dict = dictionary.find(item => item.id === value);
+    return dict && dict.value || '';
   }
 
   private getDictionaryByType(type) {

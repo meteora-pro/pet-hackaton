@@ -37,7 +37,7 @@
         </button>
         <span *ngIf="currentUser$ | async as user" class="mat-body-strong">{{user.login}}</span>
 
-        <div class="toolbar__exit-button">
+        <div class="toolbar__exit-button" *ngIf="(isSignedIn$ | async)">
           <mat-icon class="icon">exit_to_app</mat-icon>
           <button (click)="logout()" mat-button>Выйти</button>
         </div>

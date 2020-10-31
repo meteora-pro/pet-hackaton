@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
+import { CanActivateChildGuard } from './core/can-activate-child-guard.service';
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    canActivateChild: [CanActivateChildGuard],
     children: [
       {
         path: 'shelter',
@@ -17,7 +19,8 @@ const routes: Routes = [
       },
       {
         path: 'dictionary',
-        loadChildren: () => import('./dictionary-manager/dictionary-manager.module').then((m) => m.DictionaryManagerModule),
+        loadChildren: () =>
+          import('./dictionary-manager/dictionary-manager.module').then((m) => m.DictionaryManagerModule),
       },
     ],
   },

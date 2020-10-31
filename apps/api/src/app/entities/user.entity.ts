@@ -14,10 +14,14 @@ export class UserEntity extends BaseEntity implements User {
 
   @ApiProperty()
   @Column()
+  alias: string;
+
+  @ApiProperty()
+  @Column({ nullable: true })
   firstName: string;
 
   @ApiProperty()
-  @Column()
+  @Column({ nullable: true })
   lastName: string;
 
   @ApiProperty()

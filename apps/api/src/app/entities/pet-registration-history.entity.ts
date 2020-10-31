@@ -2,7 +2,6 @@ import { BaseEntity } from './base.entity';
 import { OutReason, PetRegistrationHistory } from '@pet-hackaton/types';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { OutReasonEntity } from './dictionaries/out-reason.entity';
-import { OrganizationEntity } from './organization.entity';
 import {ApiProperty} from "@nestjs/swagger";
 
 @Entity({name: 'pet_registration_histories'})
@@ -24,7 +23,7 @@ export class PetRegistrationHistoryEntity extends BaseEntity implements PetRegis
   @Column()
   outAt: Date;
 
-  @ApiProperty()
+  @ApiProperty({type: OutReasonEntity})
   @ManyToOne(() => OutReasonEntity, out => out, {nullable: true})
   outReason: OutReasonEntity;
 }

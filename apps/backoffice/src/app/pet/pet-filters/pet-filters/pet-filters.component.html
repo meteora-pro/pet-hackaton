@@ -4,11 +4,13 @@
     <mat-label>Номер</mat-label>
     <input type="text" matInput formControlName="cardNumber">
   </mat-form-field>
+
   <mat-form-field appearance="fill"
                   [hideRequiredMarker]="true">
     <mat-label>№ идентификационной метки</mat-label>
     <input type="text" matInput formControlName="labelId">
   </mat-form-field>
+
   <mat-form-field appearance="fill"
                   [hideRequiredMarker]="true">
     <mat-label>Кличка</mat-label>
@@ -33,11 +35,13 @@
     </mat-select>
   </mat-form-field>
 
+  <date-range formControlName="createdAt" label="Период регистрации карточки<"></date-range>
+
   <mat-form-field appearance="fill">
     <mat-label>Вид животного</mat-label>
     <mat-select formControlName="kind" multiple>
-      <mat-option *ngFor="let kind of kinds" [value]="kind.value">
-        {{kind.label}}
+      <mat-option *ngFor="let kind of kinds" [value]="kind.id">
+        {{kind.value}}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -45,8 +49,8 @@
   <mat-form-field appearance="fill">
     <mat-label>Размер</mat-label>
     <mat-select formControlName="size" multiple>
-      <mat-option *ngFor="let size of sizes" [value]="size.value">
-        {{size.label}}
+      <mat-option *ngFor="let size of sizes" [value]="size.id">
+        {{size.value}}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -79,3 +83,7 @@
 
   <button  mat-button (click)="apply()" type="submit">Применить</button>
 </form>
+
+<pre>
+  {{ form.value | json }}
+</pre>

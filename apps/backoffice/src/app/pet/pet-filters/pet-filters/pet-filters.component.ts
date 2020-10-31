@@ -25,8 +25,8 @@ export class PetFiltersComponent implements OnInit {
   districts: any;
   shelters$ = this.dictService.getShelters();
   ages: any;
-  kinds: any;
-  sizes: any;
+  kinds = this.dictService.getKinds();
+  sizes = this.dictService.getSizes();
   outReasons: any;
   statuses: any;
   constructor(private filterResolverService: FilterResolverService, private dictService: DictionaryService) {}
@@ -36,7 +36,6 @@ export class PetFiltersComponent implements OnInit {
 
   apply() {
     const filter = this.filterResolverService.resolve(this.form.value);
-    console.log('[LOG] filter', filter);
     this.dictService.getPets(filter).subscribe(e => console.log('[LOG] pets', e))
   }
 }

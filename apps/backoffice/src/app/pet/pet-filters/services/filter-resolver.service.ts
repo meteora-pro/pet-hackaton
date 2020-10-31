@@ -17,7 +17,9 @@ export class FilterResolverService {
             break;
           }
           case FilterTypeEnum.in: {
-            filters.push([filterName, '$in', [...value].join(',')].join('||'));
+            if (value.length) {
+              filters.push([filterName, '$in', [...value].join(',')].join('||'));
+            }
             break;
           }
           case FilterTypeEnum.eq: {
@@ -27,10 +29,10 @@ export class FilterResolverService {
           case FilterTypeEnum.numberRange:
           case FilterTypeEnum.dateRange:
             if (value.from) {
-              filters.push([filterName, '$gte', value.from].join('||'));
+              filters.push([filterName, '$gte', new Date(value.from).toISOString()].join('||'));
             }
             if (value.to) {
-              filters.push([filterName, '$lte', value.to].join('||'));
+              filters.push([filterName, '$lte', new Date(value.to).toISOString()].join('||'));
             }
             break;
         }

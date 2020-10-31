@@ -17,7 +17,11 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { DictionaryPipeModule } from '../shared/dictionary.pipe';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRippleModule } from '@angular/material/core';
+import { MatTabsModule } from '@angular/material/tabs';
 import { AttributeStatusComponent } from './pet-list/columns/attribute-status/attribute-status.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HumanizedPipe } from './pipes/humanized.pipe';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'list' },
@@ -32,7 +36,7 @@ const routes: Route[] = [
 ];
 
 @NgModule({
-  declarations: [PetListComponent, PetCardComponent, AttributeStatusComponent],
+  declarations: [PetListComponent, PetCardComponent, AttributeStatusComponent, HumanizedPipe],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
@@ -49,6 +53,9 @@ const routes: Route[] = [
     DictionaryPipeModule,
     MatPaginatorModule,
     MatCheckboxModule,
+    MatProgressSpinnerModule,
+    MatRippleModule,
+    MatTabsModule,
   ],
 })
 export class PetModule {}

@@ -33,10 +33,6 @@ export class PetsState {
 
   constructor(private dictionaryService: DictionaryService) {}
 
-  static resolePagination(pagination: Pagination): string {
-    return `page=${pagination.page}&limit=${pagination.perPage}`
-  }
-
   @Action(ChangeViewType)
   changeViewType(ctx: Ctx): void {
     const {viewType} = ctx.getState();
@@ -69,20 +65,24 @@ export class PetsState {
   @Action(LoadPets)
   loadPets(ctx: Ctx) {
     const state = ctx.getState();
+    ctx.patchState({
+      status: StoreStatusEnum.Loading
+    });
     return this.dictionaryService.getPets(
       state.filters,
-      PetsState.resolePagination(state.pagination),
+      state.pagination,
       '').pipe(
       tap((response) => {
         ctx.patchState({
-          list: response['data'],
+          list: response.data || [],
           pagination: {
             ...state.pagination,
             total: response.total,
             count: response.count,
             page: response.page,
             pageCount: response.pageCount,
-          }
+          },
+          status: StoreStatusEnum.Ready
         })
       })
     )

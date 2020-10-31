@@ -1,9 +1,13 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { DictionaryService } from '../pet-filters/services/dictionary.service';
-import { merge, Observable, of } from 'rxjs';
+import { merge, Observable, of, Subject } from 'rxjs';
 import { BaseDictionary, OutReason, Role, User } from '@pet-hackaton/types';
-import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { filter, map, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
+import { Select, Store } from '@ngxs/store';
+import { SavePet } from '../store/pets.actions';
+import { PetsSelectors } from '../store/pets.selectors';
+import { PetFormMode } from '../store/pets.state.model';
 
 @Component({
   selector: 'pet-hackaton-pet-form',
@@ -11,7 +15,8 @@ import { map, shareReplay, switchMap } from 'rxjs/operators';
   styleUrls: ['./pet-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PetFormComponent implements OnInit {
+export class PetFormComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   form = new FormGroup({
     name: new FormControl(),
     kind: new FormControl(),
@@ -19,7 +24,7 @@ export class PetFormComponent implements OnInit {
     breed: new FormControl(),
     color: new FormControl(),
     size: new FormControl(),
-    isSocializated: new FormControl(),
+    isSocializated: new FormControl(false),
     arrivedAt: new FormControl(),
     character: new FormControl(),
     signs: new FormControl(),
@@ -40,10 +45,12 @@ export class PetFormComponent implements OnInit {
       name: new FormControl(), // эксплуатирующая организация
       address: new FormControl(), // адрес приюта
     }), // юридическое лицо
-    trustee: new FormGroup({
-      alias: new FormControl(),
-      contactData: new FormControl(),
-    }), // ф.и.о. опекунов
+    trustee: new FormArray([
+      new FormGroup({
+        alias: new FormControl(),
+        contactData: new FormControl(),
+      }),
+    ]), // ф.и.о. опекунов
     physical: new FormGroup({
       alias: new FormControl(),
       passport: new FormGroup({
@@ -84,16 +91,33 @@ export class PetFormComponent implements OnInit {
   });
 
   isSmallForm = true;
+  readonly: boolean;
+  mode: PetFormMode;
+
   colors$: Observable<BaseDictionary[]>;
   allColors$: Observable<BaseDictionary[]> = this.dictionaryService.getDict('colors').pipe(shareReplay());
-  image =
-    'https://cdn.dev.meteora.pro/meteora-dev/hackaton/1.%20%D0%B3.%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%97%D0%B5%D0%BB%D0%B5%D0%BD%D0%BE%D0%B3%D1%80%D0%B0%D0%B4%2C%20%D0%A4%D0%B8%D1%80%D1%81%D0%B0%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%D0%BE%D0%B5%20%D1%88.%2C%20%D0%B2%D0%BB.5%D0%90/1617%D0%B7-20.jpg';
+
+  @Select(PetsSelectors.petPhoto)
+  image$: Observable<string>;
+
   breeds$: Observable<BaseDictionary[]>;
   allBreeds$: Observable<BaseDictionary[]> = this.dictionaryService.getDict('breeds').pipe(shareReplay());
   veterinarians$: Observable<User[]> = this.dictionaryService.getUsersByRole(Role.MEDICAL_USER);
   outReasons$: Observable<OutReason>;
-  constructor(private dictionaryService: DictionaryService) {}
 
+  @Select(PetsSelectors.isLoading)
+  isLoading$: Observable<boolean>;
+
+  @Select(PetsSelectors.isNew)
+  isNew$: Observable<boolean>;
+
+  @Select(PetsSelectors.isReadonly)
+  isReadonly$: Observable<boolean>;
+  compareById(a, b): boolean {
+    return a?.id === b?.id;
+  }
+
+  constructor(private dictionaryService: DictionaryService, private store: Store) {}
 
   get parasiteTreatments() {
     return this.form.get('parasiteTreatments') as FormArray;
@@ -104,8 +128,19 @@ export class PetFormComponent implements OnInit {
   get healthchecks() {
     return this.form.get('healthchecks') as FormArray;
   }
+  get trustee() {
+    return this.form.get('trustee') as FormArray;
+  }
 
   ngOnInit(): void {
+    this.store
+      .select(PetsSelectors.pet)
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((pet) => {
+        debugger;
+        this.form.patchValue(pet);
+      });
+
     const kindChanges$ = merge(this.form.get('kind').valueChanges, of(null));
     this.colors$ = kindChanges$.pipe(
       switchMap((kind) =>
@@ -134,7 +169,7 @@ export class PetFormComponent implements OnInit {
   }
 
   savePet() {
-    console.log('[LOG] value', this.form.value);
+    this.store.dispatch(new SavePet(this.form.value));
   }
 
   toggleFields() {
@@ -145,5 +180,10 @@ export class PetFormComponent implements OnInit {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

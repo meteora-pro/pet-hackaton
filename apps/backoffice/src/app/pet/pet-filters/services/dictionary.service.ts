@@ -32,6 +32,18 @@ export class DictionaryService {
     return this.http.get<PetResponse>(`${this.apiUrl}/pets?${queryParams}`);
   }
 
+  getPetById(id: string): Observable<Pet> {
+    return this.http.get<Pet>(`${this.apiUrl}/pets/${id}`);
+  }
+
+  createPet(pet: Pet): Observable<Pet> {
+    return this.http.post<Pet>(`${this.apiUrl}/pets`, pet);
+  }
+
+  updatePet(id: number, pet: Partial<Pet>): Observable<Pet> {
+    return this.http.patch<Pet>(`${this.apiUrl}/pets/${id}`, pet);
+  }
+
   getUsersByRole(role: Role): Observable<User[]> {
     const queryParams = role ? `filter=role||$eq||${role}` : '';
     return this.http.get<User[]>(`${this.apiUrl}/users?${queryParams}`);

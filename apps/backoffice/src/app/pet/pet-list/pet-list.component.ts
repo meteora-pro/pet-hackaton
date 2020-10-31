@@ -5,6 +5,7 @@ import { PetsSelectors } from '../store/pets.selectors';
 import { Observable } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { ChangePage, LoadPets } from '../store/pets.actions';
+import { PetFormMode } from '../store/pets.state.model';
 
 @Component({
   selector: 'pet-hackaton-pet-list',
@@ -22,6 +23,7 @@ export class PetListComponent implements OnInit {
   @Select(PetsSelectors.isLoading)
   isLoading$: Observable<boolean>;
 
+  petFormMode = PetFormMode;
   displayedColumns: string[] = ['animal', 'kind', 'sex', 'isSocializated', 'isPublished', 'applications', 'actions'];
 
   ngOnInit(): void {

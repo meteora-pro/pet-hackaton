@@ -3,7 +3,7 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { DictionaryService } from '../pet-filters/services/dictionary.service';
 import { merge, Observable, of, Subject } from 'rxjs';
 import { BaseDictionary, OutReason, Role, User } from '@pet-hackaton/types';
-import { filter, map, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, filter, map, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
 import { Select, Store } from '@ngxs/store';
 import { SavePet } from '../store/pets.actions';
 import { PetsSelectors } from '../store/pets.selectors';
@@ -103,7 +103,7 @@ export class PetFormComponent implements OnInit, OnDestroy {
   breeds$: Observable<BaseDictionary[]>;
   allBreeds$: Observable<BaseDictionary[]> = this.dictionaryService.getDict('breeds').pipe(shareReplay());
   veterinarians$: Observable<User[]> = this.dictionaryService.getUsersByRole(Role.MEDICAL_USER);
-  outReasons$: Observable<OutReason>;
+  outReasons$: Observable<BaseDictionary[]> = this.dictionaryService.getDict('out-reasons');
 
   @Select(PetsSelectors.isLoading)
   isLoading$: Observable<boolean>;
@@ -135,9 +135,8 @@ export class PetFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store
       .select(PetsSelectors.pet)
-      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .pipe(debounceTime(100), filter(Boolean), takeUntil(this.destroy$))
       .subscribe((pet) => {
-        debugger;
         this.form.patchValue(pet);
       });
 

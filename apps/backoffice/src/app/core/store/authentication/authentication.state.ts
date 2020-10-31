@@ -71,8 +71,8 @@ export class AuthenticationState {
       console.error('Error while parse auth data from local storage', e);
     }
     if (accessToken && refreshToken) {
-      ctx.patchState({accessToken, refreshToken});
-      return ctx.dispatch(new GetUserMe);
+      ctx.patchState({ accessToken, refreshToken });
+      return ctx.dispatch(new GetUserMe());
     }
   }
 

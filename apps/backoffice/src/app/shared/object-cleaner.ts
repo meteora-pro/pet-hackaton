@@ -6,6 +6,12 @@ export function cleanObj<T>(obj: T): Partial<T> {
     if (value == null) {
       return { ...acc };
     }
+    if(Array.isArray(value)) {
+      if (value?.length) {
+        return { ...acc, [key]: value };
+      }
+      return {...acc}
+    }
     if (typeof value === 'object') {
       const nestedObject = cleanObj(value);
       if (nestedObject && Object.keys(nestedObject).length) {

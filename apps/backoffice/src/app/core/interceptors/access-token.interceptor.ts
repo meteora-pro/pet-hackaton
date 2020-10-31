@@ -18,7 +18,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
     const accessToken: Token = this.store.selectSnapshot(AuthenticationSelectors.getAccessToken);
     if (!accessToken) {
-      return  next.handle(request);
+      return next.handle(request);
     }
 
     request = request.clone({

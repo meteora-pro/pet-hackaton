@@ -4,7 +4,7 @@ import { BaseEntity } from './base.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { RefreshTokenEntity } from './refresh-token.entity';
-import { PrefecturesEntity } from './prefecture.entity';
+import { PrefectureEntity } from './prefecture.entity';
 import { PetResponsibleOrganisationEntity } from './pet-responsible-organisation.entity';
 import { ShelterEntity } from './shelter.entity';
 
@@ -48,8 +48,8 @@ export class UserEntity extends BaseEntity implements User {
   @OneToMany(() => RefreshTokenEntity, (tokens) => tokens.user)
   tokens: RefreshTokenEntity[];
 
-  @ManyToOne(() => PrefecturesEntity, (prefecture) => prefecture.users)
-  prefecture: PrefecturesEntity;
+  @ManyToOne(() => PrefectureEntity, (prefecture) => prefecture.users)
+  prefecture: PrefectureEntity;
 
   @ManyToOne(() => PetResponsibleOrganisationEntity, (organization) => organization.users)
   organization: PetResponsibleOrganisationEntity;

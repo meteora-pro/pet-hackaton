@@ -6,14 +6,14 @@ import {ApiProperty} from "@nestjs/swagger";
 import { ShelterEntity } from './shelter.entity';
 
 @Entity({name: 'prefectures'})
-export class PrefecturesEntity extends BaseEntity implements Prefecture  {
+export class PrefectureEntity extends BaseEntity implements Prefecture  {
 
   @ApiProperty()
   @Column()
   name: string;
 
-  @ApiProperty()
-  @Column()
+  @ApiProperty({nullable: true})
+  @Column({ nullable: true })
   address: string;
 
   @ApiProperty({type: UserEntity})
@@ -22,7 +22,7 @@ export class PrefecturesEntity extends BaseEntity implements Prefecture  {
 
   @ApiProperty({type: [UserEntity], isArray: true})
   @OneToMany(() => UserEntity, user => user.prefecture)
-  users: UserEntity[]
+  users: UserEntity[];
 
 
   @ApiProperty({type: [ShelterEntity], isArray: true})

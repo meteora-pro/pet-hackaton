@@ -4,7 +4,7 @@ import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { PetResponsibleOrganisationEntity } from './pet-responsible-organisation.entity';
-import { PrefecturesEntity } from './prefecture.entity';
+import { PrefectureEntity } from './prefecture.entity';
 
 @Entity({ name: 'shelters' })
 export class ShelterEntity extends BaseEntity implements Shelter {
@@ -33,8 +33,8 @@ export class ShelterEntity extends BaseEntity implements Shelter {
   organisation: PetResponsibleOrganisationEntity;
 
   @ApiProperty()
-  @ManyToOne(() => PrefecturesEntity, (prefecture) => prefecture.shelters, { nullable: true })
-  prefecture: PrefecturesEntity;
+  @ManyToOne(() => PrefectureEntity, (prefecture) => prefecture.shelters, { nullable: true })
+  prefecture: PrefectureEntity;
 
   @ApiProperty()
   @OneToMany(() => UserEntity, (user) => user.shelter)

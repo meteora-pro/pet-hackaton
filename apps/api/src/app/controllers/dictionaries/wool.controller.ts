@@ -8,7 +8,7 @@ import {WoolService} from "../../services/dictionaries/wool.service";
     type: WoolEntity
   }
 })
-@Controller('cat-Wool')
+@Controller('wool')
 export class WoolController implements CrudController<WoolEntity>{
   constructor(public service: WoolService){}
 }

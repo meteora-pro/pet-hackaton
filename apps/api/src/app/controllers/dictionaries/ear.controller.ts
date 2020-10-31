@@ -8,7 +8,7 @@ import {EarService} from "../../services/dictionaries/ear.service";
     type: EarEntity
   }
 })
-@Controller('ears')
+@Controller('ear')
 export class EarController implements CrudController<EarEntity>{
   constructor(public service: EarService){}
 }

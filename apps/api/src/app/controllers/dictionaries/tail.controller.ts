@@ -8,7 +8,7 @@ import {TailService} from "../../services/dictionaries/tail.service";
     type: TailEntity
   }
 })
-@Controller('tails')
+@Controller('tail')
 export class TailController implements CrudController<TailEntity>{
   constructor(public service: TailService){}
 }

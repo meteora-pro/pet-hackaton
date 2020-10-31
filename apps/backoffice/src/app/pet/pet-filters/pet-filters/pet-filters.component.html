@@ -17,7 +17,7 @@
 
   <mat-form-field appearance="fill">
     <mat-label>Административный округ</mat-label>
-    <mat-select formControlName="district">
+    <mat-select formControlName="district" multiple>
       <mat-option *ngFor="let district of districts" [value]="district.value">
         {{district.label}}
       </mat-option>
@@ -26,18 +26,54 @@
 
   <mat-form-field appearance="fill">
     <mat-label>Приют</mat-label>
-    <mat-select formControlName="shelterIds">
+    <mat-select formControlName="shelterIds" multiple>
       <mat-option *ngFor="let shelter of shelters" [value]="shelter.value">
-        {{shelter .label}}
+        {{shelter.label}}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
-    <mat-label>Период регистации карточки</mat-label>
+    <mat-label>Вид животного</mat-label>
+    <mat-select formControlName="kind" multiple>
+      <mat-option *ngFor="let kind of kinds" [value]="kind.value">
+        {{kind.label}}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Размер</mat-label>
+    <mat-select formControlName="size" multiple>
+      <mat-option *ngFor="let size of sizes" [value]="size.value">
+        {{size.label}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Причина выбытия</mat-label>
+    <mat-select formControlName="outReason" multiple>
+      <mat-option *ngFor="let outReason of outReasons" [value]="outReason.value">
+        {{outReason.label}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Статус животного</mat-label>
+    <mat-select formControlName="status" multiple>
+      <mat-option *ngFor="let status of statuses" [value]="status.value">
+        {{status.label}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+<!--  <mat-form-field appearance="fill">-->
+<!--    <mat-label>Период регистации карточки</mat-label>-->
+<!--  </mat-form-field>-->
+
+<!--  <mat-form-field appearance="fill">-->
+<!--    <mat-label>Возраст</mat-label>-->
+<!--  </mat-form-field>-->
 </form>
-
-
-
-

@@ -11,10 +11,12 @@ import { MatListModule } from '@angular/material/list';
 import { LayoutComponent } from './layout/layout.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [AppComponent, LayoutComponent],
   imports: [
+    CoreModule,
     BrowserModule,
     BrowserAnimationsModule,
     LayoutModule,

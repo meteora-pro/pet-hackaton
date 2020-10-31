@@ -5,7 +5,8 @@ import {ApiProperty} from "@nestjs/swagger";
 import { CommonService } from '../../services/common/common.service';
 
 @Entity({
-  name: 'wools'
+  name: 'wools',
+  // schema: 'dictionaries'
 })
 export class WoolEntity extends BaseDictionaryEntity implements BaseDictionary {
   @Column( {type: 'enum', enum: PetKind})

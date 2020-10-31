@@ -4,11 +4,11 @@ import { SignInResponseDto } from '../dto/sign-in-response.dto';
 import { JwtSignService } from './jwt-sign.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Brackets, Repository } from 'typeorm';
-import { RefreshTokenEntity } from '../entity/refresh-token.entity';
+import { RefreshTokenEntity } from '../../entities/refresh-token.entity';
 import { SignUpRequestDto } from '../dto/sign-up-request.dto';
-import * as bcrypt from 'bcryptjs';
 import { RefreshTokenRequestDto } from '../dto/refresh-token-request.dto';
 import { UserEntity } from '../../entities/user.entity';
+import { pbkdf2Sync, randomBytes } from 'crypto';
 
 @Injectable()
 export class LocalSignService {
@@ -19,6 +19,17 @@ export class LocalSignService {
     @InjectRepository(RefreshTokenEntity)
     private refreshTokenEntityRepository: Repository<RefreshTokenEntity>,
   ) {}
+
+  public static hashUserPassword(password: string) {
+    const salt = randomBytes(16).toString('hex');
+    const passwordHash = pbkdf2Sync(password, salt, 1000, 64, `sha512`).toString(`hex`);
+    return { salt, passwordHash };
+  }
+
+  public static verifyUserPassword(password: string, hash: string, salt: string): boolean {
+      const passwordHash = pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
+      return passwordHash === hash;
+  }
 
   public async getUserByRefreshToken(token: string): Promise<Partial<UserEntity>> {
     const tokenEntity = await this.refreshTokenEntityRepository.findOne({ token }, { relations: ['user'] });
@@ -34,12 +45,9 @@ export class LocalSignService {
         {
           email: signInBodyDto.login,
         },
-        {
-          phoneNumber: signInBodyDto.login,
-        },
       ],
     });
-    const isPasswordValid = await bcrypt.compare(signInBodyDto.password, user.password);
+    const isPasswordValid = await LocalSignService.verifyUserPassword(signInBodyDto.password, user.password, user.salt);
     if (!isPasswordValid) {
       throw new BadRequestException(['User not found or incorrect password']);
     }
@@ -51,10 +59,11 @@ export class LocalSignService {
   }
 
   public async signUp(signUpBodyDto: SignUpRequestDto): Promise<SignInResponseDto> {
-    const passwordHash = await bcrypt.hash(signUpBodyDto.password, 10);
+    const { passwordHash, salt } = await LocalSignService.hashUserPassword(signUpBodyDto.password);
     const newUser = await this.userEntityRepository.save({
       ...signUpBodyDto,
       password: passwordHash,
+      salt,
     });
     return await this.prepareTokenData(newUser);
   }

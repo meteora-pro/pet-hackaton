@@ -19,6 +19,7 @@ import { ParasiteMedicineTreatmentEntity } from '../entities/parasite-medicine-t
 import { VacinationEntity } from '../entities/vacination.entity';
 import { HealthStatusEntity } from '../entities/health-status.entity';
 import {Logger} from "@nestjs/common";
+import { LocalSignService } from '../authentication/services/local-sign.service';
 
 export function parseSex(input: 'женский' | 'мужской' | string): Sex {
   switch(input?.trim()) {
@@ -73,12 +74,14 @@ export function parseDate(date: string): Date {
 }
 
 export function parseUser(userAlias: string, role: Role) {
+  const { passwordHash, salt } = LocalSignService.hashUserPassword('123123');
   return {
     alias: userAlias,
     firstName: '',
     lastName: userAlias,
-    password: userAlias,
-    login: userAlias,
+    password: passwordHash,
+    salt,
+    login: userAlias.replace('/\s/g', '_'),
     role,
   } as UserEntity;
 }

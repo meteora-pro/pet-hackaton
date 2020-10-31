@@ -9,13 +9,15 @@ module.exports = [
     password: process.env.POSTGRES_PASSWORD || "ilt0q1drzye",
     database: process.env.DB_NAME || "api_local",
     logging: true,
-    dropSchema: false,
-    entities: ["dist/apps/api/apps/api/src/**/*.entity.js"],
-    synchronize: true,
-    migrationsRun: false,
+    dropSchema: true,
+    entities: [
+      "apps/api/src/app/**/*.entity.ts",
+    ],
+    synchronize: false,
+    migrationsRun: true,
     cli: {
       entitiesDir: ["apps/api/src/**/entities"],
-      migrationsDir: ["apps/api/src/migrations"],
+      migrationsDir: ["apps/api/src/app/migrations"],
       subscribersDir: ["apps/api/src/subscribers"],
     },
   }

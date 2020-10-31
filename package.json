@@ -32,6 +32,7 @@
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "up:compose": "docker-compose --env-file ./config/api/.local.env up -d"
   },
   "private": true,

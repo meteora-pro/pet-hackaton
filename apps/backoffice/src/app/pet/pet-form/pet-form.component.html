@@ -56,13 +56,6 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Дата поступления</mat-label>
-        <input matInput formControlName="arrivedAt" [matDatepicker]="arrivedAtPicker" />
-        <mat-datepicker-toggle matSuffix [for]="arrivedAtPicker"></mat-datepicker-toggle>
-        <mat-datepicker #arrivedAtPicker></mat-datepicker>
-      </mat-form-field>
     </div>
     <div [hidden]="isSmallForm">
       <mat-form-field appearance="fill">
@@ -192,12 +185,110 @@
         </mat-tab-group>
       </div>
 
-      <div #petHistoryInfo>
+      <div #petHistoryInfo [formGroup]="form.get('registrationHistory')">
         <h4>Движение животного</h4>
+        <div class="mat-form-field-group">
+          <mat-form-field appearance="fill">
+            <mat-label>Дата поступления в приют</mat-label>
+            <input matInput formControlName="arrivedAt" [matDatepicker]="arrivedAtPicker" />
+            <mat-datepicker-toggle matSuffix [for]="arrivedAtPicker"></mat-datepicker-toggle>
+            <mat-datepicker #arrivedAtPicker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Акт №</mat-label>
+            <input matInput formControlName="arrivedAct" />
+          </mat-form-field>
+        </div>
+        <div class="mat-form-field-group">
+          <mat-form-field appearance="fill">
+            <mat-label>Дата выбытия из приюта</mat-label>
+            <input matInput formControlName="outAt" [matDatepicker]="outAtPicker" />
+            <mat-datepicker-toggle matSuffix [for]="outAtPicker"></mat-datepicker-toggle>
+            <mat-datepicker #outAtPicker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Акт №</mat-label>
+            <input matInput formControlName="outAct" />
+          </mat-form-field>
+        </div>
+        <mat-form-field appearance="fill">
+          <mat-label>Причина выбытия</mat-label>
+          <mat-select formControlName="outReason">
+            <mat-option *ngFor="let outReason of outReasons$ | async" [value]="outReason">
+              {{ outReason }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <h4>Сведения об обработке от экто- и эндопаразитов</h4>
-      <h4>Сведения о вакцинации</h4>
-      <h4>Сведения о состоянии здоровья</h4>
+      <div #parasiteTreatmentsInfo [formArrayName]="'parasiteTreatments'">
+        <h4>Сведения об обработке от экто- и эндопаразитов</h4>
+        <ng-container *ngFor="let control of parasiteTreatments?.controls">
+          <div [formGroup]="control">
+            <mat-form-field appearance="fill">
+              <mat-label>Название препарата</mat-label>
+              <input matInput formControlName="medicineName" />
+            </mat-form-field>
+            <div class="mat-form-field-group">
+              <mat-form-field appearance="fill">
+                <mat-label>Доза</mat-label>
+                <input matInput formControlName="medicineDose" />
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>Дата</mat-label>
+                <input matInput formControlName="date" [matDatepicker]="parasiteDate" />
+                <mat-datepicker-toggle matSuffix [for]="parasiteDate"></mat-datepicker-toggle>
+                <mat-datepicker #parasiteDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div #vacinationsInfo [formArrayName]="'vacinations'">
+        <h4>Сведения о вакцинации</h4>
+        <ng-container *ngFor="let control of vacinations?.controls">
+          <div [formGroup]="control">
+            <mat-form-field appearance="fill">
+              <mat-label>Вид вакцины</mat-label>
+              <input matInput formControlName="vacineName" />
+            </mat-form-field>
+            <div class="mat-form-field-group">
+              <mat-form-field appearance="fill">
+                <mat-label>№ серии</mat-label>
+                <input matInput formControlName="serialNumber" />
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>Дата</mat-label>
+                <input matInput formControlName="date" [matDatepicker]="vacineDate" />
+                <mat-datepicker-toggle matSuffix [for]="vacineDate"></mat-datepicker-toggle>
+                <mat-datepicker #vacineDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div #healthchecksInfo [formArrayName]="'healthchecks'">
+        <h4>Сведения о состоянии здоровья</h4>
+        <ng-container *ngFor="let control of healthchecks?.controls">
+          <div [formGroup]="control">
+            <mat-form-field appearance="fill">
+              <mat-label>Анамнез</mat-label>
+              <input matInput formControlName="anamnesis" />
+            </mat-form-field>
+            <div class="mat-form-field-group">
+              <mat-form-field appearance="fill">
+                <mat-label>Вес</mat-label>
+                <input matInput formControlName="weight" />
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>Дата</mat-label>
+                <input matInput formControlName="date" [matDatepicker]="healthchecksDate" />
+                <mat-datepicker-toggle matSuffix [for]="healthchecksDate"></mat-datepicker-toggle>
+                <mat-datepicker #healthchecksDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </ng-container>
+      </div>
     </div>
     <a class="fields-toggle" href="javascript:" (click)="toggleFields()"
       >Показать {{ isSmallForm ? 'больше' : 'меньше' }} полей</a
@@ -217,6 +308,9 @@
       <li class="fields-toggle" (click)="scrollTo(catchInfo)">Сведения об отлове</li>
       <li class="fields-toggle" (click)="scrollTo(ownersInfo)">Сведения о новых владельцах</li>
       <li class="fields-toggle" (click)="scrollTo(petHistoryInfo)">Движение животного</li>
+      <li class="fields-toggle" (click)="scrollTo(parasiteTreatmentsInfo)">Сведения об обработке от экто- и эндопаразитов</li>
+      <li class="fields-toggle" (click)="scrollTo(vacinationsInfo)">Сведения о вакцинации</li>
+      <li class="fields-toggle" (click)="scrollTo(healthchecksInfo)">Сведения о состоянии здоровья</li>
     </ul>
   </div>
 </form>

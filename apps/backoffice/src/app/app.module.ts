@@ -11,6 +11,7 @@ import { MatListModule } from '@angular/material/list';
 import { LayoutComponent } from './layout/layout.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, LayoutComponent],
@@ -24,6 +25,7 @@ import { AppRoutingModule } from './app-routing.module';
     MatIconModule,
     MatListModule,
     AppRoutingModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

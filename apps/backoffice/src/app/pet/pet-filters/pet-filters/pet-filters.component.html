@@ -27,7 +27,7 @@
   <mat-form-field appearance="fill">
     <mat-label>Приют</mat-label>
     <mat-select formControlName="shelterIds" multiple>
-      <mat-option *ngFor="let shelter of shelters" [value]="shelter.value">
+      <mat-option *ngFor="let shelter of shelters$ | async" [value]="shelter.value">
         {{shelter.label}}
       </mat-option>
     </mat-select>

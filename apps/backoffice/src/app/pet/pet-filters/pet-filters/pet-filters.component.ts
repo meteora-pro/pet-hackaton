@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FilterResolverService } from '../services/filter-resolver.service';
+import { DictionaryService } from '../services/dictionary.service';
 
 @Component({
   selector: 'pet-hackaton-pet-filters',
@@ -22,18 +23,20 @@ export class PetFiltersComponent implements OnInit {
     status: new FormControl(), // ?
   });
   districts: any;
-  shelters: any;
+  shelters$ = this.dictService.getShelters();
   ages: any;
   kinds: any;
   sizes: any;
   outReasons: any;
   statuses: any;
-  constructor(private filterResolverService: FilterResolverService) {}
+  constructor(private filterResolverService: FilterResolverService, private dictService: DictionaryService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   apply() {
     const filter = this.filterResolverService.resolve(this.form.value);
     console.log('[LOG] filter', filter);
+    this.dictService.getPets(filter).subscribe(e => console.log('[LOG] pets', e))
   }
 }

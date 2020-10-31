@@ -1,0 +1,9 @@
+<span *ngIf="value; else dangerTmpl"
+  class="success-label">
+  {{ successTitle }}
+</span>
+<ng-template #dangerTmpl>
+  <span class="danger-label">
+    {{ dangerTitle }}
+  </span>
+</ng-template>

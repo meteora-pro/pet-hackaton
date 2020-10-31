@@ -1,41 +1,58 @@
 <pet-hackaton-pet-filters></pet-hackaton-pet-filters>
 
-
-<table mat-table [dataSource]="pets$ | async" class="mat-elevation-z8">
-
+<br>
+<table mat-table [dataSource]="pets$ | async" class="mat-elevation-z8 pet-table">
   <ng-container matColumnDef="animal">
-    <th mat-header-cell *matHeaderCellDef>Животное</th>
-    <td mat-cell *matCellDef="let element"> {{element | json}} </td>
+    <th mat-header-cell *matHeaderCellDef>№ / Уникальный ID<br> Дата регистрации<br> Вольер №</th>
+    <td mat-cell *matCellDef="let element">
+      {{element.id}} <br>
+      {{ element.createdAt | date: 'dd.MM.yyyy'}} <br>
+      {{ element.place }}
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="kind">
-    <th mat-header-cell *matHeaderCellDef>Вид животного</th>
-    <td mat-cell *matCellDef="let element"> {{element.kind}} </td>
+    <th mat-header-cell *matHeaderCellDef>Фото</th>
+    <td mat-cell *matCellDef="let element"> Фото </td>
   </ng-container>
 
   <ng-container matColumnDef="sex">
-    <th mat-header-cell *matHeaderCellDef>Пол</th>
-    <td mat-cell *matCellDef="let element"> {{element.sex}} </td>
+    <th mat-header-cell *matHeaderCellDef>
+      Кличка <br>Вид животного / Пол / Окрас
+    </th>
+    <td mat-cell *matCellDef="let element">
+      {{ element?.name || '—' }}<br>
+      <i>{{element.kind}} / {{element.sex}}</i> <br>
+      {{element.color?.value || '—' }}
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="isSocializated">
-    <th mat-header-cell *matHeaderCellDef>Социализация</th>
-    <td mat-cell *matCellDef="let element"> {{element.isSocializated}} </td>
+    <th mat-header-cell *matHeaderCellDef>Округ</th>
+    <td mat-cell *matCellDef="let element"> {{element.district || '—'}} </td>
   </ng-container>
 
   <ng-container matColumnDef="isPublished">
-    <th mat-header-cell *matHeaderCellDef>Публикация в каталоге</th>
-    <td mat-cell *matCellDef="let element"> {{element.isPublished}} </td>
+    <th mat-header-cell *matHeaderCellDef>Приют</th>
+    <td mat-cell *matCellDef="let element"> {{element?.shelter?.name || '—'}} </td>
   </ng-container>
 
   <ng-container matColumnDef="applications">
-    <th mat-header-cell *matHeaderCellDef>Заявки</th>
-    <td mat-cell *matCellDef="let element"> {{element.applications}} </td>
+    <th mat-header-cell *matHeaderCellDef>Возраст <br>Размер / Вес</th>
+    <td mat-cell *matCellDef="let element">
+      {{element.age || '—'}}<br>
+      {{ element.size || '—' }} / {{ element.weight || '—'}} кг
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let element"> {{element}} </td>
+    <th mat-header-cell *matHeaderCellDef>Статус</th>
+    <td mat-cell *matCellDef="let element">
+      <attribute-status [value]="element.isSocializated"
+                        successTitle="Cоциализирован"
+                        dangerTitle="Не социализрован"
+        ></attribute-status>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

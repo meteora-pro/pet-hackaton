@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { FilterDateRange } from '../../model/pet-filter';
 
@@ -18,6 +18,8 @@ import { FilterDateRange } from '../../model/pet-filter';
 export class DateRangeComponent implements ControlValueAccessor {
 
   constructor(private cdr: ChangeDetectorRef) {}
+
+  @Input() label: string;
 
   value: FilterDateRange;
 

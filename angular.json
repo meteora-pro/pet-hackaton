@@ -282,7 +282,7 @@
     }
   },
   "cli": {
-    "defaultCollection": "@nrwl/angular",
+    "defaultCollection": "@ngxs/schematics",
     "analytics": false
   },
   "schematics": {

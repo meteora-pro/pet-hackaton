@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Action, State, StateContext } from '@ngxs/store';
-import { ApplyFilters, ChangeViewType, GetPets } from './pets.actions';
+import { ApplyFilters, ChangePage, ChangeViewType, LoadPets } from './pets.actions';
 import { PetsStateModel } from './pets.state.model';
 import { StoreStatusEnum } from '../../shared/store.status.enum';
-import { SortEnum } from '../../shared/pagination';
+import { Pagination, SortEnum } from '../../shared/pagination';
 import { ViewTypeEnum } from '../../shared/view-type.enum';
 import { DictionaryService } from '../pet-filters/services/dictionary.service';
 import { tap } from 'rxjs/operators';
@@ -33,8 +33,9 @@ export class PetsState {
 
   constructor(private dictionaryService: DictionaryService) {}
 
-  @Action(GetPets)
-  getPets(ctx: Ctx, action: GetPets): void {}
+  static resolePagination(pagination: Pagination): string {
+    return `page=${pagination.page}&limit=${pagination.perPage}`
+  }
 
   @Action(ChangeViewType)
   changeViewType(ctx: Ctx): void {
@@ -49,9 +50,30 @@ export class PetsState {
     ctx.patchState({
       filters
     });
-    return this.dictionaryService.getPets(filters, 'page=1&limit=10', '').pipe(
+    return ctx.dispatch(new LoadPets())
+  }
+
+  @Action(ChangePage)
+  changePage(ctx: Ctx, { page, perPage }: ChangePage) {
+    const state = ctx.getState();
+    ctx.patchState({
+      pagination: {
+        ...state.pagination,
+        page,
+        perPage,
+      }
+    });
+    return ctx.dispatch(new LoadPets())
+  }
+
+  @Action(LoadPets)
+  loadPets(ctx: Ctx) {
+    const state = ctx.getState();
+    return this.dictionaryService.getPets(
+      state.filters,
+      PetsState.resolePagination(state.pagination),
+      '').pipe(
       tap((response) => {
-        const state = ctx.getState();
         ctx.patchState({
           list: response['data'],
           pagination: {
@@ -65,4 +87,5 @@ export class PetsState {
       })
     )
   }
+
 }

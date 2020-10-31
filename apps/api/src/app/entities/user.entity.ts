@@ -1,13 +1,15 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { Role, User } from '@pet-hackaton/types';
 import { BaseEntity } from './base.entity';
-import {ApiProperty} from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { RefreshTokenEntity } from '../authentication/entity/refresh-token.entity';
+import { PrefecturesEntity } from './prefecture.entity';
+import { PetResponsibleOrganisationEntity } from './pet-responsible-organisation.entity';
+import { ShelterEntity } from './shelter.entity';
 
-@Entity({name: 'users'})
+@Entity({ name: 'users' })
 export class UserEntity extends BaseEntity implements User {
-
   @ApiProperty()
   @Column({ unique: true })
   login: string;
@@ -46,9 +48,15 @@ export class UserEntity extends BaseEntity implements User {
   photoUrl?: string;
 
   @ApiProperty()
-  @OneToMany(
-    (type) => RefreshTokenEntity,
-    (tokens) => tokens.user,
-  )
+  @OneToMany(() => RefreshTokenEntity, (tokens) => tokens.user)
   tokens: RefreshTokenEntity[];
+
+  @OneToMany(() => PrefecturesEntity, (prefecture) => prefecture.users, { nullable: true })
+  prefecture: PrefecturesEntity;
+
+  @OneToMany(() => PetResponsibleOrganisationEntity, (organization) => organization.users, { nullable: true })
+  organization: PetResponsibleOrganisationEntity;
+
+  @OneToMany(() => ShelterEntity, (shelter) => shelter.users, { nullable: true })
+  shelter: ShelterEntity;
 }

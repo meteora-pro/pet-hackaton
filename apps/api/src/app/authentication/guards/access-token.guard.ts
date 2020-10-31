@@ -21,6 +21,10 @@ export class AccessTokenGuard extends AuthGuard(AuthStrategiesEnum.JWT_ACCESS_TO
           const classRoles = this.reflector.get<string[]>('roles', context.getClass()) || [];
           const methodRoles = this.reflector.get<string[]>('roles', context.getHandler()) || [];
 
+          if (!classRoles.length && !methodRoles.length) {
+            return true;
+          }
+
           const request = context.switchToHttp().getRequest();
           const user = request.user;
 

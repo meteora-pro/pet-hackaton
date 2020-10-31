@@ -1,6 +1,6 @@
 import { BaseEntity } from './base.entity';
 import { PetResponsibleOrganisation } from '@pet-hackaton/types';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { UserEntity } from './user.entity';
 import {ApiProperty} from "@nestjs/swagger";
 import { ShelterEntity } from './shelter.entity';
@@ -21,7 +21,12 @@ export class PetResponsibleOrganisationEntity extends BaseEntity implements PetR
   name: string;
 
   @ApiProperty()
-  @ManyToOne(() => ShelterEntity, shelter => shelter.organisation)
+  @OneToMany(() => ShelterEntity, shelter => shelter.organisation)
   shelters: ShelterEntity[];
+
+
+  @ApiProperty()
+  @ManyToOne(() => UserEntity, user => user.organization)
+  users: ShelterEntity[];
 
 }

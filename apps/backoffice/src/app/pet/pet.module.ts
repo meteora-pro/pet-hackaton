@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { DictionaryPipeModule } from '../shared/dictionary.pipe';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRippleModule } from '@angular/material/core';
 
@@ -46,6 +47,7 @@ const routes: Route[] = [
     MatDatepickerModule,
     LazyLoadImageModule,
     DictionaryPipeModule,
+    MatPaginatorModule,
     MatCheckboxModule,
     MatRippleModule,
   ],

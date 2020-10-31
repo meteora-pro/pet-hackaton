@@ -16,4 +16,7 @@ export class LayoutComponent {
   );
 
   constructor(private breakpointObserver: BreakpointObserver) {}
+
+  logout() {
+  }
 }

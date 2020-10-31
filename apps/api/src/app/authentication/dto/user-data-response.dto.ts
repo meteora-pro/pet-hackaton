@@ -1,6 +1,5 @@
 import { Expose } from 'class-transformer';
 import { Role } from '@pet-hackaton/types';
-import { PermissionsEnum } from '../constants/permissions.enum';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UserDataResponseDto {
@@ -40,7 +39,4 @@ export class UserDataResponseDto {
   @Expose()
   phone: string;
 
-  @ApiProperty()
-  @Expose()
-  permissions: PermissionsEnum[] = [];
 }

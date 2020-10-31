@@ -17,7 +17,7 @@ $style-cloud-theme: mat-light-theme((
 
 @include angular-material-theme($style-cloud-theme);
 
-html, body { height: 100%; }
+html, body { height: 100%; background-color: #F1F3F6; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 // custom styles

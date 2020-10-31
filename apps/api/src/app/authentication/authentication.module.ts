@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { BaseAuthController } from './controllers/base-auth.controller';
 import { PassportModule } from '@nestjs/passport';
 import { UserController } from './controllers/user.controller';
-import {PermissionsService} from './services/permissions.service';
 import { UserService } from './services/user.service';
 import { AccessTokenStrategy } from './strategies/access-token.strategy';
 import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
@@ -41,7 +40,6 @@ import { AppConfigModule } from '../app-config.module';
         UserEmailExistValidator,
         UserNotFoundValidator,
         RefreshTokenGuard,
-        PermissionsService,
     ],
 })
 export class AuthenticationModule {}

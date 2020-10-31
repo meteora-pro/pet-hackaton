@@ -217,9 +217,9 @@
         </div>
         <mat-form-field appearance="fill">
           <mat-label>Причина выбытия</mat-label>
-          <mat-select formControlName="outReason">
+          <mat-select formControlName="outReason" [compareWith]="compareById">
             <mat-option *ngFor="let outReason of outReasons$ | async" [value]="outReason">
-              {{ outReason }}
+              {{ outReason.value }}
             </mat-option>
           </mat-select>
         </mat-form-field>

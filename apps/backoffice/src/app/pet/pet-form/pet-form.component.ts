@@ -103,7 +103,7 @@ export class PetFormComponent implements OnInit, OnDestroy {
   breeds$: Observable<BaseDictionary[]>;
   allBreeds$: Observable<BaseDictionary[]> = this.dictionaryService.getDict('breeds').pipe(shareReplay());
   veterinarians$: Observable<User[]> = this.dictionaryService.getUsersByRole(Role.MEDICAL_USER);
-  outReasons$: Observable<OutReason>;
+  outReasons$: Observable<BaseDictionary[]> = this.dictionaryService.getDict('out-reasons');
 
   @Select(PetsSelectors.isLoading)
   isLoading$: Observable<boolean>;

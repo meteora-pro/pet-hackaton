@@ -39,10 +39,10 @@ export class PetEntity extends BaseEntity implements Pet {
 
   @ApiProperty({example: 5})
   @Column({ nullable: true })
-  age: number;
+  age: string;
 
   @ApiProperty({example: 10})
-  @Column({ nullable: true })
+  @Column({ type: 'float', nullable: true })
   weight: number;
 
   @ApiProperty({example: 'Бобик'})
@@ -106,7 +106,7 @@ export class PetEntity extends BaseEntity implements Pet {
   sterilizationPlace: string;
 
   @ApiProperty({type: UserEntity})
-  @ManyToOne(() => UserEntity, user => user)
+  @ManyToOne(() => UserEntity, user => user, {nullable: true})
   veterinarian: UserEntity;
 
   @ApiProperty({example: true})
@@ -126,19 +126,19 @@ export class PetEntity extends BaseEntity implements Pet {
   physical?: PhysicalPersonEntity;
 
   @ApiProperty({type: ShelterEntity})
-  @ManyToOne(() => ShelterEntity, shelter => shelter)
+  @ManyToOne(() => ShelterEntity, shelter => shelter, {nullable: true})
   shelter: ShelterEntity;
 
   @ApiProperty({type: UserEntity})
-  @ManyToOne(() => UserEntity, user => user)
+  @ManyToOne(() => UserEntity, user => user, {nullable: true})
   petCareTaker: UserEntity;
 
   @ApiProperty({type: CatchInformationEntity})
-  @ManyToOne(() => CatchInformationEntity, catchInfo => catchInfo.pets)
+  @ManyToOne(() => CatchInformationEntity, catchInfo => catchInfo.pets, {nullable: true})
   catchInformation: CatchInformationEntity;
 
   @ApiProperty({type: PetRegistrationHistoryEntity})
-  @ManyToOne(() => PetRegistrationHistoryEntity, registration => registration)
+  @ManyToOne(() => PetRegistrationHistoryEntity, registration => registration, {nullable: true})
   registrationHistory: PetRegistrationHistoryEntity;
 
 

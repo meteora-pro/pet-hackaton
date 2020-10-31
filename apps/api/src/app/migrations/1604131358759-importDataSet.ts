@@ -11,6 +11,7 @@ import {PetEntity} from "../entities/pet.entity";
 import { ShelterEntity } from '../entities/shelter.entity';
 import { UserEntity } from '../entities/user.entity';
 import * as rawDataSet from './data-set/parced-dataset.json';
+import {existPhotos} from "./data-set/exists-photos";
 
 export function parseSex(input: 'женский' | 'мужской' | string): Sex {
   switch(input.trim()) {
@@ -81,8 +82,16 @@ export function parseShelter(shelterAlias: string, index: number, organisation: 
   } as ShelterEntity;
 }
 
+export function generatePhotoUrl(shelter: ShelterEntity, cardNumber: string): string[] {
+  const photoKey = `${shelter.index}. ${shelter.address}/${cardNumber}.jpg`;
+  if (existPhotos.indexOf(photoKey) < 0) {
+    return [];
+  }
+  return [`https://cdn.dev.meteora.pro/meteora-dev/hackaton/${encodeURIComponent(photoKey)}`];
+}
+
 export class importDataSet1604131358759 implements MigrationInterface {
-    name = 'importDataSet1604131358759'
+    name = 'importDataSet1604131358759';
 
     public async up(queryRunner: QueryRunner): Promise<void> {
       rawDataSet.forEach(rawData => {
@@ -160,12 +169,16 @@ export class importDataSet1604131358759 implements MigrationInterface {
       ]);
 
       const preparedDataSet = rawDataSet.map( rawData => {
-        const petKind = null;
+        const shelterAlias = rawData['адрес приюта'];
+        const shelter = shelters[shelterAlias];
+
+        const cardNumber = rawData['карточка учета животного №'];
+        const petKind = parsePetKind(rawData['вид']);
         const pet = {
-           cardNumber: rawData['вид'],
+           cardNumber,
            kind: petKind,
            age: rawData['возраст, год'],
-           weight: rawData['вес, кг'],
+           weight: parseFloat((rawData['вес, кг'] + '').replace(',', '.')),
            name: rawData['кличка'],
            sex: parseSex(rawData['пол']),
            breed: findDictionaryByValue(rawData['порода'], breeds, petKind),
@@ -179,7 +192,8 @@ export class importDataSet1604131358759 implements MigrationInterface {
            labelId: rawData['идентификационная метка'] + '',
            sterilizationAt: rawData['дата стерилизации'],
            isSocializated: parseBoolean(rawData['Социализировано (да/нет)']),
-           photos: [],
+           shelter,
+           photos: generatePhotoUrl(shelter, cardNumber + ''),
         } as PetEntity;
 
         return pet;
@@ -190,9 +204,11 @@ export class importDataSet1604131358759 implements MigrationInterface {
         .createQueryBuilder()
         .insert()
         .into(PetEntity)
-        .values([])
+        .values(preparedDataSet)
         .execute();
     }
+
+
 
     public async down(queryRunner: QueryRunner): Promise<void> {
     }

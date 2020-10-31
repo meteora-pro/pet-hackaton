@@ -86,7 +86,7 @@ export interface PetBaseInfo {
   readonly id: number;
   cardNumber: string; // карточка учета животного №
   kind: PetKind; // 'вид
-  age: number; // возраст, год
+  age: string; // возраст, год
   weight: number; // вес, кг
   name: string; // кличка
   sex: Sex; // пол

@@ -36,8 +36,8 @@
   <mat-form-field appearance="fill">
     <mat-label>Вид животного</mat-label>
     <mat-select formControlName="kind" multiple>
-      <mat-option *ngFor="let kind of kinds" [value]="kind.value">
-        {{kind.label}}
+      <mat-option *ngFor="let kind of kinds" [value]="kind.id">
+        {{kind.value}}
       </mat-option>
     </mat-select>
   </mat-form-field>

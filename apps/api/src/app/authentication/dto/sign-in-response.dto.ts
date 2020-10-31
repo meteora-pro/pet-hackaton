@@ -1,5 +1,4 @@
 import {TokensDto} from "./tokens.dto";
-import { PermissionsEnum } from '../constants/permissions.enum';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class SignInResponseDto {
@@ -10,6 +9,4 @@ export class SignInResponseDto {
     @ApiProperty()
     refreshToken: TokensDto;
 
-    @ApiProperty()
-    permissions?: PermissionsEnum[];
 }

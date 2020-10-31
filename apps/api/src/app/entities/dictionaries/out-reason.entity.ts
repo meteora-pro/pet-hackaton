@@ -1,6 +1,6 @@
 import { BaseDictionaryEntity } from './base.dictionary.entity';
 import { Column, Entity } from 'typeorm';
-import { OutReasonType, PetKind } from '@pet-hackaton/types';
+import { OutReasonType } from '@pet-hackaton/types';
 import { ApiProperty } from '@nestjs/swagger';
 import { CommonService } from '../../services/common/common.service';
 import { ApiModelProperty } from '@nestjs/swagger/dist/decorators/api-model-property.decorator';

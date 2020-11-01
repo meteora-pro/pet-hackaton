@@ -16,4 +16,8 @@ export class CatalogService {
   getPets() {
     return this.httpClient.get<PagedResponse<Pet>>(`${environment.baseUrl}/pets?join=breed&limit=150`);
   }
+
+  getPet(id: string) {
+    return this.httpClient.get<Pet>(`${environment.baseUrl}/pets/${id}?join=breed`)
+  }
 }

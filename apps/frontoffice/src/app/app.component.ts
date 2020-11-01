@@ -7,14 +7,6 @@ import {CatalogService} from "./catalog.service";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
-  constructor(private catalogService: CatalogService) {
-  }
-  pets: Pet[] = [];
+export class AppComponent{
 
-  ngOnInit(): void {
-    this.catalogService.getPets().subscribe(response => {
-      this.pets = response.data;
-    })
-  }
 }

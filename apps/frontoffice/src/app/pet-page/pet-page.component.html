@@ -1,0 +1,10 @@
+<div class="row">
+  <div class="col-md-8">
+    <img class="card-img-top" src="{{(pet$ | async).photos[0]}}" alt="Card image cap">
+  </div>
+  <div class="col-md-4">
+    <h5 class="card-title">{{(pet$ | async).name}} {{(pet$ | async).kind === 'cat' ? '🐈' : '🐕'}} {{(pet$ | async).sex === 'male' ? '♂️' : '♀️'}}</h5>
+    <p *ngIf="(pet$ | async).breed?.value" class="card-text">{{(pet$ | async).breed?.value}}</p>
+    <button class="btn btn-warning" type="button" (click)="openModal()">Оставить заявку на питомца</button>
+  </div>
+</div>

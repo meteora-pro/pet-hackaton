@@ -6,7 +6,7 @@ import {PetEntity} from "./pet.entity";
 @Entity({
   name: 'orders'
 })
-export class OrderEntity extends BaseEntity {
+export class OrderEntity extends BaseEntity implements OrderEntity {
   @ApiProperty({type: PetEntity})
   @ManyToOne(() => PetEntity, {nullable: true})
   pet: PetEntity;

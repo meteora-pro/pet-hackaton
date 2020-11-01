@@ -260,3 +260,9 @@ export interface PagedResponse<T> {
   page: number;
   pageCount: number;
 }
+
+export interface OrderEntity {
+  phone: string;
+  fullName: string;
+  pet?: Partial<Pet>;
+}

@@ -15,10 +15,12 @@
       <th>Значение</th>
       <th></th>
       <th></th>
+      <th></th>
     </tr>
     <tr *ngFor="let item of (list$ | async); let index = index; trackBy: trackByFn">
       <td>{{ item.id }}</td>
       <td>{{ item.value }}</td>
+      <td>{{ item.type | humanized: 'kind' }}</td>
       <td>
         <button mat-icon-button color="primary"
                     aria-label="Edit"

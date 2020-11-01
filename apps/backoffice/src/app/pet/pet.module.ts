@@ -14,14 +14,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { DictionaryPipeModule } from '../shared/dictionary.pipe';
+import { DictionaryPipeModule } from '../shared/dictionary/dictionary.pipe';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRippleModule } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AttributeStatusComponent } from './pet-list/columns/attribute-status/attribute-status.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { HumanizedPipe } from './pipes/humanized.pipe';
 import { CanActivateGuard } from './can-activate.guard';
 
 const routes: Route[] = [
@@ -43,7 +42,7 @@ const routes: Route[] = [
 ];
 
 @NgModule({
-  declarations: [PetListComponent, PetFormComponent, AttributeStatusComponent, HumanizedPipe],
+  declarations: [PetListComponent, PetFormComponent, AttributeStatusComponent],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,

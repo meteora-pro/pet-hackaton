@@ -31,7 +31,7 @@
       <mat-label>Приют</mat-label>
       <mat-select formControlName="shelterIds" multiple>
         <mat-option *ngFor="let shelter of shelters$ | async" [value]="shelter.value">
-          {{shelter.label}}
+          {{shelter.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -60,8 +60,8 @@
     <mat-form-field appearance="fill">
       <mat-label>Причина выбытия</mat-label>
       <mat-select formControlName="outReason" multiple>
-        <mat-option *ngFor="let outReason of outReasons" [value]="outReason.value">
-          {{outReason.label}}
+        <mat-option *ngFor="let outReason of outReasons$ | async" [value]="outReason.id">
+          {{outReason.value}}
         </mat-option>
       </mat-select>
     </mat-form-field>

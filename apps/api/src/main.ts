@@ -42,7 +42,6 @@ async function bootstrap() {
     .setBasePath('/' + globalPrefix)
     .setTitle('Hackaton pet shelter public api')
     .addServer(appConfig.appUrl)
-    .addBearerAuth()
     .setDescription('Hackaton pet shelter public API description')
     .setVersion('1.0')
     .build();

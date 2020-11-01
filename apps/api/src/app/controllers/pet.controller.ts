@@ -57,6 +57,9 @@ import { AccessTokenGuard } from '../authentication/guards/access-token.guard';
       registrationHistory: {
         eager: true,
       },
+      'registrationHistory.outReason': {
+        eager: true,
+      },
       parasiteTreatments: {
         eager: true,
       },

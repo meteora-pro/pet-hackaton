@@ -73,6 +73,8 @@ export class AuthenticationState {
     if (accessToken && refreshToken) {
       ctx.patchState({ accessToken, refreshToken });
       return ctx.dispatch(new GetUserMe());
+    } else {
+      this.router.navigate(['/auth/login'])
     }
   }
 

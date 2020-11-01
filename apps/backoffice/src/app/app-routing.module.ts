@@ -4,6 +4,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { CanActivateChildGuard } from './core/can-activate-child-guard.service';
 
 const routes: Routes = [
+  { path: '', redirectTo: '/pet/list', pathMatch: 'full' },
   {
     path: '',
     component: LayoutComponent,
@@ -29,7 +30,6 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
 
-  { path: '**', redirectTo: '/pet', pathMatch: 'full' },
 ];
 
 @NgModule({

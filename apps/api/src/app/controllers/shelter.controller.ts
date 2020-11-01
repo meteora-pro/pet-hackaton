@@ -24,7 +24,6 @@ import { AccessTokenGuard } from '../authentication/guards/access-token.guard';
 @CrudAuth({
   property: 'user',
   filter: (user: UserDataResponseDto) => {
-    console.log(user);
     if (!user) {
       return null;
     }

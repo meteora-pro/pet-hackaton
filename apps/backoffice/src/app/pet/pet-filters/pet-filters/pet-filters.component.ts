@@ -4,6 +4,8 @@ import { FilterResolverService } from '../services/filter-resolver.service';
 import { DictionaryService } from '../services/dictionary.service';
 import { Store } from '@ngxs/store';
 import { ApplyFilters } from '../../store/pets.actions';
+import { Observable } from 'rxjs';
+import { BaseDictionary } from '@pet-hackaton/types';
 
 @Component({
   selector: 'pet-hackaton-pet-filters',
@@ -29,7 +31,9 @@ export class PetFiltersComponent implements OnInit {
   ages: any;
   kinds = this.dictService.getKinds();
   sizes = this.dictService.getSizes();
-  outReasons: any;
+
+  outReasons$: Observable<BaseDictionary[]> = this.dictService.getDict('out-reasons');
+
   statuses: any;
   constructor(private filterResolverService: FilterResolverService,
               private dictService: DictionaryService,

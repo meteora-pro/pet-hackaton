@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
 a {
   color: #2a9dff;
   text-decoration: none;
@@ -7,3 +10,4 @@ a {
   -webkit-text-decoration-skip: objects;
   font-family: Lato,Arial,sans-serif;
 }
+

@@ -15,6 +15,10 @@
 | Приют             | Работник 1    | 123123 |
 
 # Как запустить проект
+## Необходимое ПО для запуска
+1. [Docker](https://www.docker.com/get-started)
+1. [NodeJS](https://nodejs.org/en/)
+## Запуск
 1. Нужен docker и docker-compose
 1. Выполнить команду `docker-compose --env-file ./config/api/.local.env up -d`
 1. Первый раз могут довольно долго собираться образы, последующие запуски будут быстрыми
@@ -25,12 +29,12 @@
     1. [Публичная документация Swagger Api](http://localhost:3333/public/docs)
 
 # Используемые технологии
-1. Использован один язык для написания backend и frontend - typescript
+1. Использован один язык для написания backend и frontend - [TypeScript](https://www.typescriptlang.org/)
 1. Управление монорепозиторием [Nx](https://nx.dev)
-1. Frontend - Angular (Material Theme)
-1. Backend (NodeJs, NestJs, TypeOrm)
-1. База данных Postgres
-1. Деплой Kubernetes, Helm, Gitlab CI/CD
+1. Frontend - [Angular](https://angular.io/) ([Material Theme](https://material.angular.io/))
+1. Backend ([NodeJs](https://nodejs.org/en/), [NestJs](https://nestjs.com/), [TypeOrm](https://typeorm.io/))
+1. База данных [Postgres](https://www.postgresql.org/)
+1. Деплой [Kubernetes](https://kubernetes.io/ru/), [Helm](https://helm.sh/), [Gitlab CI/CD](https://docs.gitlab.com/ee/ci/)
 
 # Как запустить в режиме разработки
 1. Нужны nodejs и npm
@@ -54,4 +58,4 @@
 Сгенерить миграцию по схеме:
 `npm run typeorm -- migration:generate -n MigrationName`
 
-Добавить сгенеренную миграцию в массив с миграциями (all.migations.ts)
+Добавить созданную миграцию в массив с миграциями (all.migations.ts)

@@ -59,4 +59,5 @@ const resolverMap: { [key in keyof PetFilter]: FilterTypeEnum } = {
 const nestedObject = {
   shelterIds: 'shelter.id',
   outReason: 'registrationHistory.outReason.id',
+  district: 'shelter.prefecture.id',
 }

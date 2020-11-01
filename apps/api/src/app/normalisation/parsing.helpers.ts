@@ -63,7 +63,19 @@ export function parseBoolean(input: string): boolean {
 }
 
 export function parseDate(date: string): Date {
-  return new Date(Date.parse('3/18/2020'));
+  if (!date) {
+    return null;
+  }
+  try {
+    const parsedNumber = Date.parse(date);
+    if (Number.isNaN(parsedNumber)) {
+      throw new Error(`Bad date ${parsedNumber}`);
+    }
+    return new Date(parsedNumber);
+  } catch (e) {
+    Logger.error(`can't parse date ${date} ${e}`);
+    return null;
+  }
 }
 
 export function parseUser(userAlias: string, role: Role) {

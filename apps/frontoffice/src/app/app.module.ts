@@ -8,9 +8,10 @@ import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
 import { PetPageComponent } from './pet-page/pet-page.component';
 import { PetCatalogComponent } from './pet-catalog/pet-catalog.component';
+import { HeaderComponent } from './layout/header/header.component';
 
 @NgModule({
-  declarations: [AppComponent, PetCardComponent, PetPageComponent, PetCatalogComponent],
+  declarations: [AppComponent, PetCardComponent, PetPageComponent, PetCatalogComponent, HeaderComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

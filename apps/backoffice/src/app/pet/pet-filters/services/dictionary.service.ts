@@ -26,8 +26,8 @@ export class DictionaryService {
     return `page=${pagination.page}&limit=${pagination.perPage}`
   }
 
-  getDict(dict: string): Observable<BaseDictionary[]> {
-    return this.http.get<BaseDictionary[]>(`${this.apiUrl}/${dict}`);
+  getDict<T = BaseDictionary>(dict: string): Observable<T[]> {
+    return this.http.get<T[]>(`${this.apiUrl}/${dict}`);
   }
 
   getShelters(): Observable<Shelter[]> {

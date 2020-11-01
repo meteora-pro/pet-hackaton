@@ -325,7 +325,10 @@
 
     <div class="navigation">
       <div class="navigation-title">Навигация по карточке</div>
-      <ul class="form-links">
+      <button mat-raised-button type="button" [disabled]="isLoading$ | async" color="accent" (click)="printCard()">
+      {{ 'Печать в Word' }}
+    </button>
+    <ul class="form-links">
         <li class="fields-toggle" (click)="scrollTo(baseInfo)">Основные сведения о животном</li>
         <li class="fields-toggle" (click)="scrollTo(catchInfo)">Сведения об отлове</li>
         <li class="fields-toggle" (click)="scrollTo(ownersInfo)">Сведения о новых владельцах</li>

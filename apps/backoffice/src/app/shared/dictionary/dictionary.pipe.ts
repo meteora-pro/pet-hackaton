@@ -1,6 +1,7 @@
 import { NgModule, Pipe, PipeTransform } from '@angular/core';
-import { DictionaryService } from '../pet/pet-filters/services/dictionary.service';
+import { DictionaryService } from '../../pet/pet-filters/services/dictionary.service';
 import { SimpleDictionary } from '@pet-hackaton/types';
+import { HumanizedPipe } from './humanized.pipe';
 
 @Pipe({
   name: 'dictionary',
@@ -23,7 +24,7 @@ export class DictionaryPipe implements PipeTransform {
 }
 
 @NgModule({
-  exports: [DictionaryPipe],
-  declarations: [DictionaryPipe],
+  exports: [DictionaryPipe, HumanizedPipe],
+  declarations: [DictionaryPipe, HumanizedPipe],
 })
 export class DictionaryPipeModule {}

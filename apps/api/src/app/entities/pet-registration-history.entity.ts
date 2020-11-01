@@ -24,6 +24,6 @@ export class PetRegistrationHistoryEntity extends BaseEntity implements PetRegis
   outAt: Date;
 
   @ApiProperty({type: OutReasonEntity})
-  @ManyToOne(() => OutReasonEntity, out => out, {nullable: true})
+  @ManyToOne(() => OutReasonEntity, out => out.histories, {nullable: true})
   outReason: OutReasonEntity;
 }

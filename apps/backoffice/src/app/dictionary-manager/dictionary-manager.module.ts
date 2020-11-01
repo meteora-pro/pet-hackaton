@@ -18,6 +18,7 @@ import { FormsModule } from '@angular/forms';
 import { ModalDictionaryFormComponent } from './components/modal-dictionary-form/modal-dictionary-form.component';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DictionaryPipeModule } from '../shared/dictionary/dictionary.pipe';
 
 const routes: Route[] = [
   {
@@ -48,6 +49,7 @@ const routes: Route[] = [
     FormsModule,
     MatBottomSheetModule,
     MatProgressSpinnerModule,
+    DictionaryPipeModule,
   ],
   declarations: [
     DictionaryListComponent,

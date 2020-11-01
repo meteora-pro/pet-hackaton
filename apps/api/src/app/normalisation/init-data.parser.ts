@@ -61,7 +61,6 @@ export class InitDataParser {
         } as OutReasonEntity;
       });
       const outReasonRepository = queryRunner.connection.getRepository(OutReasonEntity);
-      Logger.warn(`${inspect(allOutReasons)}`);
       try {
         await outReasonRepository.insert(Object.values(allOutReasons));
       } catch(e) {
@@ -87,7 +86,8 @@ export class InitDataParser {
       allOrganisations.forEach( (savedOrganisation) => {
         organisations[savedOrganisation.name] = savedOrganisation;
         const organisationUserName = savedOrganisation.name;
-        allUsers[organisationUserName] = parseUser(organisationUserName, Role.ORGANIZATION_USER);
+        const organisationRole = savedOrganisation.name === 'ГБУ "Доринвест"' ? Role.DEPARTMENT_USER : Role.ORGANIZATION_USER;
+        allUsers[organisationUserName] = parseUser(organisationUserName, organisationRole);
         allUsers[organisationUserName].organization = savedOrganisation;
       });
 
@@ -233,10 +233,6 @@ export class InitDataParser {
           outReason: findDictionaryByValue(rawData['причина выбытия'], allOutReasonsSaved),
           outAct: rawData['акт/договор №'], // № акта/договора выбытия
         });
-        Logger.log(`${inspect([
-          rawData['дата выбытия из приюта'],
-          rawData['причина выбытия'],
-        ])}`);
         registrationHistories.push(registrationHistory);
       });
       const registrationHistoryRepository = queryRunner.connection.getRepository(PetRegistrationHistoryEntity);

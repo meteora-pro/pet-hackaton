@@ -62,18 +62,38 @@ export function parseBoolean(input: string): boolean {
   }
 }
 
-export function parseDate(date: string): Date {
-  if (!date) {
+const parseDateRexExp = /(\d{1,2})[. -](\d{1,2}|[А-я]{3,9})[. ]{0,2}(\d{0,4})/;
+const months = ['янв', 'фев', 'мар', 'апр', 'ма', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+export function parseDate(dateInput: string): Date {
+  if (!dateInput) {
     return null;
   }
   try {
-    const parsedNumber = Date.parse(date);
+    const parsedNumber = Date.parse(dateInput);
     if (Number.isNaN(parsedNumber)) {
-      throw new Error(`Bad date ${parsedNumber}`);
+      const matched = dateInput.match(parseDateRexExp);
+      if (!matched) {
+        throw new Error(`Bad date ${parsedNumber}`);
+      }
+      const [_, date, month, years] = matched;
+      let monthNumber = +month;
+      if (Number.isNaN(monthNumber)) {
+        monthNumber = months.findIndex( val => month.startsWith(val));
+        if (monthNumber < 0) {
+          throw new Error(`Bad month ${monthNumber}`);
+        }
+        monthNumber++;
+      }
+      const dateNumber = !date ? undefined : +date;
+      const yearNumber = +years < 100 ? 2000 + +years: +years;
+      if (Number.isNaN(yearNumber)) {
+        throw new Error(`Bad date ${[date, monthNumber, years]}`);
+      }
+      return new Date(+yearNumber, monthNumber, dateNumber);
     }
     return new Date(parsedNumber);
   } catch (e) {
-    Logger.error(`can't parse date ${date} ${e}`);
+    Logger.error(`can't parse date ${dateInput} ${e}`);
     return null;
   }
 }

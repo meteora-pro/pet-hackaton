@@ -11,10 +11,11 @@ import {
   WidthType,
 } from 'docx';
 import { HealthStatus, ParasiteMedicineTreatment, Pet, Vacination } from '@pet-hackaton/types';
-// import * as fs from 'fs';
+import { DatePipe } from '@angular/common';
 
 export class PetCard {
-  private getVacinationTable(v: Vacination[]): Table {
+  constructor(public datePipe: DatePipe) {}
+  private getVacinationTable(v: Vacination[] = []): Table {
     const headRow = new TableRow({
       children: [
         new TableCell({
@@ -54,20 +55,20 @@ export class PetCard {
         }),
       ],
     });
-    const bodyRows = (v || []).map((vac, i) => {
+    const bodyRows = (v || []).filter(Boolean).map((vac, i) => {
       return new TableRow({
         children: [
           new TableCell({
             children: [new Paragraph({ text: String(i + 1), alignment: AlignmentType.CENTER })],
           }),
           new TableCell({
-            children: [new Paragraph(vac.date.toISOString())],
+            children: [new Paragraph(this.date(vac?.date) || '')],
           }),
           new TableCell({
-            children: [new Paragraph(vac.vacineName)],
+            children: [new Paragraph(vac.vacineName || '')],
           }),
           new TableCell({
-            children: [new Paragraph(vac.serialNumber)],
+            children: [new Paragraph(vac.serialNumber || '')],
           }),
           new TableCell({
             children: [],
@@ -79,7 +80,7 @@ export class PetCard {
       rows: [headRow, ...bodyRows],
     });
   }
-  private getParisitesTable(v: ParasiteMedicineTreatment[]): Table {
+  private getParisitesTable(v: ParasiteMedicineTreatment[] = []): Table {
     const headRow = new TableRow({
       children: [
         new TableCell({
@@ -119,17 +120,17 @@ export class PetCard {
         }),
       ],
     });
-    const bodyRows = (v || []).map((vac, i) => {
+    const bodyRows = (v || []).filter(Boolean).map((vac, i) => {
       return new TableRow({
         children: [
           new TableCell({
             children: [new Paragraph({ text: String(i + 1), alignment: AlignmentType.CENTER })],
           }),
           new TableCell({
-            children: [new Paragraph((vac.date && vac.date.toISOString()) || '')],
+            children: [new Paragraph(this.date(vac?.date) || '')],
           }),
           new TableCell({
-            children: [new Paragraph(vac.medicineName)],
+            children: [new Paragraph(vac.medicineName || '')],
           }),
           new TableCell({
             children: [new Paragraph(vac.medicineDose || '')],
@@ -144,7 +145,7 @@ export class PetCard {
       rows: [headRow, ...bodyRows],
     });
   }
-  private getHealthTable(v: HealthStatus[]): Table {
+  private getHealthTable(v: HealthStatus[] = []): Table {
     const headRow = new TableRow({
       children: [
         new TableCell({
@@ -184,20 +185,20 @@ export class PetCard {
         }),
       ],
     });
-    const bodyRows = (v || []).map((health, i) => {
+    const bodyRows = (v || []).filter(Boolean).map((health, i) => {
       return new TableRow({
         children: [
           new TableCell({
             children: [new Paragraph({ text: String(i + 1), alignment: AlignmentType.CENTER })],
           }),
           new TableCell({
-            children: [new Paragraph((health.date && health.date.toISOString()) || '')],
+            children: [new Paragraph(this.date(health?.date) || '')],
           }),
           new TableCell({
-            children: [new Paragraph(String(health.weight))],
+            children: [new Paragraph(String(health?.weight?.toString() || ''))],
           }),
           new TableCell({
-            children: [new Paragraph(health.anamnesis)],
+            children: [new Paragraph(health?.anamnesis || '')],
           }),
           new TableCell({
             children: [],
@@ -210,7 +211,7 @@ export class PetCard {
     });
   }
 
-  printCard(pet: Pet) {
+  printCard(pet: Partial<Pet>) {
     const doc = new Document({
       styles: {
         paragraphStyles: [
@@ -228,20 +229,82 @@ export class PetCard {
       },
     });
 
-    const date = new Date();
+    const uglyDate = (d) => {
+      if (typeof d === 'string' && !d.match('\d')) {
+        return d;
+      }
+      const date = this.datePipe.transform(d, 'dd.LLLL.yyyy');
+      if(date) {
+        const [day, month, year] = date.split('.');
+        return `«${day}»${month}${year} год`;
+      }
+      return '';
+    };
     doc.addSection({
       children: [
         new Paragraph({
-          // heading: HeadingLevel.HEADING_1,
-          // alignment: AlignmentType.CENTER,
+          alignment: AlignmentType.CENTER,
           children: [
             new TextRun({ text: 'КАРТОЧКА УЧЕТА ЖИВОТНОГО № ', bold: true }),
-            new TextRun({ text: pet.cardNumber, bold: true, underline: {} }),
+            new TextRun({ text: pet.cardNumber || '   ', bold: true, underline: {} }),
           ],
         }),
         new Paragraph({
           alignment: AlignmentType.JUSTIFIED,
-          text: 'г. Москва' + `«${date.getDay()}»${date.getMonth()}${date.getFullYear()} год`,
+          text: 'г. Москва' + `${uglyDate(new Date())}`,
+        }),
+        new Paragraph({
+          text: `Приют для животных по адресу: ${pet.shelter?.address || ''}`,
+        }),
+        new Paragraph({
+          text: `Эксплуатирующая организация: ${pet.shelter?.organisation?.name || ''}`,
+        }),
+        new Paragraph({
+          text: `Номер вольера: ${pet.place || ''}`,
+        }),
+        new Paragraph({
+          heading: HeadingLevel.HEADING_3,
+          text: 'Основные сведения:',
+        }),
+        new Paragraph({
+          text: `Собака: [${pet.kind === 'dog' ? 'х' : ''}]`,
+        }),
+        new Paragraph({
+          text: `Кошка: [${pet.kind === 'cat' ? 'х' : ''}]`,
+        }),
+        new Paragraph({
+          text: `Возраст: ${pet.age || ''}`,
+        }),
+        new Paragraph({
+          text: `Вес: ${pet.weight || ''}`,
+        }),
+
+        new Paragraph({
+          text: `Кличка: ${pet.name || 'без клички'}`,
+        }),
+        new Paragraph({
+          text: `Пол: ${pet.sex === 'male' ? 'Мужской' : 'Женский'}`,
+        }),
+        new Paragraph({
+          text: `Порода: ${pet.breed?.value || ''}`,
+        }),
+        new Paragraph({
+          text: `Окрас: ${pet.color?.value || ''}`,
+        }),
+        new Paragraph({
+          text: `Шерсть: ${pet.wool?.value || ''}`,
+        }),
+        new Paragraph({
+          text: `Уши: ${pet.ears?.value || ''}`,
+        }),
+        new Paragraph({
+          text: `Хвост: ${pet.tail?.value || ''}`,
+        }),
+        new Paragraph({
+          text: `Идентификационная метка: ${pet.labelId || ''}`,
+        }),
+        new Paragraph({
+          text: `Дата стерилизации ${uglyDate(pet.sterilizationAt)}`,
         }),
         new Paragraph({
           heading: HeadingLevel.HEADING_3,
@@ -262,5 +325,8 @@ export class PetCard {
     });
 
     return Packer.toBlob(doc);
+  }
+  private date(date: string | Date, format: string = 'dd.MM.yyyy'): string {
+    return this.datePipe.transform(date, format);
   }
 }

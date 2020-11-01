@@ -21,7 +21,7 @@ export interface BadgeInfo {
 }
 
 @Component({
-  selector: 'pet-hackaton-pet-card',
+  selector: 'pet-card',
   templateUrl: './pet-card.component.html',
   styleUrls: ['./pet-card.component.scss']
 })

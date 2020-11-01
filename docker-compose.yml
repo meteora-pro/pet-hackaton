@@ -20,25 +20,32 @@ services:
   api:
     build:
       context: ./
-      dockerfile: ./deploy/api/Dockerfile.local
+      dockerfile: ./deploy/api/Dockerfile
+    hostname: api
     networks:
-      base_network:
+      - overlay
+    environment:
+      POSTGRES_HOST: postgres
     ports:
       - '3333:3333'
   postgres:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${POSTGRES_USERNAME}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    ports:
-      - ${POSTGRES_PORT}:5432
-    volumes:
-      - ./volume/postgres/:/var/lib/postgresql
+    image: "postgres:10-alpine"
+    hostname: "postgres"
     networks:
-      base_network:
+      - overlay
+    environment:
+      POSTGRES_PASSWORD: ilt0q1drzye
+      POSTGRES_USER: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'postgres_data:/var/lib/postgresql/data'
 
-
+volumes:
+  postgres_data:
+  redis_data:
+  minio-data:
+  pgadmin:
 networks:
-  base_network:
+  overlay:
+

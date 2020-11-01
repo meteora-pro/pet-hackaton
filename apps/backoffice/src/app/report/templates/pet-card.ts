@@ -234,8 +234,11 @@ export class PetCard {
         return d;
       }
       const date = this.datePipe.transform(d, 'dd.LLLL.yyyy');
-      const [day, month, year] = date.split('.');
-      return `«${day}»${month}${year} год`;
+      if(date) {
+        const [day, month, year] = date.split('.');
+        return `«${day}»${month}${year} год`;
+      }
+      return '';
     };
     doc.addSection({
       children: [

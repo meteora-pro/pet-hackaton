@@ -8,7 +8,7 @@ import { AccessTokenGuard } from '../authentication/guards/access-token.guard';
 
 @ApiBearerAuth()
 @ApiTags('Shelter', 'entity')
-// @UseGuards(AccessTokenGuard)
+@UseGuards(AccessTokenGuard)
 @Crud({
   model: {
     type: ShelterEntity
@@ -17,6 +17,7 @@ import { AccessTokenGuard } from '../authentication/guards/access-token.guard';
 @CrudAuth({
   property: 'user',
   filter: (user: UserDataResponseDto) => {
+    console.log(user);
     if (!user) {
       return null;
     }

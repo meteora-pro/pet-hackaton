@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [AppComponent, LayoutComponent],
@@ -24,6 +25,7 @@ import { CoreModule } from './core/core.module';
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
+    MatSnackBarModule,
     MatIconModule,
     MatListModule,
     AppRoutingModule,

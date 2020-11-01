@@ -8,11 +8,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const routes: Route[] = [
-  { path: '', pathMatch: 'full', redirectTo: 'list' },
   {
     path: 'list',
     component: ShelterListComponent,
   },
+  { path: '**', pathMatch: 'full', redirectTo: 'pet/list' },
 ];
 @NgModule({
   imports: [

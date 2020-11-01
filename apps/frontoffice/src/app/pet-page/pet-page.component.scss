@@ -1,0 +1,17 @@
+.pet-photo {
+  max-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  figure {
+    height: 100%;
+    img {
+      width: 100%;
+      max-width: 100%;
+      vertical-align: middle;
+      border-style: none;
+    }
+  }
+  overflow: hidden;
+}

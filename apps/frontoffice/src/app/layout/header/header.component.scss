@@ -1,0 +1,60 @@
+.header-logo {
+  a, span {
+    color: #c22 !important;
+    font-size: 14px;
+  }
+  a {
+    font-weight: 800;
+  }
+}
+.blog-header {
+  height: 35px;
+  padding-top: 5px;
+  a {
+    color: #0c1014;
+    font-size: 14px;
+    &:hover {
+      color: #c22;
+      text-decoration: none;
+    }
+  }
+}
+
+.nav-scroller .nav {
+  a {
+    color: #0c1014;
+    line-height: 44px;
+    margin-left: 29px;
+    position: relative;
+    &:hover {
+      color: #c22;
+      text-decoration: none;
+    }
+    &.active {
+      font-weight: 800;
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        z-index: 1;
+        height: 1px;
+        width: 100%;
+        background-color: #c22;
+        margin-top: 7px;
+        left: 0;
+      }
+    }
+  }
+  a:first-child {
+    margin-left: 0;
+  }
+  &:after {
+    content: "";
+    position: relative;
+    margin-top: -1px;
+    height: 1px;
+    width: 100%;
+    display: block;
+    background-color: #d6dade;
+  }
+}

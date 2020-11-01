@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  baseUrl: `http://localhost:3333/api/public`,
+  // baseUrl: `http://localhost:3333/api/public`,
+  baseUrl: 'https://api-pet-hackaton.dev.meteora.pro/api/public',
   production: false,
 };
 

@@ -59,7 +59,9 @@ export class PetPageComponent implements OnInit {
       }),
       take(1),
       catchError((err) => {
-        this.showDanger();
+        if (typeof err === 'object') {
+          this.showDanger();
+        }
         return throwError(err);
       })
     ).subscribe((response) => {

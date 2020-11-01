@@ -13,7 +13,7 @@ import { FilterResolverService } from './services/filter-resolver.service';
 import { PetFiltersComponent } from './pet-filters/pet-filters.component';
 import { DateRangeComponent } from './pet-filters/date-range/date-range.component';
 import { NumberRangeComponent } from './pet-filters/number-range/number-range.component';
-import { DictionaryPipeModule } from '../../shared/dictionary.pipe';
+import { DictionaryPipeModule } from '../../shared/dictionary/dictionary.pipe';
 
 @NgModule({
   imports: [

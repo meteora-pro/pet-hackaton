@@ -249,3 +249,11 @@ export interface Tokens {
   accessToken: Token;
   refreshToken: Token;
 }
+
+export interface PagedResponse<T> {
+  data: T[];
+  count: number;
+  total: number;
+  page: number;
+  pageCount: number;
+}

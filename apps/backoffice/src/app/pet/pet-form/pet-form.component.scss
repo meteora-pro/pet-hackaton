@@ -21,14 +21,12 @@ $space: 21.5px;
   mat-form-field,
   mat-checkbox {
     min-width: 150px;
-    max-width: 500px;
     display: block;
   }
   mat-checkbox {
     margin-bottom: $space;
   }
   .mat-form-field-group {
-    max-width: 500px;
     display: flex;
     justify-content: stretch;
     mat-form-field {
@@ -49,7 +47,7 @@ $space: 21.5px;
   }
 
   .left-side {
-    width: 500px;
+    width: 800px;
   }
 
   .right-side {

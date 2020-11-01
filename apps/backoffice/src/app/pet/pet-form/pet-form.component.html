@@ -321,12 +321,12 @@
       >
     </div>
 
-    <button mat-raised-button type="button" *ngIf="!(isNew$ | async)" [disabled]="isLoading$ | async" (click)="printCard()">
-      Печать в Word
-    </button>
-
     <button mat-raised-button type="button" [disabled]="isLoading$ | async" color="primary" (click)="savePet()">
       {{ (isNew$ | async) ? 'Добавить животное' : 'Сохранить карточку' }}
+    </button>
+
+    <button mat-raised-button type="button" *ngIf="!(isNew$ | async)" [disabled]="isLoading$ | async" (click)="printCard()">
+      Распечатать
     </button>
 
     <div class="navigation">

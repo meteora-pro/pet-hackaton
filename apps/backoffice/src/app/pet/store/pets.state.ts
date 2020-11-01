@@ -58,6 +58,7 @@ export class PetsState {
   applyFilters(ctx: Ctx, { filters }: ApplyFilters) {
     ctx.patchState({
       filters,
+      pagination: { ...PETS_DEFAULT.pagination },
     });
     return ctx.dispatch(new LoadPets());
   }

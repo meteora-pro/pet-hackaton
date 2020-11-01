@@ -1,85 +1,83 @@
 <form [formGroup]="form" class="pet-filters">
-  <div class="filter-grid">
-    <mat-form-field appearance="fill"
-                    [hideRequiredMarker]="true">
-      <mat-label>Номер</mat-label>
-      <input type="text" matInput formControlName="cardNumber">
-    </mat-form-field>
+  <div>
+    <div class="filter-grid">
+      <mat-form-field appearance="fill" [hideRequiredMarker]="true">
+        <mat-label>Номер</mat-label>
+        <input type="text" matInput formControlName="cardNumber" />
+      </mat-form-field>
 
-    <mat-form-field appearance="fill"
-                    [hideRequiredMarker]="true">
-      <mat-label>№ идентификационной метки</mat-label>
-      <input type="text" matInput formControlName="labelId">
-    </mat-form-field>
+      <mat-form-field appearance="fill" [hideRequiredMarker]="true">
+        <mat-label>№ идентификационной метки</mat-label>
+        <input type="text" matInput formControlName="labelId" />
+      </mat-form-field>
 
-    <mat-form-field appearance="fill"
-                    [hideRequiredMarker]="true">
-      <mat-label>Кличка</mat-label>
-      <input type="text" matInput formControlName="name">
-    </mat-form-field>
+      <mat-form-field appearance="fill" [hideRequiredMarker]="true">
+        <mat-label>Кличка</mat-label>
+        <input type="text" matInput formControlName="name" />
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Административный округ</mat-label>
-      <mat-select formControlName="district" multiple>
-        <mat-option *ngFor="let district of districts$ | async" [value]="district.id">
-          {{district.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Административный округ</mat-label>
+        <mat-select formControlName="district" multiple>
+          <mat-option *ngFor="let district of districts$ | async" [value]="district.id">
+            {{ district.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Приют</mat-label>
-      <mat-select formControlName="shelterIds" multiple>
-        <mat-option *ngFor="let shelter of shelters$ | async" [value]="shelter.id">
-          {{shelter.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Приют</mat-label>
+        <mat-select formControlName="shelterIds" multiple>
+          <mat-option *ngFor="let shelter of shelters$ | async" [value]="shelter.id">
+            {{ shelter.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <date-range formControlName="createdAt"
-                label="Период регистрации карточки"></date-range>
+      <date-range formControlName="createdAt" label="Период регистрации карточки"></date-range>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Вид животного</mat-label>
-      <mat-select formControlName="kind" multiple>
-        <mat-option *ngFor="let kind of kinds" [value]="kind.id">
-          {{kind.value}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Вид животного</mat-label>
+        <mat-select formControlName="kind" multiple>
+          <mat-option *ngFor="let kind of kinds" [value]="kind.id">
+            {{ kind.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Размер</mat-label>
-      <mat-select formControlName="size" multiple>
-        <mat-option *ngFor="let size of sizes" [value]="size.id">
-          {{size.value}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Размер</mat-label>
+        <mat-select formControlName="size" multiple>
+          <mat-option *ngFor="let size of sizes" [value]="size.id">
+            {{ size.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Причина выбытия</mat-label>
-      <mat-select formControlName="outReason" multiple>
-        <mat-option *ngFor="let outReason of outReasons$ | async" [value]="outReason.id">
-          {{outReason.value}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Причина выбытия</mat-label>
+        <mat-select formControlName="outReason" multiple>
+          <mat-option *ngFor="let outReason of outReasons$ | async" [value]="outReason.id">
+            {{ outReason.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Статус животного</mat-label>
-      <mat-select formControlName="isSocializated" multiple>
-        <mat-option *ngFor="let status of 'status' | dictionary" [value]="status.id">
-          {{status.value}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Статус животного</mat-label>
+        <mat-select formControlName="isSocializated" multiple>
+          <mat-option *ngFor="let status of 'status' | dictionary" [value]="status.id">
+            {{ status.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <number-range label="Возраст" formControlName="age">
-    </number-range>
+      <number-range label="Возраст" formControlName="age"> </number-range>
+    </div>
+    <div class="pet-filters__buttons">
+      <button mat-raised-button color="primary" (click)="apply()" type="submit">Применить</button>
+      <button mat-button color="primary" type="button">Сводный отчёт реестра</button>
+      <button mat-button color="primary" type="button">Отчет о мониторинге</button>
+    </div>
   </div>
-  <button mat-raised-button
-          color="primary"
-          (click)="apply()"
-          type="submit">Применить</button>
 </form>

@@ -25,4 +25,8 @@ export class PetPageComponent implements OnInit {
     this.activatedRoute.params.pipe();
   }
 
+  openModal(): void {
+    // Реализовать открытие модалки для заявки
+  }
+
 }

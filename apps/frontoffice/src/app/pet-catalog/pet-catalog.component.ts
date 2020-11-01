@@ -19,7 +19,5 @@ export class PetCatalogComponent implements OnInit {
     })
   }
 
-  openModal(): void {
-    // Реализовать открытие модалки для заявки
-  }
+
 }

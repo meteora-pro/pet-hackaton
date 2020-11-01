@@ -1,4 +1,12 @@
 # PetHackaton
+* [Ссылка на демо бэкофис (интерфейс для сотрудников приютов)](https://lk.dev.meteora.pro/)
+* [Публичный каталог животных](https://pets.dev.meteora.pro/)
+* [Публичная swagger документация](https://api-pet-hackaton.dev.meteora.pro/public/docs/)
+
+# Как запустить проект
+1. Нужен docker и docker-compose
+1. Нужны npm и nodejs
+1. npm run up:compose && npm run start
 
 # Как добавить миграцию
 установить tsnode глобально:

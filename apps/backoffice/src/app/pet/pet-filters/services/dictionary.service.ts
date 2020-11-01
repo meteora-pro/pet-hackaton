@@ -36,7 +36,7 @@ export class DictionaryService {
     return this.http.get<Pet>(`${this.apiUrl}/pets/${id}`);
   }
 
-  createPet(pet: Pet): Observable<Pet> {
+  createPet(pet: Partial<Pet>): Observable<Pet> {
     return this.http.post<Pet>(`${this.apiUrl}/pets`, pet);
   }
 

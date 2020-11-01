@@ -221,3 +221,7 @@ export function parseHealthCheck({
     pet,
   } as HealthStatusEntity;
 }
+
+export function parseOwnerOrganisation() {
+
+}

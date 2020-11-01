@@ -1,5 +1,6 @@
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import {
+  NewPetOwnerOrganisation,
   Pet,
   PetKind,
   Sex, Size,
@@ -23,6 +24,7 @@ import { VacinationEntity } from './vacination.entity';
 import { HealthStatusEntity } from './health-status.entity';
 import { CommonService } from '../services/common/common.service';
 import { PetResponsibleOrganisationEntity } from './pet-responsible-organisation.entity';
+import {NewPetOwnerOrganizationEntity} from "./organisation.entity";
 
 @Entity({
   name: 'pets'
@@ -153,4 +155,7 @@ export class PetEntity extends BaseEntity implements Pet {
   @OneToMany(() => HealthStatusEntity, healthStatus => healthStatus.pet, {nullable: true})
   healthchecks: HealthStatusEntity[];
 
+  @ApiProperty({type: NewPetOwnerOrganizationEntity})
+  @ManyToOne(() => NewPetOwnerOrganizationEntity, {nullable: true})
+  newOwnerOrganization?: NewPetOwnerOrganizationEntity;
 }

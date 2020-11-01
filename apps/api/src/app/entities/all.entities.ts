@@ -13,6 +13,7 @@ import { VacinationEntity } from './vacination.entity';
 import { PetResponsibleOrganisationEntity } from './pet-responsible-organisation.entity';
 import { RefreshTokenEntity } from './refresh-token.entity';
 import { PrefectureEntity } from './prefecture.entity';
+import {NewPetOwnerOrganizationEntity} from "./organisation.entity";
 
 export const allEntities = [
   UserEntity,
@@ -30,5 +31,6 @@ export const allEntities = [
   PetResponsibleOrganisationEntity,
   RefreshTokenEntity,
   PrefectureEntity,
+  NewPetOwnerOrganizationEntity,
   ...allDictionaries,
 ];

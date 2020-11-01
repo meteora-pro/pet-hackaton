@@ -1,3 +1,6 @@
+import {ApiProperty} from "@nestjs/swagger";
+import {Column} from "typeorm";
+
 export enum PetKind {
   cat= 'cat',
   dog = 'dog'
@@ -125,16 +128,21 @@ export interface CatchInformation {
 
 /** сведения о новых владельцах */
 export interface OwnerInfo {
-  organization?: PetResponsibleOrganisation; // юридическое лицо
+  organization?: NewPetOwnerOrganisation; // юридическое лицо
   trustee?: Trustee[]; // ф.и.о. опекунов
   physical?: PhysicalPerson; // физическое лицо ф.и.о.
 }
 
+export interface NewPetOwnerOrganisation {
+  address?: string;
+  name: string;
+  phoneNumber?: string;
+}
 
 export interface Trustee {
   firstName: string; // имя
   middleName?: string; // отчество
-  lastName: string; // фамилия
+  lastName?: string; // фамилия
   alias?: string;
   contactData: string; // адрес и/или телефон
 }
@@ -204,9 +212,9 @@ export interface HealthStatus {
 
 export interface PhysicalPerson {
   firstName: string;
-  lastName: string;
+  lastName?: string;
   middleName?: string;
-  passport: PassportInfo;
+  passport?: PassportInfo;
   contacts?: string[];
 }
 

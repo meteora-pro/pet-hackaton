@@ -3,6 +3,7 @@ import { Trustee } from '@pet-hackaton/types';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { PetEntity } from './pet.entity';
 import {ApiProperty} from "@nestjs/swagger";
+import {NewPetOwnerOrganizationEntity} from "./organisation.entity";
 
 @Entity({name: 'trustees'})
 export class TrusteeEntity extends BaseEntity implements Trustee {
@@ -15,7 +16,7 @@ export class TrusteeEntity extends BaseEntity implements Trustee {
   lastName: string;
 
   @ApiProperty()
-  @Column()
+  @Column({nullable: true})
   contactData: string;
 
   @ApiProperty()
@@ -24,6 +25,10 @@ export class TrusteeEntity extends BaseEntity implements Trustee {
 
   @ApiProperty()
   @ManyToOne(() => PetEntity, pet => pet.trustee)
-  pet: PetEntity
+  pet: PetEntity;
+
+  @ApiProperty()
+  @ManyToOne(() => NewPetOwnerOrganizationEntity)
+  ownerOrganisation: NewPetOwnerOrganizationEntity;
 
 }

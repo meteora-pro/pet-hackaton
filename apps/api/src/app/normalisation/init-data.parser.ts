@@ -22,7 +22,7 @@ import {
   parseCatchInformation,
   parseDate,
   parseHealthCheck,
-  parseOrganisation, parseParasites,
+  parseOrganisation, parseOwnerOrganisation, parseParasites,
   parsePetKind,
   parseRegistrationHistory,
   parseSex,
@@ -33,11 +33,15 @@ import {
 import {QueryRunner} from "typeorm";
 import {ParasiteMedicineTreatmentEntity} from "../entities/parasite-medicine-treatment.entity";
 import {VacinationEntity} from "../entities/vacination.entity";
+import {TrusteeEntity} from "../entities/trustee.entity";
+import {PhysicalPersonEntity} from "../entities/physical-person.entity";
+import {NewPetOwnerOrganizationEntity} from "../entities/organisation.entity";
 
 
 export class InitDataParser {
   static async parseXlsxJsonAndPutToDb(rawDataSet, queryRunner: QueryRunner) {
     try {
+      // Сначала идет нормализация и подготовка сущностей, потом только заливка в бд
       rawDataSet.forEach(rawData => {
         Object.keys(rawData).forEach( key => {
           rawData[key?.trim()] = typeof rawData[key] === 'string' ? rawData[key].trim() : rawData[key];
@@ -233,6 +237,58 @@ export class InitDataParser {
       await registrationHistoryRepository.insert(registrationHistories);
       const savedRegistrationHistories = await registrationHistoryRepository.find({order: { id: 'ASC' }});
 
+      /** Новые владельцы */
+      const ownerOrganisations = {};
+
+      rawDataSet.forEach( rawData => {
+        const ownerOrganisationAlias = rawData['юридическое лицо'];
+        if (ownerOrganisationAlias) {
+          ownerOrganisations[ownerOrganisationAlias] = {
+            name: ownerOrganisationAlias,
+          };
+        }
+      });
+      const ownerOrganisationRepository = queryRunner.connection.getRepository(NewPetOwnerOrganizationEntity);
+      await ownerOrganisationRepository.insert(Object.values(ownerOrganisations));
+      const savedOwnerOrganisations = await ownerOrganisationRepository.find();
+      savedOwnerOrganisations.forEach( ownerOrganisation => {
+        ownerOrganisations[ownerOrganisation.name] = ownerOrganisation;
+      });
+
+      const trusties = {};
+      rawDataSet.forEach( rawData => {
+        const ownerOrganisationAlias = rawData['юридическое лицо'];
+        const trustyAlias = rawData['ф.и.о. опекунов'];
+        if (trustyAlias) {
+          trusties[trustyAlias] = {
+            firstName: trustyAlias,
+            ownerOrganisation: ownerOrganisations[ownerOrganisationAlias],
+          } as TrusteeEntity;
+        }
+      });
+      const trusteeRepository = queryRunner.connection.getRepository(TrusteeEntity);
+      await trusteeRepository.insert(Object.values(trusties));
+      const savedTrusties = await trusteeRepository.find();
+      savedTrusties.forEach( trustee => {
+        trusties[trustee.firstName] = trustee;
+      });
+
+      const ownerPhysicals = {};
+      rawDataSet.forEach( rawData => {
+        const ownerPhysicalAlias = rawData['физическое лицо ф.и.о.'];
+        if (ownerPhysicalAlias) {
+          ownerPhysicals[ownerPhysicalAlias] = {
+            firstName: ownerPhysicalAlias,
+          } as PhysicalPersonEntity;
+        }
+      });
+      const ownerPhysicalsRepository = queryRunner.connection.getRepository(PhysicalPersonEntity);
+      await ownerPhysicalsRepository.insert(Object.values(ownerPhysicals));
+      const savedOwnerPhysicals = await ownerPhysicalsRepository.find();
+      savedOwnerPhysicals.forEach( ownerPhysical => {
+        ownerPhysicals[ownerPhysical.firstName] = ownerPhysical;
+      });
+
       /** Питомцы */
 
       const preparedDataSet = rawDataSet.map( (rawData, index) => {
@@ -278,6 +334,22 @@ export class InitDataParser {
           registrationHistory,
           petCareTaker: allUsers[rawData['ф.и.о. сотрудника по уходу за животным']],
         } as PetEntity;
+
+        const ownerOrganisationAlias = rawData['юридическое лицо'];
+        const trustyAlias = rawData['ф.и.о. опекунов'];
+        const ownerPhysicalAlias = rawData['физическое лицо ф.и.о.'];
+
+        if (ownerOrganisations[ownerOrganisationAlias]) {
+          pet.newOwnerOrganization = ownerOrganisations[ownerOrganisationAlias];
+        }
+
+        if (trusties[trustyAlias]) {
+          pet.trustee = trusties[trustyAlias];
+        }
+
+        if (ownerPhysicals[ownerPhysicalAlias]) {
+          pet.physical = ownerPhysicals[ownerPhysicalAlias];
+        }
 
         return pet;
       });

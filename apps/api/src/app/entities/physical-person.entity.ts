@@ -15,16 +15,16 @@ export class PhysicalPersonEntity extends BaseEntity implements PhysicalPerson {
   firstName: string;
 
   @ApiProperty()
-  @Column()
-  lastName: string;
+  @Column({nullable: true})
+  lastName?: string;
 
   @ApiProperty()
-  @Column()
+  @Column({ nullable: true })
   middleName?: string;
 
   @ApiProperty()
-  @OneToOne(() => PassportInfoEntity, passport => passport.physicalPerson)
+  @OneToOne(() => PassportInfoEntity, passport => passport.physicalPerson, {nullable: true})
   @JoinColumn()
-  passport: PassportInfoEntity;
+  passport?: PassportInfoEntity;
 
 }

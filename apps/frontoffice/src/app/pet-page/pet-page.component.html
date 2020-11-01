@@ -13,10 +13,10 @@
   <div class="col-md-4">
     <h5 class="card-title">
       {{ pet.name }}
-      {{ pet.kind === 'cat' ? '🐈' : '🐕' }}
-      {{ pet.sex === 'male' ? '♂️' : '♀️'}}
+      {{ pet.kind ? pet.kind === 'cat' ? '🐈' : '🐕' : ''}}
+      {{ pet.sex ? pet.sex === 'male' ? '♂️' : '♀️' : ''}}
     </h5>
-    <p *ngIf="pet?.breed?.value" class="card-text">
+    <p *ngIf="pet?.breed?.value" class="card-text text-capitalize font-weight-bold">
       {{pet.breed?.value}}
     </p>
     <button class="btn btn-warning" type="button" (click)="openModal(content)">Оставить заявку на питомца</button>
@@ -37,7 +37,7 @@
         Поделитесь Ричем в социальных сетях
       </i>
     </div>
-    <div class="pt-3">
+    <div class="pt-3" style="margin-left: 30px !important;">
       <svg width="280" height="65" viewBox="0 0 280 65" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <rect width="280" height="65" fill="url(#pattern0)"/>
         <defs>

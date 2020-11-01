@@ -1,4 +1,4 @@
-<div class="card" routerLink="/pet/{{pet.id}}">
+<div class="card outline-none cursor-pointer" routerLink="/pet/{{pet.id}}">
   <ng-container *ngIf="pet?.photos[0]; else emptyImage">
     <figure class="pet-photo">
       <img class="card-img-top"
@@ -17,7 +17,7 @@
   <div *ngIf="badge" class="animal-badge p-1 px-2"><span>{{badge.title}}</span></div>
 
   <div class="card-body">
-    <h5 class="card-title">{{pet.name}} {{pet.kind === 'cat' ? '🐈' : '🐕'}} {{pet.sex === 'male' ? '♂️' : '♀️'}}</h5>
-    <p *ngIf="pet.breed?.value" class="card-text">{{pet.breed?.value}}</p>
+    <h5 class="card-title">{{pet.name}} {{pet.kind ? pet.kind === 'cat' ? '🐈' : '🐕' : ''}} {{pet.sex ? pet.sex === 'male' ? '♂️' : '♀️' : ''}}</h5>
+    <p *ngIf="pet.breed?.value" class="card-text text-capitalize">{{ pet.breed?.value }}</p>
   </div>
 </div>

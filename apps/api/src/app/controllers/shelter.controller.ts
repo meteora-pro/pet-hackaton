@@ -12,6 +12,13 @@ import { AccessTokenGuard } from '../authentication/guards/access-token.guard';
 @Crud({
   model: {
     type: ShelterEntity
+  },
+  query: {
+    join: {
+      organisation: {
+        eager: true,
+      },
+    },
   }
 })
 @CrudAuth({

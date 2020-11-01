@@ -20,7 +20,7 @@ export class ShelterListComponent implements OnInit {
   @Select(ShelterSelectors.isLoading)
   isLoading$: Observable<boolean>;
 
-  displayedColumns: string[] = ['index', 'name', 'address', 'phone'];
+  displayedColumns: string[] = ['name', 'organisation', 'address', 'phone', ];
 
   ngOnInit() {
     this.store.dispatch(new LoadShelters());

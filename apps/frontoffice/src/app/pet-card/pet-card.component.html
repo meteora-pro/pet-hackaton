@@ -1,6 +1,6 @@
 <div class="card" routerLink="/pet/{{pet.id}}">
   <ng-container *ngIf="pet.photos[0]; else emptyImage">
-    <img class="card-img-top" src="{{pet.photos[0]}}" alt="Card image cap">
+    <img class="card-img-top" src="{{pet.photos[0]}}" style="object-fit: cover" alt="Card image cap">
   </ng-container>
   <ng-template #emptyImage>
     <div class="card-img-top empty d-flex">

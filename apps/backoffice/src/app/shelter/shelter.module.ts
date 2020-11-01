@@ -18,7 +18,6 @@ const routes: Route[] = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    NgxsModule.forFeature([ShelterState]),
     MatTableModule,
     MatProgressSpinnerModule,
   ],

@@ -169,6 +169,7 @@ export interface Prefecture {
 /** Приют */
 export interface Shelter {
   readonly id: number;
+  name: string;
   organisation: PetResponsibleOrganisation;
   address: string; // адрес приюта
   headName: User; // ф.и.о. руководителя приюта

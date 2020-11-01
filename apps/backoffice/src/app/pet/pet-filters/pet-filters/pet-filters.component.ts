@@ -5,7 +5,7 @@ import { DictionaryService } from '../services/dictionary.service';
 import { Store } from '@ngxs/store';
 import { ApplyFilters } from '../../store/pets.actions';
 import { Observable } from 'rxjs';
-import { BaseDictionary } from '@pet-hackaton/types';
+import { BaseDictionary, Prefecture } from '@pet-hackaton/types';
 
 @Component({
   selector: 'pet-hackaton-pet-filters',
@@ -24,9 +24,9 @@ export class PetFiltersComponent implements OnInit {
     age: new FormControl(),
     size: new FormControl(),
     outReason: new FormControl(),
-    status: new FormControl(), // ?
+    isSocializated: new FormControl(),
   });
-  districts: any;
+  districts$: Observable<Prefecture[]> = this.dictService.getDict('prefecture');
   shelters$ = this.dictService.getShelters();
   ages: any;
   kinds = this.dictService.getKinds();

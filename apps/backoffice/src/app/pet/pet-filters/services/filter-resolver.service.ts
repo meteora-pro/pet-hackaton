@@ -7,9 +7,10 @@ export class FilterResolverService {
 
   resolve(data: PetFilter): string {
     const filters: string[] = [];
-    Object.keys(data).forEach((filterName) => {
-      const filterType = resolverMap[filterName];
-      const value = data[filterName];
+    Object.keys(data).forEach((key) => {
+      const filterType = resolverMap[key];
+      const filterName = nestedObject[key] || key;
+      const value = data[key];
       if (value) {
         switch (filterType) {
           case FilterTypeEnum.like: {
@@ -53,5 +54,10 @@ const resolverMap: { [key in keyof PetFilter]: FilterTypeEnum } = {
   age: FilterTypeEnum.numberRange,
   size: FilterTypeEnum.in,
   outReason: FilterTypeEnum.in,
-  status: FilterTypeEnum.in,
+  isSocializated: FilterTypeEnum.in,
 };
+const nestedObject = {
+  shelterIds: 'shelter.id',
+  outReason: 'registrationHistory.outReason.id',
+  district: 'shelter.prefecture.id',
+}

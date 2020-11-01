@@ -27,5 +27,5 @@ export interface PetFilter {
   age: FilterNumberRange;
   size: number[];
   outReason: number[];
-  status: number[];
+  isSocializated: number[];
 }

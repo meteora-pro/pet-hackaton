@@ -10,6 +10,7 @@ import { PetsSelectors } from '../store/pets.selectors';
 import { PetFormMode } from '../store/pets.state.model';
 import { LoadShelters } from '../../shelter/store/shelter.actions';
 import { ShelterSelectors } from '../../shelter/store/shelter.selectors';
+import {ReportService} from "../../report/report.service";
 
 @Component({
   selector: 'pet-hackaton-pet-form',
@@ -125,7 +126,11 @@ export class PetFormComponent implements OnInit, OnDestroy {
     return a?.id === b?.id;
   }
 
-  constructor(private dictionaryService: DictionaryService, private store: Store) {}
+  constructor(
+    private dictionaryService: DictionaryService,
+    private store: Store,
+    private reportService: ReportService,
+  ) {}
 
   get parasiteTreatments() {
     return this.form.get('parasiteTreatments') as FormArray;
@@ -193,6 +198,10 @@ export class PetFormComponent implements OnInit, OnDestroy {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+  }
+
+  printCard() {
+    this.reportService.printPetCard(this.form.value);
   }
 
   ngOnDestroy(): void {

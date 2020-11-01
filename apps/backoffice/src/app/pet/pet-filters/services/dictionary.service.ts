@@ -1,7 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BaseDictionary, Pet, PetKind, Role, Sex, Shelter, Size, StringDictionary, User } from '@pet-hackaton/types';import { Pagination } from '../../../shared/pagination';
+import {
+  BaseDictionary,
+  Pet,
+  PetKind,
+  PetStatuses,
+  Role,
+  Sex,
+  Shelter,
+  Size,
+  SimpleDictionary,
+  User
+} from '@pet-hackaton/types';import { Pagination } from '../../../shared/pagination';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -15,12 +26,12 @@ export class DictionaryService {
     return `page=${pagination.page}&limit=${pagination.perPage}`
   }
 
-  getDict(dict: string): Observable<BaseDictionary[]> {
-    return this.http.get<BaseDictionary[]>(`${this.apiUrl}/${dict}`);
+  getDict<T = BaseDictionary>(dict: string): Observable<T[]> {
+    return this.http.get<T[]>(`${this.apiUrl}/${dict}`);
   }
 
-  getShelters(): Observable<Shelter> {
-    return this.http.get<Shelter>(`${this.apiUrl}/shelters`);
+  getShelters(): Observable<Shelter[]> {
+    return this.http.get<Shelter[]>(`${this.apiUrl}/shelters`);
   }
 
   getPets(filter: string = '', pagination: Pagination, sort: string): Observable<PetResponse> {
@@ -49,14 +60,17 @@ export class DictionaryService {
     return this.http.get<User[]>(`${this.apiUrl}/users?${queryParams}`);
   }
 
-  getKinds(): StringDictionary[] {
+  getKinds(): SimpleDictionary[] {
     return petKinds;
   }
-  getSizes(): StringDictionary[] {
+  getSizes(): SimpleDictionary[] {
     return petSizes;
   }
-  getSexes(): StringDictionary[] {
+  getSexes(): SimpleDictionary[] {
     return petSexes;
+  }
+  getStatuses(): SimpleDictionary[] {
+    return petStatuses;
   }
 }
 
@@ -68,17 +82,22 @@ export interface PetResponse {
   pageCount: number;
 }
 
-const petKinds: StringDictionary[] = [
+const petKinds: SimpleDictionary[] = [
   { id: PetKind.cat, value: 'Кошка' },
   { id: PetKind.dog, value: 'Собака' },
 ];
 
-const petSexes: StringDictionary[] = [
+const petStatuses: SimpleDictionary[] = [
+  { id: true, value: 'Социализировано' },
+  { id: false, value: 'Не социализировано' },
+];
+
+const petSexes: SimpleDictionary[] = [
   { id: Sex.female, value: 'Женский' },
   { id: Sex.male, value: 'Мужской' },
 ];
 
-const petSizes: StringDictionary[] = [
+const petSizes: SimpleDictionary[] = [
   { id: Size.extraSmall, value: 'Очень маленький' },
   { id: Size.small, value: 'Маленький' },
   { id: Size.medium, value: 'Средний' },

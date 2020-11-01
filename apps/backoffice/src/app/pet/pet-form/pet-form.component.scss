@@ -61,13 +61,13 @@ $space: 21.5px;
     button {
       margin-top: $space;
     }
-    ul.form-links {
-      padding-left: 0;
-      list-style: none;
-      li {
-        cursor: pointer;
-        &:hover {
-          //color: darken();
+    .navigation {
+      margin-top: $space;
+      ul.form-links {
+        padding-left: 0;
+        list-style: none;
+        li {
+          cursor: pointer;
         }
       }
     }

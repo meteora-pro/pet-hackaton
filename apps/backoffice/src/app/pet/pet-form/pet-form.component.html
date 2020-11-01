@@ -322,16 +322,20 @@
     <button mat-raised-button type="button" [disabled]="isLoading$ | async" color="primary" (click)="savePet()">
       {{ (isNew$ | async) ? 'Добавить животное' : 'Сохранить карточку' }}
     </button>
-    <ul class="form-links">
-      <li class="fields-toggle" (click)="scrollTo(baseInfo)">Основные сведения о животном</li>
-      <li class="fields-toggle" (click)="scrollTo(catchInfo)">Сведения об отлове</li>
-      <li class="fields-toggle" (click)="scrollTo(ownersInfo)">Сведения о новых владельцах</li>
-      <li class="fields-toggle" (click)="scrollTo(petHistoryInfo)">Движение животного</li>
-      <li class="fields-toggle" (click)="scrollTo(parasiteTreatmentsInfo)">
-        Сведения об обработке от экто- и эндопаразитов
-      </li>
-      <li class="fields-toggle" (click)="scrollTo(vacinationsInfo)">Сведения о вакцинации</li>
-      <li class="fields-toggle" (click)="scrollTo(healthchecksInfo)">Сведения о состоянии здоровья</li>
-    </ul>
+
+    <div class="navigation">
+      <div class="navigation-title">Навигация по карточке</div>
+      <ul class="form-links">
+        <li class="fields-toggle" (click)="scrollTo(baseInfo)">Основные сведения о животном</li>
+        <li class="fields-toggle" (click)="scrollTo(catchInfo)">Сведения об отлове</li>
+        <li class="fields-toggle" (click)="scrollTo(ownersInfo)">Сведения о новых владельцах</li>
+        <li class="fields-toggle" (click)="scrollTo(petHistoryInfo)">Движение животного</li>
+        <li class="fields-toggle" (click)="scrollTo(parasiteTreatmentsInfo)">
+          Сведения об обработке от экто- и эндопаразитов
+        </li>
+        <li class="fields-toggle" (click)="scrollTo(vacinationsInfo)">Сведения о вакцинации</li>
+        <li class="fields-toggle" (click)="scrollTo(healthchecksInfo)">Сведения о состоянии здоровья</li>
+      </ul>
+    </div>
   </div>
 </form>

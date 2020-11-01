@@ -6,7 +6,7 @@ services:
       context: ./
       dockerfile: ./deploy/frontoffice/Dockerfile.local
     networks:
-      base_network:
+      - overlay
     ports:
       - '80:80'
   backoffice:
@@ -14,9 +14,22 @@ services:
       context: ./
       dockerfile: ./deploy/backoffice/Dockerfile.local
     networks:
-      base_network:
+      - overlay
     ports:
       - '8080:80'
+  postgres:
+    image: "postgres:10-alpine"
+    hostname: "postgres"
+    networks:
+      - overlay
+    environment:
+      POSTGRES_PASSWORD: ilt0q1drzye
+      POSTGRES_USER: postgres
+      POSTGRES_DB: api_local
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'postgres_data_vol:/var/lib/postgresql/data'
   api:
     build:
       context: ./
@@ -28,21 +41,10 @@ services:
       POSTGRES_HOST: postgres
     ports:
       - '3333:3333'
-  postgres:
-    image: "postgres:10-alpine"
-    hostname: "postgres"
-    networks:
-      - overlay
-    environment:
-      POSTGRES_PASSWORD: ilt0q1drzye
-      POSTGRES_USER: postgres
-    ports:
-      - '5432:5432'
-    volumes:
-      - 'postgres_data:/var/lib/postgresql/data'
+
 
 volumes:
-  postgres_data:
+  postgres_data_vol:
   redis_data:
   minio-data:
   pgadmin:

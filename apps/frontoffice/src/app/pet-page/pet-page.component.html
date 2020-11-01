@@ -30,6 +30,11 @@
         <p *ngIf="pet?.shelter?.phone">
           {{ pet?.shelter?.phone || '-'}}
         </p>
+        <div class="shelter-map pt-3">
+          <img *ngIf="pet?.shelter?.address"
+               [lazyLoad]="'https://cdn.dev.meteora.pro/meteora-dev/map.jpg'"
+               alt="">
+        </div>
       </div>
     </div>
     <div class="col-md-4">

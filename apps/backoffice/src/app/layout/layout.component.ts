@@ -22,6 +22,9 @@ export class LayoutComponent {
   @Select(AuthenticationSelectors.currentUser)
   currentUser$: Observable<UserData>;
 
+  @Select(AuthenticationSelectors.department)
+  department$: Observable<string | undefined>;
+
   @Select(AuthenticationSelectors.isSignedIn)
   isSignedIn$: Observable<boolean>;
 

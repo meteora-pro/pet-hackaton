@@ -10,9 +10,11 @@ import { PetPageComponent } from './pet-page/pet-page.component';
 import { PetCatalogComponent } from './pet-catalog/pet-catalog.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { ModalPetOrderComponent } from './pet-page/modal-pet-order/modal-pet-order.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [AppComponent, PetCardComponent, PetPageComponent, PetCatalogComponent, HeaderComponent],
+  declarations: [AppComponent, PetCardComponent, PetPageComponent, PetCatalogComponent, HeaderComponent, ModalPetOrderComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -25,6 +27,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
       component: PetCatalogComponent,
     }]),
     LazyLoadImageModule,
+    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

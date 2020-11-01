@@ -13,6 +13,10 @@
   a {
     color: #0c1014;
     font-size: 14px;
+    &:hover {
+      color: #c22;
+      text-decoration: none;
+    }
   }
 }
 

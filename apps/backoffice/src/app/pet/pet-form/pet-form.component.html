@@ -1,11 +1,8 @@
-<h3>{{(isNew$ | async )? 'Добавление' : 'Редактирование карточки'}} животного</h3>
-<h4>
-  Чтобы {{(isNew$ | async )? 'добавить' : 'изменить карточку'}} питомца — вам необходимо заполнить поля ниже
-</h4>
+<h3>{{ (isNew$ | async) ? 'Добавление' : 'Редактирование карточки' }} животного</h3>
+<h4>Чтобы {{ (isNew$ | async) ? 'добавить' : 'изменить карточку' }} питомца — вам необходимо заполнить поля ниже</h4>
 
 <form [formGroup]="form" class="pet-form">
   <div class="left-side">
-
     <mat-form-field appearance="fill">
       <mat-label>Приют</mat-label>
       <mat-select formControlName="shelter" [compareWith]="compareById">
@@ -15,9 +12,7 @@
       </mat-select>
     </mat-form-field>
 
-    <div *ngIf="oranisation$ | async as oranisation">
-      <b>Эксплуатирующая организация:</b> {{oranisation}}
-    </div>
+    <div *ngIf="oranisation$ | async as oranisation"><b>Эксплуатирующая организация:</b> {{ oranisation }}</div>
 
     <div #baseInfo>
       <h4>Основные сведения о животном</h4>
@@ -319,9 +314,14 @@
     </div>
 
     <mat-checkbox formControlName="isSocializated">Социализировано</mat-checkbox>
-    <i>Если вы виберите “Социализирован”, то животное будет размещено на в каталоге общего пользования.</i>
+    <i
+      >Если вы виберите “Социализирован”, то животное будет размещено в каталоге общего пользования
+      <a href="https://mos.ru" target="_blank">mos.ru</a>.</i
+    >
 
-    <button mat-raised-button type="button" [disabled]="isLoading$ | async" color="primary" (click)="savePet()">{{ (isNew$ | async) ? 'Добавить животное' : 'Сохранить карточку' }}</button>
+    <button mat-raised-button type="button" [disabled]="isLoading$ | async" color="primary" (click)="savePet()">
+      {{ (isNew$ | async) ? 'Добавить животное' : 'Сохранить карточку' }}
+    </button>
     <ul class="form-links">
       <li class="fields-toggle" (click)="scrollTo(baseInfo)">Основные сведения о животном</li>
       <li class="fields-toggle" (click)="scrollTo(catchInfo)">Сведения об отлове</li>

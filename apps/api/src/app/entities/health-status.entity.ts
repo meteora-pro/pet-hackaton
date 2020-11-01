@@ -21,7 +21,7 @@ export class HealthStatusEntity extends BaseEntity implements HealthStatus {
   weight: number;
 
   @ApiProperty()
-  @ManyToOne(() => PetEntity, pet => pet.vacinations)
+  @ManyToOne(() => PetEntity, pet => pet.healthchecks)
   pet: PetEntity;
 
 }

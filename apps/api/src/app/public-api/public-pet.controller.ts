@@ -10,6 +10,8 @@ import { ApiTags } from '@nestjs/swagger';
     type: PetEntity,
   },
   query: {
+    alwaysPaginate: true,
+    limit: 30,
     filter: {
       isSocializated: {
         $eq: true,

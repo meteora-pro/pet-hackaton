@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { DictionaryService } from '../pet-filters/services/dictionary.service';
+import { DictionaryService } from '../../pet/pet-filters/services/dictionary.service';
 
 @Pipe({
   name: 'humanized'

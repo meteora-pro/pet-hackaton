@@ -1,6 +1,11 @@
 <div class="card" routerLink="/pet/{{pet.id}}">
-  <ng-container *ngIf="pet.photos[0]; else emptyImage">
-    <img class="card-img-top" src="{{pet.photos[0]}}" style="object-fit: cover" alt="Card image cap">
+  <ng-container *ngIf="pet?.photos[0]; else emptyImage">
+    <figure class="pet-photo">
+      <img class="card-img-top"
+           defaultImage="./assets/icons/default-pet-image.svg"
+           [lazyLoad]="pet.photos"
+           alt="pet image" />
+    </figure>
   </ng-container>
   <ng-template #emptyImage>
     <div class="card-img-top empty d-flex">

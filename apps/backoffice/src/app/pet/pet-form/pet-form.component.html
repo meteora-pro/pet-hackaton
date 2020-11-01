@@ -319,16 +319,17 @@
       <a href="https://mos.ru" target="_blank">mos.ru</a>.</i
     >
 
+    <button mat-raised-button type="button" *ngIf="!(isNew$ | async)" [disabled]="isLoading$ | async" (click)="printCard()">
+      Печать в Word
+    </button>
+
     <button mat-raised-button type="button" [disabled]="isLoading$ | async" color="primary" (click)="savePet()">
       {{ (isNew$ | async) ? 'Добавить животное' : 'Сохранить карточку' }}
     </button>
 
     <div class="navigation">
       <div class="navigation-title">Навигация по карточке</div>
-      <button mat-raised-button type="button" [disabled]="isLoading$ | async" color="accent" (click)="printCard()">
-      {{ 'Печать в Word' }}
-    </button>
-    <ul class="form-links">
+      <ul class="form-links">
         <li class="fields-toggle" (click)="scrollTo(baseInfo)">Основные сведения о животном</li>
         <li class="fields-toggle" (click)="scrollTo(catchInfo)">Сведения об отлове</li>
         <li class="fields-toggle" (click)="scrollTo(ownersInfo)">Сведения о новых владельцах</li>

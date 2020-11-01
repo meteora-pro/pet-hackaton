@@ -42,7 +42,7 @@
 
     <ng-container matColumnDef="isSocializated">
       <th mat-header-cell *matHeaderCellDef>Округ</th>
-      <td mat-cell *matCellDef="let element">{{ element?.district || '—' }}</td>
+      <td mat-cell *matCellDef="let element">{{ element?.shelter?.prefecture?.name || '—' }}</td>
     </ng-container>
 
     <ng-container matColumnDef="isPublished">

@@ -21,8 +21,8 @@
     <mat-form-field appearance="fill">
       <mat-label>Административный округ</mat-label>
       <mat-select formControlName="district" multiple>
-        <mat-option *ngFor="let district of districts" [value]="district.value">
-          {{district.label}}
+        <mat-option *ngFor="let district of districts$ | async" [value]="district.id">
+          {{district.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>

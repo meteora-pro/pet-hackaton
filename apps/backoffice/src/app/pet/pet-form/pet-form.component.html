@@ -5,7 +5,22 @@
 
 <form [formGroup]="form" class="pet-form">
   <div class="left-side">
+
+    <mat-form-field appearance="fill">
+      <mat-label>Приют</mat-label>
+      <mat-select formControlName="shelter" [compareWith]="compareById">
+        <mat-option *ngFor="let shelter of shelters$ | async" [value]="shelter">
+          {{ shelter?.name | titlecase }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div *ngIf="oranisation$ | async as oranisation">
+      <b>Эксплуатирующая организация:</b> {{oranisation}}
+    </div>
+
     <div #baseInfo>
+      <h4>Основные сведения о животном</h4>
       <mat-form-field appearance="fill">
         <mat-label>Кличка</mat-label>
         <input matInput formControlName="name" />

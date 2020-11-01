@@ -3,9 +3,10 @@ import { Action, State, StateContext } from '@ngxs/store';
 import { ShelterStateModel } from './shelter.state.model';
 import { StoreStatusEnum } from '../../shared/store.status.enum';
 import { AddShelter, ChangeShelter, LoadShelters } from './shelter.actions';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Shelter } from '../../../../../../libs/types/src';
 import { NestCrudService } from '../../shared/nest-crud.service';
+import { Observable } from 'rxjs';
 
 export const SHELTER_STATE_NAME = 'shelters';
 
@@ -27,13 +28,13 @@ export class ShelterState {
   }
 
   @Action(LoadShelters)
-  loadDictionary(ctx: Ctx) {
+  loadDictionary(ctx: Ctx): Observable<void> {
     ctx.patchState({
       status: StoreStatusEnum.Loading,
       list: []
     });
     return this.nestCrudService.getList('shelters').pipe(
-      tap((list: Shelter[]) => {
+      map((list: Shelter[]) => {
         ctx.patchState({
           status: StoreStatusEnum.Ready,
           list

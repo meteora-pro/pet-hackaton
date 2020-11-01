@@ -2,12 +2,14 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { DictionaryService } from '../pet-filters/services/dictionary.service';
 import { merge, Observable, of, Subject } from 'rxjs';
-import { BaseDictionary, OutReason, Role, User } from '@pet-hackaton/types';
+import { BaseDictionary, Role, Shelter, User } from '@pet-hackaton/types';
 import { debounceTime, filter, map, shareReplay, switchMap, takeUntil } from 'rxjs/operators';
 import { Select, Store } from '@ngxs/store';
 import { SavePet } from '../store/pets.actions';
 import { PetsSelectors } from '../store/pets.selectors';
 import { PetFormMode } from '../store/pets.state.model';
+import { LoadShelters } from '../../shelter/store/shelter.actions';
+import { ShelterSelectors } from '../../shelter/store/shelter.selectors';
 
 @Component({
   selector: 'pet-hackaton-pet-form',
@@ -18,6 +20,7 @@ import { PetFormMode } from '../store/pets.state.model';
 export class PetFormComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   form = new FormGroup({
+    shelter: new FormControl(),
     name: new FormControl(),
     kind: new FormControl(),
     sex: new FormControl(),
@@ -113,6 +116,11 @@ export class PetFormComponent implements OnInit, OnDestroy {
 
   @Select(PetsSelectors.isReadonly)
   isReadonly$: Observable<boolean>;
+
+  @Select(ShelterSelectors.shelters)
+  shelters$: Observable<Shelter[]>;
+  oranisation$: Observable<string>;
+
   compareById(a, b): boolean {
     return a?.id === b?.id;
   }
@@ -133,6 +141,12 @@ export class PetFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(new LoadShelters());
+    this.oranisation$ = this.form.get('shelter').valueChanges.pipe(
+      switchMap((shelter) => {
+        return this.shelters$.pipe(map((shelters) => shelters.find((sh) => sh.id === shelter.id)?.organisation?.name));
+      })
+    );
     this.store
       .select(PetsSelectors.pet)
       .pipe(debounceTime(100), filter(Boolean), takeUntil(this.destroy$))

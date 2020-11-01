@@ -18,6 +18,9 @@ import { AccessTokenGuard } from '../authentication/guards/access-token.guard';
       shelter: {
         eager: true,
       },
+      'shelter.prefecture': {
+        eager: true,
+      },
       breed: {
         eager: true,
       },

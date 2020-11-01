@@ -24,7 +24,7 @@ export class PetFiltersComponent implements OnInit {
     age: new FormControl(),
     size: new FormControl(),
     outReason: new FormControl(),
-    status: new FormControl(), // ?
+    isSocializated: new FormControl(),
   });
   districts: any;
   shelters$ = this.dictService.getShelters();

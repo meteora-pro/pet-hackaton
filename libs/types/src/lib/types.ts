@@ -1,9 +1,11 @@
-import {ApiProperty} from "@nestjs/swagger";
-import {Column} from "typeorm";
-
 export enum PetKind {
   cat= 'cat',
   dog = 'dog'
+}
+
+export enum PetStatuses {
+  socialised = 'socialised',
+  notSocialised = 'notSocialised'
 }
 
 export enum Sex {
@@ -46,8 +48,8 @@ export interface BaseDictionary {
   type?: PetKind;
 }
 
-export interface StringDictionary {
-  id: string;
+export interface SimpleDictionary {
+  id: string | number | boolean;
   value: string;
 }
 

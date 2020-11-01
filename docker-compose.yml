@@ -1,6 +1,30 @@
 version: '3.7'
 
 services:
+  frontoffice:
+    build:
+      context: ./
+      dockerfile: ./deploy/frontoffice/Dockerfile.local
+    networks:
+      base_network:
+    ports:
+      - '80:80'
+  backoffice:
+    build:
+      context: ./
+      dockerfile: ./deploy/backoffice/Dockerfile.local
+    networks:
+      base_network:
+    ports:
+      - '8080:80'
+  api:
+    build:
+      context: ./
+      dockerfile: ./deploy/api/Dockerfile.local
+    networks:
+      base_network:
+    ports:
+      - '3333:3333'
   postgres:
     image: postgres
     restart: always

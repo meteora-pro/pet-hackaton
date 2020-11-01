@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../environments/environment";
-import {PagedResponse, Pet} from "@pet-hackaton/types";
+import {environment} from "../../environments/environment";
+import { PagedResponse, Pet} from "@pet-hackaton/types";
+import { PetOrderInterface } from '../models/pet-order.interface';
 
 
 @Injectable({
@@ -19,5 +20,14 @@ export class CatalogService {
 
   getPet(id: string) {
     return this.httpClient.get<Pet>(`${environment.baseUrl}/pets/${id}?join=breed`)
+  }
+
+  createOrder(order: PetOrderInterface) {
+    return this.httpClient.post<Pet>(`${environment.baseUrl}/orders`, {
+      ...order,
+      pet: {
+        id: order.petId
+      }
+    })
   }
 }

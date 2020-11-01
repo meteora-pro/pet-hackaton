@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {CatalogService} from "../catalog.service";
+import {CatalogService} from "../services/catalog.service";
 import {Pet} from "@pet-hackaton/types";
 
 @Component({

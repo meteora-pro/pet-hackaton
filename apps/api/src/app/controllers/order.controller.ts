@@ -7,7 +7,7 @@ import {OrderEntity} from "../entities/order.entity";
 import {OrderService} from "../services/order.service";
 
 @ApiBearerAuth()
-@ApiTags('Shelter', 'entity')
+@ApiTags('Order', 'entity')
 @UseGuards(AccessTokenGuard)
 @Crud({
   model: {

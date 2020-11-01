@@ -10,18 +10,19 @@ import {filter, map, shareReplay, switchMap} from "rxjs/operators";
 })
 export class PetPageComponent implements OnInit {
 
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private catalogService: CatalogService,
   ) { }
+
   pet$ = this.activatedRoute.params.pipe(
     map( params => params.id ),
     filter( id => !!id),
     switchMap( id => this.catalogService.getPet(id)),
     shareReplay(),
   );
-    ngOnInit(): void {
+
+  ngOnInit(): void {
     this.activatedRoute.params.pipe();
   }
 

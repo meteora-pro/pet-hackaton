@@ -36,6 +36,7 @@ import {VacinationEntity} from "../entities/vacination.entity";
 import {TrusteeEntity} from "../entities/trustee.entity";
 import {PhysicalPersonEntity} from "../entities/physical-person.entity";
 import {NewPetOwnerOrganizationEntity} from "../entities/organisation.entity";
+import {inspect} from "util";
 
 
 export class InitDataParser {
@@ -60,6 +61,7 @@ export class InitDataParser {
         } as OutReasonEntity;
       });
       const outReasonRepository = queryRunner.connection.getRepository(OutReasonEntity);
+      Logger.warn(`${inspect(allOutReasons)}`);
       try {
         await outReasonRepository.insert(Object.values(allOutReasons));
       } catch(e) {
@@ -231,6 +233,10 @@ export class InitDataParser {
           outReason: findDictionaryByValue(rawData['причина выбытия'], allOutReasonsSaved),
           outAct: rawData['акт/договор №'], // № акта/договора выбытия
         });
+        Logger.log(`${inspect([
+          rawData['дата выбытия из приюта'],
+          rawData['причина выбытия'],
+        ])}`);
         registrationHistories.push(registrationHistory);
       });
       const registrationHistoryRepository = queryRunner.connection.getRepository(PetRegistrationHistoryEntity);

@@ -8,6 +8,13 @@
 1. Нужны npm и nodejs
 1. npm run up:compose && npm run start
 
+# Используемые технологии
+1. Управление монорепозиторием [Nx](https://nx.dev)
+1. Frontend - Angular (Material Theme)
+1. Backend (NodeJs, NestJs, TypeOrm)
+1. База данных Postgres
+1. Деплой Kubernetes, Helm, Gitlab CI/CD
+
 # Как добавить миграцию
 установить tsnode глобально:
 `npm i -g ts-node`

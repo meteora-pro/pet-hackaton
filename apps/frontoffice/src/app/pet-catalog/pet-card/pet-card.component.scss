@@ -9,7 +9,14 @@
     object-fit: cover;
   }
 }
-
+.card {
+  cursor: pointer;
+  height: 396px;
+  &:hover {
+    background-color: #ECEEEF;
+  }
+  transition: background-color .1s;
+}
 .animal-badge {
   top: 18px;
   position: absolute;

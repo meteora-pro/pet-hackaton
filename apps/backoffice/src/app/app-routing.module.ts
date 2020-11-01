@@ -23,6 +23,10 @@ const routes: Routes = [
         loadChildren: () =>
           import('./dictionary-manager/dictionary-manager.module').then((m) => m.DictionaryManagerModule),
       },
+      {
+        path: 'orders',
+        loadChildren: () => import('./orders/orders.module').then((m) => m.OrdersModule)
+      }
     ],
   },
   {

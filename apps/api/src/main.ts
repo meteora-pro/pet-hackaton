@@ -10,6 +10,8 @@ import { AppConfig } from './app/app.config';
 import { AppModule } from './app/app.module';
 import * as helmet from 'helmet';
 import { useContainer } from 'class-validator';
+import {PublicPetController} from "./app/public-api/public-pet.controller";
+import {PublicApiModule} from "./app/public-api/public-api.module";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,13 +22,12 @@ async function bootstrap() {
   const appConfig = app.get(AppConfig);
   const options = new DocumentBuilder()
     .setBasePath('/' + globalPrefix)
-    .setTitle('Hackaton pet shelter api')
+    .setTitle('Hackaton pet shelter internal api')
     .addServer(appConfig.appUrl)
     .addBearerAuth()
-    .setDescription('Hackaton pet shelter API description')
+    .setDescription('Hackaton pet shelter internal API description')
     .setVersion('1.0')
     .build();
-
 
   app.use(helmet());
   app.enableCors();
@@ -37,7 +38,22 @@ async function bootstrap() {
     })
   );
 
+  const publicOptions = new DocumentBuilder()
+    .setBasePath('/' + globalPrefix)
+    .setTitle('Hackaton pet shelter public api')
+    .addServer(appConfig.appUrl)
+    .addBearerAuth()
+    .setDescription('Hackaton pet shelter public API description')
+    .setVersion('1.0')
+    .build();
+
+  const publicDocument = SwaggerModule.createDocument(app, publicOptions, {
+    include: [PublicApiModule],
+  });
+  SwaggerModule.setup('public/docs', app, publicDocument);
+
   const document = SwaggerModule.createDocument(app, options);
+  // Внутренная документация будет доступно только для внутреннего использования
   SwaggerModule.setup('docs', app, document);
 
   const port = process.env.PORT || 3333;

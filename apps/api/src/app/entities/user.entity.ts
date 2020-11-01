@@ -10,11 +10,9 @@ import { ShelterEntity } from './shelter.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity extends BaseEntity implements User {
-  @ApiProperty()
   @Column({ unique: true })
   login: string;
 
-  @ApiProperty()
   @Column({ nullable: true, unique: true })
   email?: string;
 
@@ -30,21 +28,17 @@ export class UserEntity extends BaseEntity implements User {
   @Column({ nullable: true })
   lastName?: string;
 
-  @ApiProperty()
   @Column({ type: 'enum', enum: Role, default: Role.SHELTER_USER })
   role: Role;
 
-  @ApiProperty()
   @Exclude()
   @Column()
   password: string;
 
-  @ApiProperty()
   @Exclude()
   @Column()
   salt: string;
 
-  @ApiProperty()
   @OneToMany(() => RefreshTokenEntity, (tokens) => tokens.user)
   tokens: RefreshTokenEntity[];
 

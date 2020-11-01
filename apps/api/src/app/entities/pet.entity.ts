@@ -115,10 +115,6 @@ export class PetEntity extends BaseEntity implements Pet {
   @Column({default: false})
   isSocializated: boolean;
 
-  @ApiProperty({type: PetResponsibleOrganisationEntity})
-  @ManyToOne(() => PetResponsibleOrganisationEntity, organization => organization, {nullable: true})
-  organization?: PetResponsibleOrganisationEntity;
-
   @ApiProperty({type: [TrusteeEntity]})
   @OneToMany(() => TrusteeEntity, trustee => trustee.pet, {nullable: true})
   trustee?: TrusteeEntity[];

@@ -329,7 +329,6 @@ export class InitDataParser {
           shelter,
           photos: generatePhotoUrl(shelter, cardNumber + ''),
           veterinarian: allUsers[rawData['ф.и.о. ветеринарного врача']],
-          organization: organisations[rawData['эксплуатирующая организация']],
           catchInformation,
           registrationHistory,
           petCareTaker: allUsers[rawData['ф.и.о. сотрудника по уходу за животным']],

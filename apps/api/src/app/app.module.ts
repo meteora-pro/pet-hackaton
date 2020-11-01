@@ -11,6 +11,7 @@ import {allDictionaryServices} from "./services/dictionaries/all.dictionary.serv
 import {allServices} from "./services/all.services";
 import {allControllers} from "./controllers/all.controllers";
 import { AuthenticationModule } from './authentication/authentication.module';
+import {PublicApiModule} from "./public-api/public-api.module";
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
       inject: [AppConfig],
     }),
     TypeOrmModule.forFeature(allEntities),
+    PublicApiModule,
   ],
   controllers: [
     AppController,

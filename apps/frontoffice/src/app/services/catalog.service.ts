@@ -19,7 +19,7 @@ export class CatalogService {
   }
 
   getPet(id: string) {
-    return this.httpClient.get<Pet>(`${environment.baseUrl}/pets/${id}?join=breed`)
+    return this.httpClient.get<Pet>(`${environment.baseUrl}/pets/${id}?join=breed&join=shelter&join=color&join=size`)
   }
 
   createOrder(order: PetOrderInterface) {

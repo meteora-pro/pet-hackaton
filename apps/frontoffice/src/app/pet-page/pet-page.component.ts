@@ -5,8 +5,9 @@ import { catchError, filter, map, shareReplay, switchMap, take, tap } from 'rxjs
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PetOrderInterface } from '../models/pet-order.interface';
 import { fromPromise } from 'rxjs/internal-compatibility';
-import { of, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { ToastService } from '../services/toast.service';
+import { Pet } from '@pet-hackaton/types';
 
 @Component({
   selector: 'pet-hackaton-pet-page',
@@ -22,7 +23,7 @@ export class PetPageComponent implements OnInit {
     public toastService: ToastService
   ) { }
 
-  pet$ = this.activatedRoute.params.pipe(
+  pet$: Observable<Pet> = this.activatedRoute.params.pipe(
     map( params => params.id ),
     filter( id => !!id),
     switchMap( id => {

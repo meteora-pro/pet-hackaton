@@ -1,9 +1,9 @@
 
 # Ссылки на демки
-* [Ссылка на демо бэкофис (интерфейс для сотрудников приютов)](https://lk.dev.meteora.pro/)
-* [Публичный каталог животных](https://pets.dev.meteora.pro/)
-* [Публичная swagger документация](https://api-pet-hackaton.dev.meteora.pro/public/docs/)
-* [swagger документация внутреннего api](https://api-pet-hackaton.dev.meteora.pro/docs/)
+* [Ссылка на демо бэкофис (интерфейс для сотрудников приютов)](https://lk.meteora.pro/)
+* [Публичный каталог животных](https://pets.meteora.pro/)
+* [Публичная swagger документация](https://api-pet-hackaton.meteora.pro/public/docs/)
+* [swagger документация внутреннего api](https://api-pet-hackaton.meteora.pro/docs/)
 
 ## Данные для входа
 | Роль              | Логин         | Пароль  | Область видимости |
